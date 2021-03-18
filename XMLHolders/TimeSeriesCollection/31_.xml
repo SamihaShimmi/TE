@@ -1,0 +1,168 @@
+<?xml version='1.0' encoding='utf-8'?>
+<function>
+  <annotation>@<name>Override</name>
+  </annotation>
+  <type>
+    <specifier>public</specifier>
+    <name>void</name>
+  </type>
+  <name>vetoableChange</name>
+  <parameter_list>(<parameter>
+      <decl>
+        <type>
+          <name>PropertyChangeEvent</name>
+        </type>
+        <name>e</name>
+      </decl>
+    </parameter>)</parameter_list>
+  <throws>throws <argument>
+      <expr>
+        <name>PropertyVetoException</name>
+      </expr>
+    </argument>
+  </throws>
+  <block>{<block_content>
+      <comment type="line">// if it is not the series name, then we have no interest</comment>
+      <if_stmt>
+        <if>if <condition>(<expr>
+              <operator>!</operator>
+              <literal type="string">"Key"</literal>
+              <operator>.</operator>
+              <call>
+                <name>equals</name>
+                <argument_list>(<argument>
+                    <expr>
+                      <call>
+                        <name>
+                          <name>e</name>
+                          <operator>.</operator>
+                          <name>getPropertyName</name>
+                        </name>
+                        <argument_list>()</argument_list>
+                      </call>
+                    </expr>
+                  </argument>)</argument_list>
+              </call>
+            </expr>)</condition>
+          <block>{<block_content>
+              <return>return;</return>
+            </block_content>}</block>
+        </if>
+      </if_stmt>
+      <comment type="line">// to be defensive, let's check that the source series does in fact</comment>
+      <comment type="line">// belong to this collection</comment>
+      <decl_stmt>
+        <decl>
+          <type>
+            <name>Series</name>
+          </type>
+          <name>s</name>
+          <init>= <expr>
+              <operator>(</operator>
+              <name>Series</name>
+              <operator>)</operator>
+              <call>
+                <name>
+                  <name>e</name>
+                  <operator>.</operator>
+                  <name>getSource</name>
+                </name>
+                <argument_list>()</argument_list>
+              </call>
+            </expr>
+          </init>
+        </decl>;</decl_stmt>
+      <if_stmt>
+        <if>if <condition>(<expr>
+              <call>
+                <name>getSeriesIndex</name>
+                <argument_list>(<argument>
+                    <expr>
+                      <call>
+                        <name>
+                          <name>s</name>
+                          <operator>.</operator>
+                          <name>getKey</name>
+                        </name>
+                        <argument_list>()</argument_list>
+                      </call>
+                    </expr>
+                  </argument>)</argument_list>
+              </call>
+              <operator>==</operator>
+              <operator>-</operator>
+              <literal type="number">1</literal>
+            </expr>)</condition>
+          <block>{<block_content>
+              <throw>throw <expr>
+                  <operator>new</operator>
+                  <call>
+                    <name>IllegalStateException</name>
+                    <argument_list>(<argument>
+                        <expr>
+                          <literal type="string">"Receiving events from a series "</literal>
+                          <operator>+</operator>
+                          <literal type="string">"that does not belong to this collection."</literal>
+                        </expr>
+                      </argument>)</argument_list>
+                  </call>
+                </expr>;</throw>
+            </block_content>}</block>
+        </if>
+      </if_stmt>
+      <comment type="line">// check if the new series name already exists for another series</comment>
+      <decl_stmt>
+        <decl>
+          <type>
+            <name>Comparable</name>
+          </type>
+          <name>key</name>
+          <init>= <expr>
+              <operator>(</operator>
+              <name>Comparable</name>
+              <operator>)</operator>
+              <call>
+                <name>
+                  <name>e</name>
+                  <operator>.</operator>
+                  <name>getNewValue</name>
+                </name>
+                <argument_list>()</argument_list>
+              </call>
+            </expr>
+          </init>
+        </decl>;</decl_stmt>
+      <if_stmt>
+        <if>if <condition>(<expr>
+              <call>
+                <name>getSeriesIndex</name>
+                <argument_list>(<argument>
+                    <expr>
+                      <name>key</name>
+                    </expr>
+                  </argument>)</argument_list>
+              </call>
+              <operator>&gt;=</operator>
+              <literal type="number">0</literal>
+            </expr>)</condition>
+          <block>{<block_content>
+              <throw>throw <expr>
+                  <operator>new</operator>
+                  <call>
+                    <name>PropertyVetoException</name>
+                    <argument_list>(<argument>
+                        <expr>
+                          <literal type="string">"Duplicate key2"</literal>
+                        </expr>
+                      </argument>, <argument>
+                        <expr>
+                          <name>e</name>
+                        </expr>
+                      </argument>)</argument_list>
+                  </call>
+                </expr>;</throw>
+            </block_content>}</block>
+        </if>
+      </if_stmt>
+    </block_content>}</block>
+</function>

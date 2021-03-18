@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='utf-8'?>
+<function>
+  <type>
+    <specifier>public</specifier>
+    <name>OHLCSeries</name>
+  </type>
+  <name>getSeries</name>
+  <parameter_list>(<parameter>
+      <decl>
+        <type>
+          <name>int</name>
+        </type>
+        <name>series</name>
+      </decl>
+    </parameter>)</parameter_list>
+  <block>{<block_content>
+      <if_stmt>
+        <if>if <condition>(<expr>
+              <operator>(</operator>
+              <name>series</name>
+              <operator>&lt;</operator>
+              <literal type="number">0</literal>
+              <operator>)</operator>
+              <operator>||</operator>
+              <operator>(</operator>
+              <name>series</name>
+              <operator>&gt;=</operator>
+              <call>
+                <name>getSeriesCount</name>
+                <argument_list>()</argument_list>
+              </call>
+              <operator>)</operator>
+            </expr>)</condition>
+          <block>{<block_content>
+              <throw>throw <expr>
+                  <operator>new</operator>
+                  <call>
+                    <name>IllegalArgumentException</name>
+                    <argument_list>(<argument>
+                        <expr>
+                          <literal type="string">"Series index out of bounds"</literal>
+                        </expr>
+                      </argument>)</argument_list>
+                  </call>
+                </expr>;</throw>
+            </block_content>}</block>
+        </if>
+      </if_stmt>
+      <return>return <expr>
+          <operator>(</operator>
+          <name>OHLCSeries</name>
+          <operator>)</operator>
+          <call>
+            <name>
+              <name>this</name>
+              <operator>.</operator>
+              <name>data</name>
+              <operator>.</operator>
+              <name>get</name>
+            </name>
+            <argument_list>(<argument>
+                <expr>
+                  <name>series</name>
+                </expr>
+              </argument>)</argument_list>
+          </call>
+        </expr>;</return>
+    </block_content>}</block>
+</function>

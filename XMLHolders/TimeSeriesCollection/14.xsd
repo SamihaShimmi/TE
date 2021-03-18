@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+  <xs:element name="function">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="type"/>
+        <xs:element ref="name"/>
+        <xs:element ref="parameter_list"/>
+        <xs:element ref="block"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="parameter_list" type="xs:string"/>
+  <xs:element name="type">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" ref="specifier"/>
+        <xs:element ref="name"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="specifier" type="xs:NCName"/>
+  <xs:element name="name">
+    <xs:complexType mixed="true">
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="argument_list"/>
+        <xs:element ref="name"/>
+        <xs:element ref="operator"/>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="operator" type="xs:NMTOKEN"/>
+  <xs:element name="block">
+    <xs:complexType mixed="true">
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="block_content"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="block_content">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" ref="comment"/>
+        <xs:element minOccurs="0" ref="for"/>
+        <xs:element maxOccurs="unbounded" ref="expr_stmt"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="comment">
+    <xs:complexType mixed="true">
+      <xs:attribute name="type" use="required" type="xs:NCName"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="for">
+    <xs:complexType mixed="true">
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="block"/>
+        <xs:element ref="control"/>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="control">
+    <xs:complexType mixed="true">
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="init"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="init">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="decl"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="decl">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="type"/>
+        <xs:element ref="name"/>
+        <xs:element ref="range"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="range">
+    <xs:complexType mixed="true">
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="expr"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="expr_stmt">
+    <xs:complexType mixed="true">
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="expr"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="argument_list">
+    <xs:complexType mixed="true">
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="argument"/>
+      </xs:sequence>
+      <xs:attribute name="type" type="xs:NCName"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="argument">
+    <xs:complexType>
+      <xs:choice>
+        <xs:element ref="expr"/>
+        <xs:element ref="name"/>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="expr">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" ref="call"/>
+        <xs:element minOccurs="0" ref="name"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="call">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="name"/>
+        <xs:element ref="argument_list"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

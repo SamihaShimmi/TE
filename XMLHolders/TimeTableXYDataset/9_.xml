@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='utf-8'?>
+<function>
+  <type>
+    <specifier>public</specifier>
+    <name>void</name>
+  </type>
+  <name>clear</name>
+  <parameter_list>()</parameter_list>
+  <block>{<block_content>
+      <if_stmt>
+        <if>if <condition>(<expr>
+              <call>
+                <name>
+                  <name>this</name>
+                  <operator>.</operator>
+                  <name>values</name>
+                  <operator>.</operator>
+                  <name>getRowCount</name>
+                </name>
+                <argument_list>()</argument_list>
+              </call>
+              <operator>&gt;</operator>
+              <literal type="number">0</literal>
+            </expr>)</condition>
+          <block>{<block_content>
+              <expr_stmt>
+                <expr>
+                  <call>
+                    <name>
+                      <name>this</name>
+                      <operator>.</operator>
+                      <name>values</name>
+                      <operator>.</operator>
+                      <name>clear</name>
+                    </name>
+                    <argument_list>()</argument_list>
+                  </call>
+                </expr>;</expr_stmt>
+              <expr_stmt>
+                <expr>
+                  <call>
+                    <name>fireDatasetChanged</name>
+                    <argument_list>()</argument_list>
+                  </call>
+                </expr>;</expr_stmt>
+            </block_content>}</block>
+        </if>
+      </if_stmt>
+    </block_content>}</block>
+</function>

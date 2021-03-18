@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='utf-8'?>
+<function>
+  <annotation>@<name>Override</name>
+  </annotation>
+  <type>
+    <specifier>public</specifier>
+    <name>String</name>
+  </type>
+  <name>toString</name>
+  <parameter_list>()</parameter_list>
+  <block>{<block_content>
+      <return>return <expr>
+          <literal type="string">"Q"</literal>
+          <operator>+</operator>
+          <name>
+            <name>this</name>
+            <operator>.</operator>
+            <name>quarter</name>
+          </name>
+          <operator>+</operator>
+          <literal type="string">"/"</literal>
+          <operator>+</operator>
+          <name>
+            <name>this</name>
+            <operator>.</operator>
+            <name>year</name>
+          </name>
+        </expr>;</return>
+    </block_content>}</block>
+</function>

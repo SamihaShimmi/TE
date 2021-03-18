@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='utf-8'?>
+<function>
+  <type>
+    <specifier>public</specifier>
+    <name>Date</name>
+  </type>
+  <name>getTime</name>
+  <parameter_list>()</parameter_list>
+  <block>{<block_content>
+      <return>return <expr>
+          <operator>new</operator>
+          <call>
+            <name>Date</name>
+            <argument_list>(<argument>
+                <expr>
+                  <name>
+                    <name>this</name>
+                    <operator>.</operator>
+                    <name>time</name>
+                  </name>
+                </expr>
+              </argument>)</argument_list>
+          </call>
+        </expr>;</return>
+    </block_content>}</block>
+</function>

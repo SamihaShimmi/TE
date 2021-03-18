@@ -1,0 +1,2094 @@
+<?xml version='1.0' encoding='utf-8'?>
+<unit xmlns="http://www.srcML.org/srcML/src" filename="H:\Research\IndStudyDrRahimi\DataAnalysis\jfreechart-1.5.2\jfreechart-1.5.2\src\main\java\org\jfree\data\time\Day.java" language="Java" revision="1.0.0">
+  <comment type="block">/* ===========================================================
+ * JFreeChart : a free chart library for the Java(tm) platform
+ * ===========================================================
+ *
+ * (C) Copyright 2000-2020, by Object Refinery Limited and Contributors.
+ *
+ * Project Info:  http://www.jfree.org/jfreechart/index.html
+ *
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation; either version 2.1 of the License, or
+ * (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
+ * License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
+ * USA.
+ *
+ * [Oracle and Java are registered trademarks of Oracle and/or its affiliates. 
+ * Other names may be trademarks of their respective owners.]
+ *
+ * --------
+ * Day.java
+ * --------
+ * (C) Copyright 2001-2020, by Object Refinery Limited.
+ *
+ * Original Author:  David Gilbert (for Object Refinery Limited);
+ * Contributor(s):   -;
+ *
+ */</comment>
+  <package>package <name>
+      <name>org</name>
+      <operator>.</operator>
+      <name>jfree</name>
+      <operator>.</operator>
+      <name>data</name>
+      <operator>.</operator>
+      <name>time</name>
+    </name>;</package>
+  <import>import <name>
+      <name>java</name>
+      <operator>.</operator>
+      <name>io</name>
+      <operator>.</operator>
+      <name>Serializable</name>
+    </name>;</import>
+  <import>import <name>
+      <name>java</name>
+      <operator>.</operator>
+      <name>text</name>
+      <operator>.</operator>
+      <name>DateFormat</name>
+    </name>;</import>
+  <import>import <name>
+      <name>java</name>
+      <operator>.</operator>
+      <name>text</name>
+      <operator>.</operator>
+      <name>ParseException</name>
+    </name>;</import>
+  <import>import <name>
+      <name>java</name>
+      <operator>.</operator>
+      <name>text</name>
+      <operator>.</operator>
+      <name>SimpleDateFormat</name>
+    </name>;</import>
+  <import>import <name>
+      <name>java</name>
+      <operator>.</operator>
+      <name>util</name>
+      <operator>.</operator>
+      <name>*</name>
+    </name>;</import>
+  <import>import <name>
+      <name>org</name>
+      <operator>.</operator>
+      <name>jfree</name>
+      <operator>.</operator>
+      <name>chart</name>
+      <operator>.</operator>
+      <name>date</name>
+      <operator>.</operator>
+      <name>SerialDate</name>
+    </name>;</import>
+  <import>import <name>
+      <name>org</name>
+      <operator>.</operator>
+      <name>jfree</name>
+      <operator>.</operator>
+      <name>chart</name>
+      <operator>.</operator>
+      <name>util</name>
+      <operator>.</operator>
+      <name>Args</name>
+    </name>;</import>
+  <comment format="javadoc" type="block">/**
+ * Represents a single day in the range 1-Jan-1900 to 31-Dec-9999.  This class
+ * is immutable, which is a requirement for all {@link RegularTimePeriod}
+ * subclasses.
+ */</comment>
+  <class>
+    <specifier>public</specifier> class <name>Day</name>
+    <super_list>
+      <extends>extends <super>
+          <name>RegularTimePeriod</name>
+        </super>
+      </extends>
+      <implements>implements <super>
+          <name>Serializable</name>
+        </super>
+      </implements>
+    </super_list>
+    <block>{
+
+    <comment format="javadoc" type="block">/** For serialization. */</comment>
+      <decl_stmt>
+        <decl>
+          <type>
+            <specifier>private</specifier>
+            <specifier>static</specifier>
+            <specifier>final</specifier>
+            <name>long</name>
+          </type>
+          <name>serialVersionUID</name>
+          <init>= <expr>
+              <operator>-</operator>
+              <literal type="number">7082667380758962755L</literal>
+            </expr>
+          </init>
+        </decl>;</decl_stmt>
+      <comment format="javadoc" type="block">/** A standard date formatter. */</comment>
+      <decl_stmt>
+        <decl>
+          <type>
+            <specifier>protected</specifier>
+            <specifier>static</specifier>
+            <specifier>final</specifier>
+            <name>DateFormat</name>
+          </type>
+          <name>DATE_FORMAT</name>
+          <init>= <expr>
+              <operator>new</operator>
+              <call>
+                <name>SimpleDateFormat</name>
+                <argument_list>(<argument>
+                    <expr>
+                      <literal type="string">"yyyy-MM-dd"</literal>
+                    </expr>
+                  </argument>)</argument_list>
+              </call>
+            </expr>
+          </init>
+        </decl>;</decl_stmt>
+      <comment format="javadoc" type="block">/** A date formatter for the default locale. */</comment>
+      <decl_stmt>
+        <decl>
+          <type>
+            <specifier>protected</specifier>
+            <specifier>static</specifier>
+            <specifier>final</specifier>
+            <name>DateFormat</name>
+          </type>
+          <name>DATE_FORMAT_SHORT</name>
+          <init>= <expr>
+              <call>
+                <name>
+                  <name>DateFormat</name>
+                  <operator>.</operator>
+                  <name>getDateInstance</name>
+                </name>
+                <argument_list>(<argument>
+                    <expr>
+                      <name>
+                        <name>DateFormat</name>
+                        <operator>.</operator>
+                        <name>SHORT</name>
+                      </name>
+                    </expr>
+                  </argument>)</argument_list>
+              </call>
+            </expr>
+          </init>
+        </decl>;</decl_stmt>
+      <comment format="javadoc" type="block">/** A date formatter for the default locale. */</comment>
+      <decl_stmt>
+        <decl>
+          <type>
+            <specifier>protected</specifier>
+            <specifier>static</specifier>
+            <specifier>final</specifier>
+            <name>DateFormat</name>
+          </type>
+          <name>DATE_FORMAT_MEDIUM</name>
+          <init>= <expr>
+              <call>
+                <name>
+                  <name>DateFormat</name>
+                  <operator>.</operator>
+                  <name>getDateInstance</name>
+                </name>
+                <argument_list>(<argument>
+                    <expr>
+                      <name>
+                        <name>DateFormat</name>
+                        <operator>.</operator>
+                        <name>MEDIUM</name>
+                      </name>
+                    </expr>
+                  </argument>)</argument_list>
+              </call>
+            </expr>
+          </init>
+        </decl>;</decl_stmt>
+      <comment format="javadoc" type="block">/** A date formatter for the default locale. */</comment>
+      <decl_stmt>
+        <decl>
+          <type>
+            <specifier>protected</specifier>
+            <specifier>static</specifier>
+            <specifier>final</specifier>
+            <name>DateFormat</name>
+          </type>
+          <name>DATE_FORMAT_LONG</name>
+          <init>= <expr>
+              <call>
+                <name>
+                  <name>DateFormat</name>
+                  <operator>.</operator>
+                  <name>getDateInstance</name>
+                </name>
+                <argument_list>(<argument>
+                    <expr>
+                      <name>
+                        <name>DateFormat</name>
+                        <operator>.</operator>
+                        <name>LONG</name>
+                      </name>
+                    </expr>
+                  </argument>)</argument_list>
+              </call>
+            </expr>
+          </init>
+        </decl>;</decl_stmt>
+      <comment format="javadoc" type="block">/** The day (uses SerialDate for convenience). */</comment>
+      <decl_stmt>
+        <decl>
+          <type>
+            <specifier>private</specifier>
+            <name>SerialDate</name>
+          </type>
+          <name>serialDate</name>
+        </decl>;</decl_stmt>
+      <comment format="javadoc" type="block">/** The first millisecond. */</comment>
+      <decl_stmt>
+        <decl>
+          <type>
+            <specifier>private</specifier>
+            <name>long</name>
+          </type>
+          <name>firstMillisecond</name>
+        </decl>;</decl_stmt>
+      <comment format="javadoc" type="block">/** The last millisecond. */</comment>
+      <decl_stmt>
+        <decl>
+          <type>
+            <specifier>private</specifier>
+            <name>long</name>
+          </type>
+          <name>lastMillisecond</name>
+        </decl>;</decl_stmt>
+      <comment format="javadoc" type="block">/**
+     * Creates a new instance, derived from the system date/time.
+     * The time zone and locale are determined by the calendar
+     * returned by {@link RegularTimePeriod#getCalendarInstance()}.
+     */</comment>
+      <constructor>
+        <specifier>public</specifier>
+        <name>Day</name>
+        <parameter_list>()</parameter_list>
+        <block>{<block_content>
+            <expr_stmt>
+              <expr>
+                <call>
+                  <name>this</name>
+                  <argument_list>(<argument>
+                      <expr>
+                        <operator>new</operator>
+                        <call>
+                          <name>Date</name>
+                          <argument_list>()</argument_list>
+                        </call>
+                      </expr>
+                    </argument>)</argument_list>
+                </call>
+              </expr>;</expr_stmt>
+          </block_content>}</block>
+      </constructor>
+      <comment format="javadoc" type="block">/**
+     * Constructs a new one day time period.
+     * The time zone and locale are determined by the calendar
+     * returned by {@link RegularTimePeriod#getCalendarInstance()}.
+     *
+     * @param day  the day-of-the-month.
+     * @param month  the month (1 to 12).
+     * @param year  the year (1900 &amp;lt;= year &amp;lt;= 9999).
+     */</comment>
+      <constructor>
+        <specifier>public</specifier>
+        <name>Day</name>
+        <parameter_list>(<parameter>
+            <decl>
+              <type>
+                <name>int</name>
+              </type>
+              <name>day</name>
+            </decl>
+          </parameter>, <parameter>
+            <decl>
+              <type>
+                <name>int</name>
+              </type>
+              <name>month</name>
+            </decl>
+          </parameter>, <parameter>
+            <decl>
+              <type>
+                <name>int</name>
+              </type>
+              <name>year</name>
+            </decl>
+          </parameter>)</parameter_list>
+        <block>{<block_content>
+            <expr_stmt>
+              <expr>
+                <name>
+                  <name>this</name>
+                  <operator>.</operator>
+                  <name>serialDate</name>
+                </name>
+                <operator>=</operator>
+                <call>
+                  <name>
+                    <name>SerialDate</name>
+                    <operator>.</operator>
+                    <name>createInstance</name>
+                  </name>
+                  <argument_list>(<argument>
+                      <expr>
+                        <name>day</name>
+                      </expr>
+                    </argument>, <argument>
+                      <expr>
+                        <name>month</name>
+                      </expr>
+                    </argument>, <argument>
+                      <expr>
+                        <name>year</name>
+                      </expr>
+                    </argument>)</argument_list>
+                </call>
+              </expr>;</expr_stmt>
+            <expr_stmt>
+              <expr>
+                <call>
+                  <name>peg</name>
+                  <argument_list>(<argument>
+                      <expr>
+                        <call>
+                          <name>getCalendarInstance</name>
+                          <argument_list>()</argument_list>
+                        </call>
+                      </expr>
+                    </argument>)</argument_list>
+                </call>
+              </expr>;</expr_stmt>
+          </block_content>}</block>
+      </constructor>
+      <comment format="javadoc" type="block">/**
+     * Constructs a new one day time period.
+     * The time zone and locale are determined by the calendar
+     * returned by {@link RegularTimePeriod#getCalendarInstance()}.
+     *
+     * @param serialDate  the day ({@code null} not permitted).
+     */</comment>
+      <constructor>
+        <specifier>public</specifier>
+        <name>Day</name>
+        <parameter_list>(<parameter>
+            <decl>
+              <type>
+                <name>SerialDate</name>
+              </type>
+              <name>serialDate</name>
+            </decl>
+          </parameter>)</parameter_list>
+        <block>{<block_content>
+            <expr_stmt>
+              <expr>
+                <call>
+                  <name>
+                    <name>Args</name>
+                    <operator>.</operator>
+                    <name>nullNotPermitted</name>
+                  </name>
+                  <argument_list>(<argument>
+                      <expr>
+                        <name>serialDate</name>
+                      </expr>
+                    </argument>, <argument>
+                      <expr>
+                        <literal type="string">"serialDate"</literal>
+                      </expr>
+                    </argument>)</argument_list>
+                </call>
+              </expr>;</expr_stmt>
+            <expr_stmt>
+              <expr>
+                <name>
+                  <name>this</name>
+                  <operator>.</operator>
+                  <name>serialDate</name>
+                </name>
+                <operator>=</operator>
+                <name>serialDate</name>
+              </expr>;</expr_stmt>
+            <expr_stmt>
+              <expr>
+                <call>
+                  <name>peg</name>
+                  <argument_list>(<argument>
+                      <expr>
+                        <call>
+                          <name>getCalendarInstance</name>
+                          <argument_list>()</argument_list>
+                        </call>
+                      </expr>
+                    </argument>)</argument_list>
+                </call>
+              </expr>;</expr_stmt>
+          </block_content>}</block>
+      </constructor>
+      <comment format="javadoc" type="block">/**
+     * Constructs a new instance, based on a particular date/time.
+     * The time zone and locale are determined by the calendar
+     * returned by {@link RegularTimePeriod#getCalendarInstance()}.
+     *
+     * @param time  the time ({@code null} not permitted).
+     *
+     * @see #Day(Date, TimeZone, Locale)
+     */</comment>
+      <constructor>
+        <specifier>public</specifier>
+        <name>Day</name>
+        <parameter_list>(<parameter>
+            <decl>
+              <type>
+                <name>Date</name>
+              </type>
+              <name>time</name>
+            </decl>
+          </parameter>)</parameter_list>
+        <block>{<block_content>
+            <comment type="line">// defer argument checking...</comment>
+            <expr_stmt>
+              <expr>
+                <call>
+                  <name>this</name>
+                  <argument_list>(<argument>
+                      <expr>
+                        <name>time</name>
+                      </expr>
+                    </argument>, <argument>
+                      <expr>
+                        <call>
+                          <name>getCalendarInstance</name>
+                          <argument_list>()</argument_list>
+                        </call>
+                      </expr>
+                    </argument>)</argument_list>
+                </call>
+              </expr>;</expr_stmt>
+          </block_content>}</block>
+      </constructor>
+      <comment format="javadoc" type="block">/**
+     * Constructs a new instance, based on a particular date/time and time zone.
+     *
+     * @param time  the date/time ({@code null} not permitted).
+     * @param zone  the time zone ({@code null} not permitted).
+     * @param locale  the locale ({@code null} not permitted).
+     */</comment>
+      <constructor>
+        <specifier>public</specifier>
+        <name>Day</name>
+        <parameter_list>(<parameter>
+            <decl>
+              <type>
+                <name>Date</name>
+              </type>
+              <name>time</name>
+            </decl>
+          </parameter>, <parameter>
+            <decl>
+              <type>
+                <name>TimeZone</name>
+              </type>
+              <name>zone</name>
+            </decl>
+          </parameter>, <parameter>
+            <decl>
+              <type>
+                <name>Locale</name>
+              </type>
+              <name>locale</name>
+            </decl>
+          </parameter>)</parameter_list>
+        <block>{<block_content>
+            <expr_stmt>
+              <expr>
+                <call>
+                  <name>
+                    <name>Args</name>
+                    <operator>.</operator>
+                    <name>nullNotPermitted</name>
+                  </name>
+                  <argument_list>(<argument>
+                      <expr>
+                        <name>time</name>
+                      </expr>
+                    </argument>, <argument>
+                      <expr>
+                        <literal type="string">"time"</literal>
+                      </expr>
+                    </argument>)</argument_list>
+                </call>
+              </expr>;</expr_stmt>
+            <expr_stmt>
+              <expr>
+                <call>
+                  <name>
+                    <name>Args</name>
+                    <operator>.</operator>
+                    <name>nullNotPermitted</name>
+                  </name>
+                  <argument_list>(<argument>
+                      <expr>
+                        <name>zone</name>
+                      </expr>
+                    </argument>, <argument>
+                      <expr>
+                        <literal type="string">"zone"</literal>
+                      </expr>
+                    </argument>)</argument_list>
+                </call>
+              </expr>;</expr_stmt>
+            <expr_stmt>
+              <expr>
+                <call>
+                  <name>
+                    <name>Args</name>
+                    <operator>.</operator>
+                    <name>nullNotPermitted</name>
+                  </name>
+                  <argument_list>(<argument>
+                      <expr>
+                        <name>locale</name>
+                      </expr>
+                    </argument>, <argument>
+                      <expr>
+                        <literal type="string">"locale"</literal>
+                      </expr>
+                    </argument>)</argument_list>
+                </call>
+              </expr>;</expr_stmt>
+            <decl_stmt>
+              <decl>
+                <type>
+                  <name>Calendar</name>
+                </type>
+                <name>calendar</name>
+                <init>= <expr>
+                    <call>
+                      <name>
+                        <name>Calendar</name>
+                        <operator>.</operator>
+                        <name>getInstance</name>
+                      </name>
+                      <argument_list>(<argument>
+                          <expr>
+                            <name>zone</name>
+                          </expr>
+                        </argument>, <argument>
+                          <expr>
+                            <name>locale</name>
+                          </expr>
+                        </argument>)</argument_list>
+                    </call>
+                  </expr>
+                </init>
+              </decl>;</decl_stmt>
+            <expr_stmt>
+              <expr>
+                <call>
+                  <name>
+                    <name>calendar</name>
+                    <operator>.</operator>
+                    <name>setTime</name>
+                  </name>
+                  <argument_list>(<argument>
+                      <expr>
+                        <name>time</name>
+                      </expr>
+                    </argument>)</argument_list>
+                </call>
+              </expr>;</expr_stmt>
+            <expr_stmt>
+              <expr>
+                <call>
+                  <name>initUsing</name>
+                  <argument_list>(<argument>
+                      <expr>
+                        <name>calendar</name>
+                      </expr>
+                    </argument>)</argument_list>
+                </call>
+              </expr>;</expr_stmt>
+            <expr_stmt>
+              <expr>
+                <call>
+                  <name>peg</name>
+                  <argument_list>(<argument>
+                      <expr>
+                        <name>calendar</name>
+                      </expr>
+                    </argument>)</argument_list>
+                </call>
+              </expr>;</expr_stmt>
+          </block_content>}</block>
+      </constructor>
+      <comment format="javadoc" type="block">/**
+     * Constructs a new instance, based on a particular date/time.
+     * The time zone and locale are determined by the {@code calendar}
+     * parameter.
+     *
+     * @param time the date/time ({@code null} not permitted).
+     * @param calendar the calendar to use for calculations ({@code null} not permitted).
+     */</comment>
+      <constructor>
+        <specifier>public</specifier>
+        <name>Day</name>
+        <parameter_list>(<parameter>
+            <decl>
+              <type>
+                <name>Date</name>
+              </type>
+              <name>time</name>
+            </decl>
+          </parameter>, <parameter>
+            <decl>
+              <type>
+                <name>Calendar</name>
+              </type>
+              <name>calendar</name>
+            </decl>
+          </parameter>)</parameter_list>
+        <block>{<block_content>
+            <expr_stmt>
+              <expr>
+                <call>
+                  <name>
+                    <name>Args</name>
+                    <operator>.</operator>
+                    <name>nullNotPermitted</name>
+                  </name>
+                  <argument_list>(<argument>
+                      <expr>
+                        <name>time</name>
+                      </expr>
+                    </argument>, <argument>
+                      <expr>
+                        <literal type="string">"time"</literal>
+                      </expr>
+                    </argument>)</argument_list>
+                </call>
+              </expr>;</expr_stmt>
+            <expr_stmt>
+              <expr>
+                <call>
+                  <name>
+                    <name>Args</name>
+                    <operator>.</operator>
+                    <name>nullNotPermitted</name>
+                  </name>
+                  <argument_list>(<argument>
+                      <expr>
+                        <name>calendar</name>
+                      </expr>
+                    </argument>, <argument>
+                      <expr>
+                        <literal type="string">"calendar"</literal>
+                      </expr>
+                    </argument>)</argument_list>
+                </call>
+              </expr>;</expr_stmt>
+            <expr_stmt>
+              <expr>
+                <call>
+                  <name>
+                    <name>calendar</name>
+                    <operator>.</operator>
+                    <name>setTime</name>
+                  </name>
+                  <argument_list>(<argument>
+                      <expr>
+                        <name>time</name>
+                      </expr>
+                    </argument>)</argument_list>
+                </call>
+              </expr>;</expr_stmt>
+            <expr_stmt>
+              <expr>
+                <call>
+                  <name>initUsing</name>
+                  <argument_list>(<argument>
+                      <expr>
+                        <name>calendar</name>
+                      </expr>
+                    </argument>)</argument_list>
+                </call>
+              </expr>;</expr_stmt>
+            <expr_stmt>
+              <expr>
+                <call>
+                  <name>peg</name>
+                  <argument_list>(<argument>
+                      <expr>
+                        <name>calendar</name>
+                      </expr>
+                    </argument>)</argument_list>
+                </call>
+              </expr>;</expr_stmt>
+          </block_content>}</block>
+      </constructor>
+      <function>
+        <type>
+          <specifier>private</specifier>
+          <name>void</name>
+        </type>
+        <name>initUsing</name>
+        <parameter_list>(<parameter>
+            <decl>
+              <type>
+                <name>Calendar</name>
+              </type>
+              <name>calendar</name>
+            </decl>
+          </parameter>)</parameter_list>
+        <block>{<block_content>
+            <decl_stmt>
+              <decl>
+                <type>
+                  <name>int</name>
+                </type>
+                <name>d</name>
+                <init>= <expr>
+                    <call>
+                      <name>
+                        <name>calendar</name>
+                        <operator>.</operator>
+                        <name>get</name>
+                      </name>
+                      <argument_list>(<argument>
+                          <expr>
+                            <name>
+                              <name>Calendar</name>
+                              <operator>.</operator>
+                              <name>DAY_OF_MONTH</name>
+                            </name>
+                          </expr>
+                        </argument>)</argument_list>
+                    </call>
+                  </expr>
+                </init>
+              </decl>;</decl_stmt>
+            <decl_stmt>
+              <decl>
+                <type>
+                  <name>int</name>
+                </type>
+                <name>m</name>
+                <init>= <expr>
+                    <call>
+                      <name>
+                        <name>calendar</name>
+                        <operator>.</operator>
+                        <name>get</name>
+                      </name>
+                      <argument_list>(<argument>
+                          <expr>
+                            <name>
+                              <name>Calendar</name>
+                              <operator>.</operator>
+                              <name>MONTH</name>
+                            </name>
+                          </expr>
+                        </argument>)</argument_list>
+                    </call>
+                    <operator>+</operator>
+                    <literal type="number">1</literal>
+                  </expr>
+                </init>
+              </decl>;</decl_stmt>
+            <decl_stmt>
+              <decl>
+                <type>
+                  <name>int</name>
+                </type>
+                <name>y</name>
+                <init>= <expr>
+                    <call>
+                      <name>
+                        <name>calendar</name>
+                        <operator>.</operator>
+                        <name>get</name>
+                      </name>
+                      <argument_list>(<argument>
+                          <expr>
+                            <name>
+                              <name>Calendar</name>
+                              <operator>.</operator>
+                              <name>YEAR</name>
+                            </name>
+                          </expr>
+                        </argument>)</argument_list>
+                    </call>
+                  </expr>
+                </init>
+              </decl>;</decl_stmt>
+            <expr_stmt>
+              <expr>
+                <name>
+                  <name>this</name>
+                  <operator>.</operator>
+                  <name>serialDate</name>
+                </name>
+                <operator>=</operator>
+                <call>
+                  <name>
+                    <name>SerialDate</name>
+                    <operator>.</operator>
+                    <name>createInstance</name>
+                  </name>
+                  <argument_list>(<argument>
+                      <expr>
+                        <name>d</name>
+                      </expr>
+                    </argument>, <argument>
+                      <expr>
+                        <name>m</name>
+                      </expr>
+                    </argument>, <argument>
+                      <expr>
+                        <name>y</name>
+                      </expr>
+                    </argument>)</argument_list>
+                </call>
+              </expr>;</expr_stmt>
+          </block_content>}</block>
+      </function>
+      <comment format="javadoc" type="block">/**
+     * Returns the day as a {@link SerialDate}.  Note: the reference that is
+     * returned should be an instance of an immutable {@link SerialDate}
+     * (otherwise the caller could use the reference to alter the state of
+     * this {@code Day} instance, and {@code Day} is supposed
+     * to be immutable).
+     *
+     * @return The day as a {@link SerialDate}.
+     */</comment>
+      <function>
+        <type>
+          <specifier>public</specifier>
+          <name>SerialDate</name>
+        </type>
+        <name>getSerialDate</name>
+        <parameter_list>()</parameter_list>
+        <block>{<block_content>
+            <return>return <expr>
+                <name>
+                  <name>this</name>
+                  <operator>.</operator>
+                  <name>serialDate</name>
+                </name>
+              </expr>;</return>
+          </block_content>}</block>
+      </function>
+      <comment format="javadoc" type="block">/**
+     * Returns the year.
+     *
+     * @return The year.
+     */</comment>
+      <function>
+        <type>
+          <specifier>public</specifier>
+          <name>int</name>
+        </type>
+        <name>getYear</name>
+        <parameter_list>()</parameter_list>
+        <block>{<block_content>
+            <return>return <expr>
+                <call>
+                  <name>
+                    <name>this</name>
+                    <operator>.</operator>
+                    <name>serialDate</name>
+                    <operator>.</operator>
+                    <name>getYYYY</name>
+                  </name>
+                  <argument_list>()</argument_list>
+                </call>
+              </expr>;</return>
+          </block_content>}</block>
+      </function>
+      <comment format="javadoc" type="block">/**
+     * Returns the month.
+     *
+     * @return The month.
+     */</comment>
+      <function>
+        <type>
+          <specifier>public</specifier>
+          <name>int</name>
+        </type>
+        <name>getMonth</name>
+        <parameter_list>()</parameter_list>
+        <block>{<block_content>
+            <return>return <expr>
+                <call>
+                  <name>
+                    <name>this</name>
+                    <operator>.</operator>
+                    <name>serialDate</name>
+                    <operator>.</operator>
+                    <name>getMonth</name>
+                  </name>
+                  <argument_list>()</argument_list>
+                </call>
+              </expr>;</return>
+          </block_content>}</block>
+      </function>
+      <comment format="javadoc" type="block">/**
+     * Returns the day of the month.
+     *
+     * @return The day of the month.
+     */</comment>
+      <function>
+        <type>
+          <specifier>public</specifier>
+          <name>int</name>
+        </type>
+        <name>getDayOfMonth</name>
+        <parameter_list>()</parameter_list>
+        <block>{<block_content>
+            <return>return <expr>
+                <call>
+                  <name>
+                    <name>this</name>
+                    <operator>.</operator>
+                    <name>serialDate</name>
+                    <operator>.</operator>
+                    <name>getDayOfMonth</name>
+                  </name>
+                  <argument_list>()</argument_list>
+                </call>
+              </expr>;</return>
+          </block_content>}</block>
+      </function>
+      <comment format="javadoc" type="block">/**
+     * Returns the first millisecond of the day.  This will be determined
+     * relative to the time zone specified in the constructor, or in the
+     * calendar instance passed in the most recent call to the
+     * {@link #peg(Calendar)} method.
+     *
+     * @return The first millisecond of the day.
+     *
+     * @see #getLastMillisecond()
+     */</comment>
+      <function>
+        <annotation>@<name>Override</name>
+        </annotation>
+        <type>
+          <specifier>public</specifier>
+          <name>long</name>
+        </type>
+        <name>getFirstMillisecond</name>
+        <parameter_list>()</parameter_list>
+        <block>{<block_content>
+            <return>return <expr>
+                <name>
+                  <name>this</name>
+                  <operator>.</operator>
+                  <name>firstMillisecond</name>
+                </name>
+              </expr>;</return>
+          </block_content>}</block>
+      </function>
+      <comment format="javadoc" type="block">/**
+     * Returns the last millisecond of the day.  This will be
+     * determined relative to the time zone specified in the constructor, or
+     * in the calendar instance passed in the most recent call to the
+     * {@link #peg(Calendar)} method.
+     *
+     * @return The last millisecond of the day.
+     *
+     * @see #getFirstMillisecond()
+     */</comment>
+      <function>
+        <annotation>@<name>Override</name>
+        </annotation>
+        <type>
+          <specifier>public</specifier>
+          <name>long</name>
+        </type>
+        <name>getLastMillisecond</name>
+        <parameter_list>()</parameter_list>
+        <block>{<block_content>
+            <return>return <expr>
+                <name>
+                  <name>this</name>
+                  <operator>.</operator>
+                  <name>lastMillisecond</name>
+                </name>
+              </expr>;</return>
+          </block_content>}</block>
+      </function>
+      <comment format="javadoc" type="block">/**
+     * Recalculates the start date/time and end date/time for this time period
+     * relative to the supplied calendar (which incorporates a time zone).
+     *
+     * @param calendar  the calendar ({@code null} not permitted).
+     *
+     * @since 1.0.3
+     */</comment>
+      <function>
+        <annotation>@<name>Override</name>
+        </annotation>
+        <type>
+          <specifier>public</specifier>
+          <name>void</name>
+        </type>
+        <name>peg</name>
+        <parameter_list>(<parameter>
+            <decl>
+              <type>
+                <name>Calendar</name>
+              </type>
+              <name>calendar</name>
+            </decl>
+          </parameter>)</parameter_list>
+        <block>{<block_content>
+            <expr_stmt>
+              <expr>
+                <name>
+                  <name>this</name>
+                  <operator>.</operator>
+                  <name>firstMillisecond</name>
+                </name>
+                <operator>=</operator>
+                <call>
+                  <name>getFirstMillisecond</name>
+                  <argument_list>(<argument>
+                      <expr>
+                        <name>calendar</name>
+                      </expr>
+                    </argument>)</argument_list>
+                </call>
+              </expr>;</expr_stmt>
+            <expr_stmt>
+              <expr>
+                <name>
+                  <name>this</name>
+                  <operator>.</operator>
+                  <name>lastMillisecond</name>
+                </name>
+                <operator>=</operator>
+                <call>
+                  <name>getLastMillisecond</name>
+                  <argument_list>(<argument>
+                      <expr>
+                        <name>calendar</name>
+                      </expr>
+                    </argument>)</argument_list>
+                </call>
+              </expr>;</expr_stmt>
+          </block_content>}</block>
+      </function>
+      <comment format="javadoc" type="block">/**
+     * Returns the day preceding this one.
+     * No matter what time zone and locale this instance was created with,
+     * the returned instance will use the default calendar for time
+     * calculations, obtained with {@link RegularTimePeriod#getCalendarInstance()}.
+     *
+     * @return The day preceding this one.
+     */</comment>
+      <function>
+        <annotation>@<name>Override</name>
+        </annotation>
+        <type>
+          <specifier>public</specifier>
+          <name>RegularTimePeriod</name>
+        </type>
+        <name>previous</name>
+        <parameter_list>()</parameter_list>
+        <block>{<block_content>
+            <decl_stmt>
+              <decl>
+                <type>
+                  <name>Day</name>
+                </type>
+                <name>result</name>
+              </decl>;</decl_stmt>
+            <decl_stmt>
+              <decl>
+                <type>
+                  <name>int</name>
+                </type>
+                <name>serial</name>
+                <init>= <expr>
+                    <call>
+                      <name>
+                        <name>this</name>
+                        <operator>.</operator>
+                        <name>serialDate</name>
+                        <operator>.</operator>
+                        <name>toSerial</name>
+                      </name>
+                      <argument_list>()</argument_list>
+                    </call>
+                  </expr>
+                </init>
+              </decl>;</decl_stmt>
+            <if_stmt>
+              <if>if <condition>(<expr>
+                    <name>serial</name>
+                    <operator>&gt;</operator>
+                    <name>
+                      <name>SerialDate</name>
+                      <operator>.</operator>
+                      <name>SERIAL_LOWER_BOUND</name>
+                    </name>
+                  </expr>)</condition>
+                <block>{<block_content>
+                    <decl_stmt>
+                      <decl>
+                        <type>
+                          <name>SerialDate</name>
+                        </type>
+                        <name>yesterday</name>
+                        <init>= <expr>
+                            <call>
+                              <name>
+                                <name>SerialDate</name>
+                                <operator>.</operator>
+                                <name>createInstance</name>
+                              </name>
+                              <argument_list>(<argument>
+                                  <expr>
+                                    <name>serial</name>
+                                    <operator>-</operator>
+                                    <literal type="number">1</literal>
+                                  </expr>
+                                </argument>)</argument_list>
+                            </call>
+                          </expr>
+                        </init>
+                      </decl>;</decl_stmt>
+                    <return>return <expr>
+                        <operator>new</operator>
+                        <call>
+                          <name>Day</name>
+                          <argument_list>(<argument>
+                              <expr>
+                                <name>yesterday</name>
+                              </expr>
+                            </argument>)</argument_list>
+                        </call>
+                      </expr>;</return>
+                  </block_content>}</block>
+              </if>
+              <else>else <block>{<block_content>
+                    <expr_stmt>
+                      <expr>
+                        <name>result</name>
+                        <operator>=</operator>
+                        <literal type="null">null</literal>
+                      </expr>;</expr_stmt>
+                  </block_content>}</block>
+              </else>
+            </if_stmt>
+            <return>return <expr>
+                <name>result</name>
+              </expr>;</return>
+          </block_content>}</block>
+      </function>
+      <comment format="javadoc" type="block">/**
+     * Returns the day following this one, or {@code null} if some limit
+     * has been reached.
+     * No matter what time zone and locale this instance was created with,
+     * the returned instance will use the default calendar for time
+     * calculations, obtained with {@link RegularTimePeriod#getCalendarInstance()}.
+     *
+     * @return The day following this one, or {@code null} if some limit
+     *         has been reached.
+     */</comment>
+      <function>
+        <annotation>@<name>Override</name>
+        </annotation>
+        <type>
+          <specifier>public</specifier>
+          <name>RegularTimePeriod</name>
+        </type>
+        <name>next</name>
+        <parameter_list>()</parameter_list>
+        <block>{<block_content>
+            <decl_stmt>
+              <decl>
+                <type>
+                  <name>Day</name>
+                </type>
+                <name>result</name>
+              </decl>;</decl_stmt>
+            <decl_stmt>
+              <decl>
+                <type>
+                  <name>int</name>
+                </type>
+                <name>serial</name>
+                <init>= <expr>
+                    <call>
+                      <name>
+                        <name>this</name>
+                        <operator>.</operator>
+                        <name>serialDate</name>
+                        <operator>.</operator>
+                        <name>toSerial</name>
+                      </name>
+                      <argument_list>()</argument_list>
+                    </call>
+                  </expr>
+                </init>
+              </decl>;</decl_stmt>
+            <if_stmt>
+              <if>if <condition>(<expr>
+                    <name>serial</name>
+                    <operator>&lt;</operator>
+                    <name>
+                      <name>SerialDate</name>
+                      <operator>.</operator>
+                      <name>SERIAL_UPPER_BOUND</name>
+                    </name>
+                  </expr>)</condition>
+                <block>{<block_content>
+                    <decl_stmt>
+                      <decl>
+                        <type>
+                          <name>SerialDate</name>
+                        </type>
+                        <name>tomorrow</name>
+                        <init>= <expr>
+                            <call>
+                              <name>
+                                <name>SerialDate</name>
+                                <operator>.</operator>
+                                <name>createInstance</name>
+                              </name>
+                              <argument_list>(<argument>
+                                  <expr>
+                                    <name>serial</name>
+                                    <operator>+</operator>
+                                    <literal type="number">1</literal>
+                                  </expr>
+                                </argument>)</argument_list>
+                            </call>
+                          </expr>
+                        </init>
+                      </decl>;</decl_stmt>
+                    <return>return <expr>
+                        <operator>new</operator>
+                        <call>
+                          <name>Day</name>
+                          <argument_list>(<argument>
+                              <expr>
+                                <name>tomorrow</name>
+                              </expr>
+                            </argument>)</argument_list>
+                        </call>
+                      </expr>;</return>
+                  </block_content>}</block>
+              </if>
+              <else>else <block>{<block_content>
+                    <expr_stmt>
+                      <expr>
+                        <name>result</name>
+                        <operator>=</operator>
+                        <literal type="null">null</literal>
+                      </expr>;</expr_stmt>
+                  </block_content>}</block>
+              </else>
+            </if_stmt>
+            <return>return <expr>
+                <name>result</name>
+              </expr>;</return>
+          </block_content>}</block>
+      </function>
+      <comment format="javadoc" type="block">/**
+     * Returns a serial index number for the day.
+     *
+     * @return The serial index number.
+     */</comment>
+      <function>
+        <annotation>@<name>Override</name>
+        </annotation>
+        <type>
+          <specifier>public</specifier>
+          <name>long</name>
+        </type>
+        <name>getSerialIndex</name>
+        <parameter_list>()</parameter_list>
+        <block>{<block_content>
+            <return>return <expr>
+                <call>
+                  <name>
+                    <name>this</name>
+                    <operator>.</operator>
+                    <name>serialDate</name>
+                    <operator>.</operator>
+                    <name>toSerial</name>
+                  </name>
+                  <argument_list>()</argument_list>
+                </call>
+              </expr>;</return>
+          </block_content>}</block>
+      </function>
+      <comment format="javadoc" type="block">/**
+     * Returns the first millisecond of the day, evaluated using the supplied
+     * calendar (which determines the time zone).
+     *
+     * @param calendar  calendar to use ({@code null} not permitted).
+     *
+     * @return The start of the day as milliseconds since 01-01-1970.
+     *
+     * @throws NullPointerException if {@code calendar} is
+     *     {@code null}.
+     */</comment>
+      <function>
+        <annotation>@<name>Override</name>
+        </annotation>
+        <type>
+          <specifier>public</specifier>
+          <name>long</name>
+        </type>
+        <name>getFirstMillisecond</name>
+        <parameter_list>(<parameter>
+            <decl>
+              <type>
+                <name>Calendar</name>
+              </type>
+              <name>calendar</name>
+            </decl>
+          </parameter>)</parameter_list>
+        <block>{<block_content>
+            <decl_stmt>
+              <decl>
+                <type>
+                  <name>int</name>
+                </type>
+                <name>year</name>
+                <init>= <expr>
+                    <call>
+                      <name>
+                        <name>this</name>
+                        <operator>.</operator>
+                        <name>serialDate</name>
+                        <operator>.</operator>
+                        <name>getYYYY</name>
+                      </name>
+                      <argument_list>()</argument_list>
+                    </call>
+                  </expr>
+                </init>
+              </decl>;</decl_stmt>
+            <decl_stmt>
+              <decl>
+                <type>
+                  <name>int</name>
+                </type>
+                <name>month</name>
+                <init>= <expr>
+                    <call>
+                      <name>
+                        <name>this</name>
+                        <operator>.</operator>
+                        <name>serialDate</name>
+                        <operator>.</operator>
+                        <name>getMonth</name>
+                      </name>
+                      <argument_list>()</argument_list>
+                    </call>
+                  </expr>
+                </init>
+              </decl>;</decl_stmt>
+            <decl_stmt>
+              <decl>
+                <type>
+                  <name>int</name>
+                </type>
+                <name>day</name>
+                <init>= <expr>
+                    <call>
+                      <name>
+                        <name>this</name>
+                        <operator>.</operator>
+                        <name>serialDate</name>
+                        <operator>.</operator>
+                        <name>getDayOfMonth</name>
+                      </name>
+                      <argument_list>()</argument_list>
+                    </call>
+                  </expr>
+                </init>
+              </decl>;</decl_stmt>
+            <expr_stmt>
+              <expr>
+                <call>
+                  <name>
+                    <name>calendar</name>
+                    <operator>.</operator>
+                    <name>clear</name>
+                  </name>
+                  <argument_list>()</argument_list>
+                </call>
+              </expr>;</expr_stmt>
+            <expr_stmt>
+              <expr>
+                <call>
+                  <name>
+                    <name>calendar</name>
+                    <operator>.</operator>
+                    <name>set</name>
+                  </name>
+                  <argument_list>(<argument>
+                      <expr>
+                        <name>year</name>
+                      </expr>
+                    </argument>, <argument>
+                      <expr>
+                        <name>month</name>
+                        <operator>-</operator>
+                        <literal type="number">1</literal>
+                      </expr>
+                    </argument>, <argument>
+                      <expr>
+                        <name>day</name>
+                      </expr>
+                    </argument>, <argument>
+                      <expr>
+                        <literal type="number">0</literal>
+                      </expr>
+                    </argument>, <argument>
+                      <expr>
+                        <literal type="number">0</literal>
+                      </expr>
+                    </argument>, <argument>
+                      <expr>
+                        <literal type="number">0</literal>
+                      </expr>
+                    </argument>)</argument_list>
+                </call>
+              </expr>;</expr_stmt>
+            <expr_stmt>
+              <expr>
+                <call>
+                  <name>
+                    <name>calendar</name>
+                    <operator>.</operator>
+                    <name>set</name>
+                  </name>
+                  <argument_list>(<argument>
+                      <expr>
+                        <name>
+                          <name>Calendar</name>
+                          <operator>.</operator>
+                          <name>MILLISECOND</name>
+                        </name>
+                      </expr>
+                    </argument>, <argument>
+                      <expr>
+                        <literal type="number">0</literal>
+                      </expr>
+                    </argument>)</argument_list>
+                </call>
+              </expr>;</expr_stmt>
+            <return>return <expr>
+                <call>
+                  <name>
+                    <name>calendar</name>
+                    <operator>.</operator>
+                    <name>getTimeInMillis</name>
+                  </name>
+                  <argument_list>()</argument_list>
+                </call>
+              </expr>;</return>
+          </block_content>}</block>
+      </function>
+      <comment format="javadoc" type="block">/**
+     * Returns the last millisecond of the day, evaluated using the supplied
+     * calendar (which determines the time zone).
+     *
+     * @param calendar  calendar to use ({@code null} not permitted).
+     *
+     * @return The end of the day as milliseconds since 01-01-1970.
+     *
+     * @throws NullPointerException if {@code calendar} is
+     *     {@code null}.
+     */</comment>
+      <function>
+        <annotation>@<name>Override</name>
+        </annotation>
+        <type>
+          <specifier>public</specifier>
+          <name>long</name>
+        </type>
+        <name>getLastMillisecond</name>
+        <parameter_list>(<parameter>
+            <decl>
+              <type>
+                <name>Calendar</name>
+              </type>
+              <name>calendar</name>
+            </decl>
+          </parameter>)</parameter_list>
+        <block>{<block_content>
+            <decl_stmt>
+              <decl>
+                <type>
+                  <name>int</name>
+                </type>
+                <name>year</name>
+                <init>= <expr>
+                    <call>
+                      <name>
+                        <name>this</name>
+                        <operator>.</operator>
+                        <name>serialDate</name>
+                        <operator>.</operator>
+                        <name>getYYYY</name>
+                      </name>
+                      <argument_list>()</argument_list>
+                    </call>
+                  </expr>
+                </init>
+              </decl>;</decl_stmt>
+            <decl_stmt>
+              <decl>
+                <type>
+                  <name>int</name>
+                </type>
+                <name>month</name>
+                <init>= <expr>
+                    <call>
+                      <name>
+                        <name>this</name>
+                        <operator>.</operator>
+                        <name>serialDate</name>
+                        <operator>.</operator>
+                        <name>getMonth</name>
+                      </name>
+                      <argument_list>()</argument_list>
+                    </call>
+                  </expr>
+                </init>
+              </decl>;</decl_stmt>
+            <decl_stmt>
+              <decl>
+                <type>
+                  <name>int</name>
+                </type>
+                <name>day</name>
+                <init>= <expr>
+                    <call>
+                      <name>
+                        <name>this</name>
+                        <operator>.</operator>
+                        <name>serialDate</name>
+                        <operator>.</operator>
+                        <name>getDayOfMonth</name>
+                      </name>
+                      <argument_list>()</argument_list>
+                    </call>
+                  </expr>
+                </init>
+              </decl>;</decl_stmt>
+            <expr_stmt>
+              <expr>
+                <call>
+                  <name>
+                    <name>calendar</name>
+                    <operator>.</operator>
+                    <name>clear</name>
+                  </name>
+                  <argument_list>()</argument_list>
+                </call>
+              </expr>;</expr_stmt>
+            <expr_stmt>
+              <expr>
+                <call>
+                  <name>
+                    <name>calendar</name>
+                    <operator>.</operator>
+                    <name>set</name>
+                  </name>
+                  <argument_list>(<argument>
+                      <expr>
+                        <name>year</name>
+                      </expr>
+                    </argument>, <argument>
+                      <expr>
+                        <name>month</name>
+                        <operator>-</operator>
+                        <literal type="number">1</literal>
+                      </expr>
+                    </argument>, <argument>
+                      <expr>
+                        <name>day</name>
+                      </expr>
+                    </argument>, <argument>
+                      <expr>
+                        <literal type="number">23</literal>
+                      </expr>
+                    </argument>, <argument>
+                      <expr>
+                        <literal type="number">59</literal>
+                      </expr>
+                    </argument>, <argument>
+                      <expr>
+                        <literal type="number">59</literal>
+                      </expr>
+                    </argument>)</argument_list>
+                </call>
+              </expr>;</expr_stmt>
+            <expr_stmt>
+              <expr>
+                <call>
+                  <name>
+                    <name>calendar</name>
+                    <operator>.</operator>
+                    <name>set</name>
+                  </name>
+                  <argument_list>(<argument>
+                      <expr>
+                        <name>
+                          <name>Calendar</name>
+                          <operator>.</operator>
+                          <name>MILLISECOND</name>
+                        </name>
+                      </expr>
+                    </argument>, <argument>
+                      <expr>
+                        <literal type="number">999</literal>
+                      </expr>
+                    </argument>)</argument_list>
+                </call>
+              </expr>;</expr_stmt>
+            <return>return <expr>
+                <call>
+                  <name>
+                    <name>calendar</name>
+                    <operator>.</operator>
+                    <name>getTimeInMillis</name>
+                  </name>
+                  <argument_list>()</argument_list>
+                </call>
+              </expr>;</return>
+          </block_content>}</block>
+      </function>
+      <comment format="javadoc" type="block">/**
+     * Tests the equality of this Day object to an arbitrary object.  Returns
+     * true if the target is a Day instance or a SerialDate instance
+     * representing the same day as this object. In all other cases,
+     * returns false.
+     *
+     * @param obj  the object ({@code null} permitted).
+     *
+     * @return A flag indicating whether or not an object is equal to this day.
+     */</comment>
+      <function>
+        <annotation>@<name>Override</name>
+        </annotation>
+        <type>
+          <specifier>public</specifier>
+          <name>boolean</name>
+        </type>
+        <name>equals</name>
+        <parameter_list>(<parameter>
+            <decl>
+              <type>
+                <name>Object</name>
+              </type>
+              <name>obj</name>
+            </decl>
+          </parameter>)</parameter_list>
+        <block>{<block_content>
+            <if_stmt>
+              <if>if <condition>(<expr>
+                    <name>obj</name>
+                    <operator>==</operator>
+                    <name>this</name>
+                  </expr>)</condition>
+                <block>{<block_content>
+                    <return>return <expr>
+                        <literal type="boolean">true</literal>
+                      </expr>;</return>
+                  </block_content>}</block>
+              </if>
+            </if_stmt>
+            <if_stmt>
+              <if>if <condition>(<expr>
+                    <operator>!</operator>
+                    <operator>(</operator>
+                    <name>obj</name>
+                    <operator>instanceof</operator>
+                    <name>Day</name>
+                    <operator>)</operator>
+                  </expr>)</condition>
+                <block>{<block_content>
+                    <return>return <expr>
+                        <literal type="boolean">false</literal>
+                      </expr>;</return>
+                  </block_content>}</block>
+              </if>
+            </if_stmt>
+            <decl_stmt>
+              <decl>
+                <type>
+                  <name>Day</name>
+                </type>
+                <name>that</name>
+                <init>= <expr>
+                    <operator>(</operator>
+                    <name>Day</name>
+                    <operator>)</operator>
+                    <name>obj</name>
+                  </expr>
+                </init>
+              </decl>;</decl_stmt>
+            <if_stmt>
+              <if>if <condition>(<expr>
+                    <operator>!</operator>
+                    <call>
+                      <name>
+                        <name>this</name>
+                        <operator>.</operator>
+                        <name>serialDate</name>
+                        <operator>.</operator>
+                        <name>equals</name>
+                      </name>
+                      <argument_list>(<argument>
+                          <expr>
+                            <call>
+                              <name>
+                                <name>that</name>
+                                <operator>.</operator>
+                                <name>getSerialDate</name>
+                              </name>
+                              <argument_list>()</argument_list>
+                            </call>
+                          </expr>
+                        </argument>)</argument_list>
+                    </call>
+                  </expr>)</condition>
+                <block>{<block_content>
+                    <return>return <expr>
+                        <literal type="boolean">false</literal>
+                      </expr>;</return>
+                  </block_content>}</block>
+              </if>
+            </if_stmt>
+            <return>return <expr>
+                <literal type="boolean">true</literal>
+              </expr>;</return>
+          </block_content>}</block>
+      </function>
+      <comment format="javadoc" type="block">/**
+     * Returns a hash code for this object instance.  The approach described by
+     * Joshua Bloch in "Effective Java" has been used here:
+     * &lt;p&gt;
+     * {@code http://developer.java.sun.com/developer/Books/effectivejava
+     * /Chapter3.pdf}
+     *
+     * @return A hash code.
+     */</comment>
+      <function>
+        <annotation>@<name>Override</name>
+        </annotation>
+        <type>
+          <specifier>public</specifier>
+          <name>int</name>
+        </type>
+        <name>hashCode</name>
+        <parameter_list>()</parameter_list>
+        <block>{<block_content>
+            <return>return <expr>
+                <call>
+                  <name>
+                    <name>this</name>
+                    <operator>.</operator>
+                    <name>serialDate</name>
+                    <operator>.</operator>
+                    <name>hashCode</name>
+                  </name>
+                  <argument_list>()</argument_list>
+                </call>
+              </expr>;</return>
+          </block_content>}</block>
+      </function>
+      <comment format="javadoc" type="block">/**
+     * Returns an integer indicating the order of this Day object relative to
+     * the specified object:
+     *
+     * negative == before, zero == same, positive == after.
+     *
+     * @param o1  the object to compare.
+     *
+     * @return negative == before, zero == same, positive == after.
+     */</comment>
+      <function>
+        <annotation>@<name>Override</name>
+        </annotation>
+        <type>
+          <specifier>public</specifier>
+          <name>int</name>
+        </type>
+        <name>compareTo</name>
+        <parameter_list>(<parameter>
+            <decl>
+              <type>
+                <name>Object</name>
+              </type>
+              <name>o1</name>
+            </decl>
+          </parameter>)</parameter_list>
+        <block>{<block_content>
+            <decl_stmt>
+              <decl>
+                <type>
+                  <name>int</name>
+                </type>
+                <name>result</name>
+              </decl>;</decl_stmt>
+            <comment type="line">// CASE 1 : Comparing to another Day object</comment>
+            <comment type="line">// ----------------------------------------</comment>
+            <if_stmt>
+              <if>if <condition>(<expr>
+                    <name>o1</name>
+                    <operator>instanceof</operator>
+                    <name>Day</name>
+                  </expr>)</condition>
+                <block>{<block_content>
+                    <decl_stmt>
+                      <decl>
+                        <type>
+                          <name>Day</name>
+                        </type>
+                        <name>d</name>
+                        <init>= <expr>
+                            <operator>(</operator>
+                            <name>Day</name>
+                            <operator>)</operator>
+                            <name>o1</name>
+                          </expr>
+                        </init>
+                      </decl>;</decl_stmt>
+                    <expr_stmt>
+                      <expr>
+                        <name>result</name>
+                        <operator>=</operator>
+                        <operator>-</operator>
+                        <call>
+                          <name>
+                            <name>d</name>
+                            <operator>.</operator>
+                            <name>getSerialDate</name>
+                          </name>
+                          <argument_list>()</argument_list>
+                        </call>
+                        <operator>.</operator>
+                        <call>
+                          <name>compare</name>
+                          <argument_list>(<argument>
+                              <expr>
+                                <name>
+                                  <name>this</name>
+                                  <operator>.</operator>
+                                  <name>serialDate</name>
+                                </name>
+                              </expr>
+                            </argument>)</argument_list>
+                        </call>
+                      </expr>;</expr_stmt>
+                  </block_content>}</block>
+              </if>
+              <comment type="line">// CASE 2 : Comparing to another TimePeriod object</comment>
+              <comment type="line">// -----------------------------------------------</comment>
+              <if type="elseif">else if <condition>(<expr>
+                    <name>o1</name>
+                    <operator>instanceof</operator>
+                    <name>RegularTimePeriod</name>
+                  </expr>)</condition>
+                <block>{<block_content>
+                    <comment type="line">// more difficult case - evaluate later...</comment>
+                    <expr_stmt>
+                      <expr>
+                        <name>result</name>
+                        <operator>=</operator>
+                        <literal type="number">0</literal>
+                      </expr>;</expr_stmt>
+                  </block_content>}</block>
+              </if>
+              <comment type="line">// CASE 3 : Comparing to a non-TimePeriod object</comment>
+              <comment type="line">// ---------------------------------------------</comment>
+              <else>else <block>{<block_content>
+                    <comment type="line">// consider time periods to be ordered after general objects</comment>
+                    <expr_stmt>
+                      <expr>
+                        <name>result</name>
+                        <operator>=</operator>
+                        <literal type="number">1</literal>
+                      </expr>;</expr_stmt>
+                  </block_content>}</block>
+              </else>
+            </if_stmt>
+            <return>return <expr>
+                <name>result</name>
+              </expr>;</return>
+          </block_content>}</block>
+      </function>
+      <comment format="javadoc" type="block">/**
+     * Returns a string representing the day.
+     *
+     * @return A string representing the day.
+     */</comment>
+      <function>
+        <annotation>@<name>Override</name>
+        </annotation>
+        <type>
+          <specifier>public</specifier>
+          <name>String</name>
+        </type>
+        <name>toString</name>
+        <parameter_list>()</parameter_list>
+        <block>{<block_content>
+            <return>return <expr>
+                <call>
+                  <name>
+                    <name>this</name>
+                    <operator>.</operator>
+                    <name>serialDate</name>
+                    <operator>.</operator>
+                    <name>toString</name>
+                  </name>
+                  <argument_list>()</argument_list>
+                </call>
+              </expr>;</return>
+          </block_content>}</block>
+      </function>
+      <comment format="javadoc" type="block">/**
+     * Parses the string argument as a day.
+     * &lt;P&gt;
+     * This method is required to recognise YYYY-MM-DD as a valid format.
+     * Anything else, for now, is a bonus.
+     *
+     * @param s  the date string to parse.
+     *
+     * @return {@code null} if the string does not contain any parseable
+     *      string, the day otherwise.
+     */</comment>
+      <function>
+        <type>
+          <specifier>public</specifier>
+          <specifier>static</specifier>
+          <name>Day</name>
+        </type>
+        <name>parseDay</name>
+        <parameter_list>(<parameter>
+            <decl>
+              <type>
+                <name>String</name>
+              </type>
+              <name>s</name>
+            </decl>
+          </parameter>)</parameter_list>
+        <block>{<block_content>
+            <try>try <block>{<block_content>
+                  <return>return <expr>
+                      <operator>new</operator>
+                      <call>
+                        <name>Day</name>
+                        <argument_list>(<argument>
+                            <expr>
+                              <call>
+                                <name>
+                                  <name>Day</name>
+                                  <operator>.</operator>
+                                  <name>DATE_FORMAT</name>
+                                  <operator>.</operator>
+                                  <name>parse</name>
+                                </name>
+                                <argument_list>(<argument>
+                                    <expr>
+                                      <name>s</name>
+                                    </expr>
+                                  </argument>)</argument_list>
+                              </call>
+                            </expr>
+                          </argument>)</argument_list>
+                      </call>
+                    </expr>;</return>
+                </block_content>}</block>
+              <catch>catch <parameter_list>(<parameter>
+                    <decl>
+                      <type>
+                        <name>ParseException</name>
+                      </type>
+                      <name>e1</name>
+                    </decl>
+                  </parameter>)</parameter_list>
+                <block>{<block_content>
+                    <try>try <block>{<block_content>
+                          <return>return <expr>
+                              <operator>new</operator>
+                              <call>
+                                <name>Day</name>
+                                <argument_list>(<argument>
+                                    <expr>
+                                      <call>
+                                        <name>
+                                          <name>Day</name>
+                                          <operator>.</operator>
+                                          <name>DATE_FORMAT_SHORT</name>
+                                          <operator>.</operator>
+                                          <name>parse</name>
+                                        </name>
+                                        <argument_list>(<argument>
+                                            <expr>
+                                              <name>s</name>
+                                            </expr>
+                                          </argument>)</argument_list>
+                                      </call>
+                                    </expr>
+                                  </argument>)</argument_list>
+                              </call>
+                            </expr>;</return>
+                        </block_content>}</block>
+                      <catch>catch <parameter_list>(<parameter>
+                            <decl>
+                              <type>
+                                <name>ParseException</name>
+                              </type>
+                              <name>e2</name>
+                            </decl>
+                          </parameter>)</parameter_list>
+                        <block>{<block_content>
+                            <comment type="line">// ignore</comment>
+                          </block_content>}</block>
+                      </catch>
+                    </try>
+                  </block_content>}</block>
+              </catch>
+            </try>
+            <return>return <expr>
+                <literal type="null">null</literal>
+              </expr>;</return>
+          </block_content>}</block>
+      </function>
+
+}</block>
+  </class>
+</unit>

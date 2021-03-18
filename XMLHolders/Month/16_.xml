@@ -1,0 +1,481 @@
+<?xml version='1.0' encoding='utf-8'?>
+<function>
+  <type>
+    <specifier>public</specifier>
+    <specifier>static</specifier>
+    <name>Month</name>
+  </type>
+  <name>parseMonth</name>
+  <parameter_list>(<parameter>
+      <decl>
+        <type>
+          <name>String</name>
+        </type>
+        <name>s</name>
+      </decl>
+    </parameter>)</parameter_list>
+  <block>{<block_content>
+      <decl_stmt>
+        <decl>
+          <type>
+            <name>Month</name>
+          </type>
+          <name>result</name>
+          <init>= <expr>
+              <literal type="null">null</literal>
+            </expr>
+          </init>
+        </decl>;</decl_stmt>
+      <if_stmt>
+        <if>if <condition>(<expr>
+              <name>s</name>
+              <operator>==</operator>
+              <literal type="null">null</literal>
+            </expr>)</condition>
+          <block>{<block_content>
+              <return>return <expr>
+                  <name>result</name>
+                </expr>;</return>
+            </block_content>}</block>
+        </if>
+      </if_stmt>
+      <comment type="line">// trim whitespace from either end of the string</comment>
+      <expr_stmt>
+        <expr>
+          <name>s</name>
+          <operator>=</operator>
+          <call>
+            <name>
+              <name>s</name>
+              <operator>.</operator>
+              <name>trim</name>
+            </name>
+            <argument_list>()</argument_list>
+          </call>
+        </expr>;</expr_stmt>
+      <decl_stmt>
+        <decl>
+          <type>
+            <name>int</name>
+          </type>
+          <name>i</name>
+          <init>= <expr>
+              <call>
+                <name>
+                  <name>Month</name>
+                  <operator>.</operator>
+                  <name>findSeparator</name>
+                </name>
+                <argument_list>(<argument>
+                    <expr>
+                      <name>s</name>
+                    </expr>
+                  </argument>)</argument_list>
+              </call>
+            </expr>
+          </init>
+        </decl>;</decl_stmt>
+      <decl_stmt>
+        <decl>
+          <type>
+            <name>String</name>
+          </type>
+          <name>s1</name>
+        </decl>, <decl>
+          <type ref="prev" />
+          <name>s2</name>
+        </decl>;</decl_stmt>
+      <decl_stmt>
+        <decl>
+          <type>
+            <name>boolean</name>
+          </type>
+          <name>yearIsFirst</name>
+        </decl>;</decl_stmt>
+      <comment type="line">// if there is no separator, we assume the first four characters</comment>
+      <comment type="line">// are YYYY</comment>
+      <if_stmt>
+        <if>if <condition>(<expr>
+              <name>i</name>
+              <operator>==</operator>
+              <operator>-</operator>
+              <literal type="number">1</literal>
+            </expr>)</condition>
+          <block>{<block_content>
+              <expr_stmt>
+                <expr>
+                  <name>yearIsFirst</name>
+                  <operator>=</operator>
+                  <literal type="boolean">true</literal>
+                </expr>;</expr_stmt>
+              <expr_stmt>
+                <expr>
+                  <name>s1</name>
+                  <operator>=</operator>
+                  <call>
+                    <name>
+                      <name>s</name>
+                      <operator>.</operator>
+                      <name>substring</name>
+                    </name>
+                    <argument_list>(<argument>
+                        <expr>
+                          <literal type="number">0</literal>
+                        </expr>
+                      </argument>, <argument>
+                        <expr>
+                          <literal type="number">5</literal>
+                        </expr>
+                      </argument>)</argument_list>
+                  </call>
+                </expr>;</expr_stmt>
+              <expr_stmt>
+                <expr>
+                  <name>s2</name>
+                  <operator>=</operator>
+                  <call>
+                    <name>
+                      <name>s</name>
+                      <operator>.</operator>
+                      <name>substring</name>
+                    </name>
+                    <argument_list>(<argument>
+                        <expr>
+                          <literal type="number">5</literal>
+                        </expr>
+                      </argument>)</argument_list>
+                  </call>
+                </expr>;</expr_stmt>
+            </block_content>}</block>
+        </if>
+        <else>else <block>{<block_content>
+              <expr_stmt>
+                <expr>
+                  <name>s1</name>
+                  <operator>=</operator>
+                  <call>
+                    <name>
+                      <name>s</name>
+                      <operator>.</operator>
+                      <name>substring</name>
+                    </name>
+                    <argument_list>(<argument>
+                        <expr>
+                          <literal type="number">0</literal>
+                        </expr>
+                      </argument>, <argument>
+                        <expr>
+                          <name>i</name>
+                        </expr>
+                      </argument>)</argument_list>
+                  </call>
+                  <operator>.</operator>
+                  <call>
+                    <name>trim</name>
+                    <argument_list>()</argument_list>
+                  </call>
+                </expr>;</expr_stmt>
+              <expr_stmt>
+                <expr>
+                  <name>s2</name>
+                  <operator>=</operator>
+                  <call>
+                    <name>
+                      <name>s</name>
+                      <operator>.</operator>
+                      <name>substring</name>
+                    </name>
+                    <argument_list>(<argument>
+                        <expr>
+                          <name>i</name>
+                          <operator>+</operator>
+                          <literal type="number">1</literal>
+                        </expr>
+                      </argument>, <argument>
+                        <expr>
+                          <call>
+                            <name>
+                              <name>s</name>
+                              <operator>.</operator>
+                              <name>length</name>
+                            </name>
+                            <argument_list>()</argument_list>
+                          </call>
+                        </expr>
+                      </argument>)</argument_list>
+                  </call>
+                  <operator>.</operator>
+                  <call>
+                    <name>trim</name>
+                    <argument_list>()</argument_list>
+                  </call>
+                </expr>;</expr_stmt>
+              <comment type="line">// now it is trickier to determine if the month or year is first</comment>
+              <decl_stmt>
+                <decl>
+                  <type>
+                    <name>Year</name>
+                  </type>
+                  <name>y1</name>
+                  <init>= <expr>
+                      <call>
+                        <name>
+                          <name>Month</name>
+                          <operator>.</operator>
+                          <name>evaluateAsYear</name>
+                        </name>
+                        <argument_list>(<argument>
+                            <expr>
+                              <name>s1</name>
+                            </expr>
+                          </argument>)</argument_list>
+                      </call>
+                    </expr>
+                  </init>
+                </decl>;</decl_stmt>
+              <if_stmt>
+                <if>if <condition>(<expr>
+                      <name>y1</name>
+                      <operator>==</operator>
+                      <literal type="null">null</literal>
+                    </expr>)</condition>
+                  <block>{<block_content>
+                      <expr_stmt>
+                        <expr>
+                          <name>yearIsFirst</name>
+                          <operator>=</operator>
+                          <literal type="boolean">false</literal>
+                        </expr>;</expr_stmt>
+                    </block_content>}</block>
+                </if>
+                <else>else <block>{<block_content>
+                      <decl_stmt>
+                        <decl>
+                          <type>
+                            <name>Year</name>
+                          </type>
+                          <name>y2</name>
+                          <init>= <expr>
+                              <call>
+                                <name>
+                                  <name>Month</name>
+                                  <operator>.</operator>
+                                  <name>evaluateAsYear</name>
+                                </name>
+                                <argument_list>(<argument>
+                                    <expr>
+                                      <name>s2</name>
+                                    </expr>
+                                  </argument>)</argument_list>
+                              </call>
+                            </expr>
+                          </init>
+                        </decl>;</decl_stmt>
+                      <if_stmt>
+                        <if>if <condition>(<expr>
+                              <name>y2</name>
+                              <operator>==</operator>
+                              <literal type="null">null</literal>
+                            </expr>)</condition>
+                          <block>{<block_content>
+                              <expr_stmt>
+                                <expr>
+                                  <name>yearIsFirst</name>
+                                  <operator>=</operator>
+                                  <literal type="boolean">true</literal>
+                                </expr>;</expr_stmt>
+                            </block_content>}</block>
+                        </if>
+                        <else>else <block>{<block_content>
+                              <expr_stmt>
+                                <expr>
+                                  <name>yearIsFirst</name>
+                                  <operator>=</operator>
+                                  <operator>(</operator>
+                                  <call>
+                                    <name>
+                                      <name>s1</name>
+                                      <operator>.</operator>
+                                      <name>length</name>
+                                    </name>
+                                    <argument_list>()</argument_list>
+                                  </call>
+                                  <operator>&gt;</operator>
+                                  <call>
+                                    <name>
+                                      <name>s2</name>
+                                      <operator>.</operator>
+                                      <name>length</name>
+                                    </name>
+                                    <argument_list>()</argument_list>
+                                  </call>
+                                  <operator>)</operator>
+                                </expr>;</expr_stmt>
+                            </block_content>}</block>
+                        </else>
+                      </if_stmt>
+                    </block_content>}</block>
+                </else>
+              </if_stmt>
+            </block_content>}</block>
+        </else>
+      </if_stmt>
+      <decl_stmt>
+        <decl>
+          <type>
+            <name>Year</name>
+          </type>
+          <name>year</name>
+        </decl>;</decl_stmt>
+      <decl_stmt>
+        <decl>
+          <type>
+            <name>int</name>
+          </type>
+          <name>month</name>
+        </decl>;</decl_stmt>
+      <if_stmt>
+        <if>if <condition>(<expr>
+              <name>yearIsFirst</name>
+            </expr>)</condition>
+          <block>{<block_content>
+              <expr_stmt>
+                <expr>
+                  <name>year</name>
+                  <operator>=</operator>
+                  <call>
+                    <name>
+                      <name>Month</name>
+                      <operator>.</operator>
+                      <name>evaluateAsYear</name>
+                    </name>
+                    <argument_list>(<argument>
+                        <expr>
+                          <name>s1</name>
+                        </expr>
+                      </argument>)</argument_list>
+                  </call>
+                </expr>;</expr_stmt>
+              <expr_stmt>
+                <expr>
+                  <name>month</name>
+                  <operator>=</operator>
+                  <call>
+                    <name>
+                      <name>SerialDate</name>
+                      <operator>.</operator>
+                      <name>stringToMonthCode</name>
+                    </name>
+                    <argument_list>(<argument>
+                        <expr>
+                          <name>s2</name>
+                        </expr>
+                      </argument>)</argument_list>
+                  </call>
+                </expr>;</expr_stmt>
+            </block_content>}</block>
+        </if>
+        <else>else <block>{<block_content>
+              <expr_stmt>
+                <expr>
+                  <name>year</name>
+                  <operator>=</operator>
+                  <call>
+                    <name>
+                      <name>Month</name>
+                      <operator>.</operator>
+                      <name>evaluateAsYear</name>
+                    </name>
+                    <argument_list>(<argument>
+                        <expr>
+                          <name>s2</name>
+                        </expr>
+                      </argument>)</argument_list>
+                  </call>
+                </expr>;</expr_stmt>
+              <expr_stmt>
+                <expr>
+                  <name>month</name>
+                  <operator>=</operator>
+                  <call>
+                    <name>
+                      <name>SerialDate</name>
+                      <operator>.</operator>
+                      <name>stringToMonthCode</name>
+                    </name>
+                    <argument_list>(<argument>
+                        <expr>
+                          <name>s1</name>
+                        </expr>
+                      </argument>)</argument_list>
+                  </call>
+                </expr>;</expr_stmt>
+            </block_content>}</block>
+        </else>
+      </if_stmt>
+      <if_stmt>
+        <if>if <condition>(<expr>
+              <name>month</name>
+              <operator>==</operator>
+              <operator>-</operator>
+              <literal type="number">1</literal>
+            </expr>)</condition>
+          <block>{<block_content>
+              <throw>throw <expr>
+                  <operator>new</operator>
+                  <call>
+                    <name>TimePeriodFormatException</name>
+                    <argument_list>(<argument>
+                        <expr>
+                          <literal type="string">"Can't evaluate the month."</literal>
+                        </expr>
+                      </argument>)</argument_list>
+                  </call>
+                </expr>;</throw>
+            </block_content>}</block>
+        </if>
+      </if_stmt>
+      <if_stmt>
+        <if>if <condition>(<expr>
+              <name>year</name>
+              <operator>==</operator>
+              <literal type="null">null</literal>
+            </expr>)</condition>
+          <block>{<block_content>
+              <throw>throw <expr>
+                  <operator>new</operator>
+                  <call>
+                    <name>TimePeriodFormatException</name>
+                    <argument_list>(<argument>
+                        <expr>
+                          <literal type="string">"Can't evaluate the year."</literal>
+                        </expr>
+                      </argument>)</argument_list>
+                  </call>
+                </expr>;</throw>
+            </block_content>}</block>
+        </if>
+      </if_stmt>
+      <expr_stmt>
+        <expr>
+          <name>result</name>
+          <operator>=</operator>
+          <operator>new</operator>
+          <call>
+            <name>Month</name>
+            <argument_list>(<argument>
+                <expr>
+                  <name>month</name>
+                </expr>
+              </argument>, <argument>
+                <expr>
+                  <name>year</name>
+                </expr>
+              </argument>)</argument_list>
+          </call>
+        </expr>;</expr_stmt>
+      <return>return <expr>
+          <name>result</name>
+        </expr>;</return>
+    </block_content>}</block>
+</function>

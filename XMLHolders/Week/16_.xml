@@ -1,0 +1,376 @@
+<?xml version='1.0' encoding='utf-8'?>
+<function>
+  <type>
+    <specifier>public</specifier>
+    <specifier>static</specifier>
+    <name>Week</name>
+  </type>
+  <name>parseWeek</name>
+  <parameter_list>(<parameter>
+      <decl>
+        <type>
+          <name>String</name>
+        </type>
+        <name>s</name>
+      </decl>
+    </parameter>)</parameter_list>
+  <block>{<block_content>
+      <decl_stmt>
+        <decl>
+          <type>
+            <name>Week</name>
+          </type>
+          <name>result</name>
+          <init>= <expr>
+              <literal type="null">null</literal>
+            </expr>
+          </init>
+        </decl>;</decl_stmt>
+      <if_stmt>
+        <if>if <condition>(<expr>
+              <name>s</name>
+              <operator>!=</operator>
+              <literal type="null">null</literal>
+            </expr>)</condition>
+          <block>{<block_content>
+              <comment type="line">// trim whitespace from either end of the string</comment>
+              <expr_stmt>
+                <expr>
+                  <name>s</name>
+                  <operator>=</operator>
+                  <call>
+                    <name>
+                      <name>s</name>
+                      <operator>.</operator>
+                      <name>trim</name>
+                    </name>
+                    <argument_list>()</argument_list>
+                  </call>
+                </expr>;</expr_stmt>
+              <decl_stmt>
+                <decl>
+                  <type>
+                    <name>int</name>
+                  </type>
+                  <name>i</name>
+                  <init>= <expr>
+                      <call>
+                        <name>
+                          <name>Week</name>
+                          <operator>.</operator>
+                          <name>findSeparator</name>
+                        </name>
+                        <argument_list>(<argument>
+                            <expr>
+                              <name>s</name>
+                            </expr>
+                          </argument>)</argument_list>
+                      </call>
+                    </expr>
+                  </init>
+                </decl>;</decl_stmt>
+              <if_stmt>
+                <if>if <condition>(<expr>
+                      <name>i</name>
+                      <operator>!=</operator>
+                      <operator>-</operator>
+                      <literal type="number">1</literal>
+                    </expr>)</condition>
+                  <block>{<block_content>
+                      <decl_stmt>
+                        <decl>
+                          <type>
+                            <name>String</name>
+                          </type>
+                          <name>s1</name>
+                          <init>= <expr>
+                              <call>
+                                <name>
+                                  <name>s</name>
+                                  <operator>.</operator>
+                                  <name>substring</name>
+                                </name>
+                                <argument_list>(<argument>
+                                    <expr>
+                                      <literal type="number">0</literal>
+                                    </expr>
+                                  </argument>, <argument>
+                                    <expr>
+                                      <name>i</name>
+                                    </expr>
+                                  </argument>)</argument_list>
+                              </call>
+                              <operator>.</operator>
+                              <call>
+                                <name>trim</name>
+                                <argument_list>()</argument_list>
+                              </call>
+                            </expr>
+                          </init>
+                        </decl>;</decl_stmt>
+                      <decl_stmt>
+                        <decl>
+                          <type>
+                            <name>String</name>
+                          </type>
+                          <name>s2</name>
+                          <init>= <expr>
+                              <call>
+                                <name>
+                                  <name>s</name>
+                                  <operator>.</operator>
+                                  <name>substring</name>
+                                </name>
+                                <argument_list>(<argument>
+                                    <expr>
+                                      <name>i</name>
+                                      <operator>+</operator>
+                                      <literal type="number">1</literal>
+                                    </expr>
+                                  </argument>, <argument>
+                                    <expr>
+                                      <call>
+                                        <name>
+                                          <name>s</name>
+                                          <operator>.</operator>
+                                          <name>length</name>
+                                        </name>
+                                        <argument_list>()</argument_list>
+                                      </call>
+                                    </expr>
+                                  </argument>)</argument_list>
+                              </call>
+                              <operator>.</operator>
+                              <call>
+                                <name>trim</name>
+                                <argument_list>()</argument_list>
+                              </call>
+                            </expr>
+                          </init>
+                        </decl>;</decl_stmt>
+                      <decl_stmt>
+                        <decl>
+                          <type>
+                            <name>Year</name>
+                          </type>
+                          <name>y</name>
+                          <init>= <expr>
+                              <call>
+                                <name>
+                                  <name>Week</name>
+                                  <operator>.</operator>
+                                  <name>evaluateAsYear</name>
+                                </name>
+                                <argument_list>(<argument>
+                                    <expr>
+                                      <name>s1</name>
+                                    </expr>
+                                  </argument>)</argument_list>
+                              </call>
+                            </expr>
+                          </init>
+                        </decl>;</decl_stmt>
+                      <decl_stmt>
+                        <decl>
+                          <type>
+                            <name>int</name>
+                          </type>
+                          <name>w</name>
+                        </decl>;</decl_stmt>
+                      <if_stmt>
+                        <if>if <condition>(<expr>
+                              <name>y</name>
+                              <operator>!=</operator>
+                              <literal type="null">null</literal>
+                            </expr>)</condition>
+                          <block>{<block_content>
+                              <expr_stmt>
+                                <expr>
+                                  <name>w</name>
+                                  <operator>=</operator>
+                                  <call>
+                                    <name>
+                                      <name>Week</name>
+                                      <operator>.</operator>
+                                      <name>stringToWeek</name>
+                                    </name>
+                                    <argument_list>(<argument>
+                                        <expr>
+                                          <name>s2</name>
+                                        </expr>
+                                      </argument>)</argument_list>
+                                  </call>
+                                </expr>;</expr_stmt>
+                              <if_stmt>
+                                <if>if <condition>(<expr>
+                                      <name>w</name>
+                                      <operator>==</operator>
+                                      <operator>-</operator>
+                                      <literal type="number">1</literal>
+                                    </expr>)</condition>
+                                  <block>{<block_content>
+                                      <throw>throw <expr>
+                                          <operator>new</operator>
+                                          <call>
+                                            <name>TimePeriodFormatException</name>
+                                            <argument_list>(
+                                <argument>
+                                                <expr>
+                                                  <literal type="string">"Can't evaluate the week."</literal>
+                                                </expr>
+                                              </argument>)</argument_list>
+                                          </call>
+                                        </expr>;</throw>
+                                    </block_content>}</block>
+                                </if>
+                              </if_stmt>
+                              <expr_stmt>
+                                <expr>
+                                  <name>result</name>
+                                  <operator>=</operator>
+                                  <operator>new</operator>
+                                  <call>
+                                    <name>Week</name>
+                                    <argument_list>(<argument>
+                                        <expr>
+                                          <name>w</name>
+                                        </expr>
+                                      </argument>, <argument>
+                                        <expr>
+                                          <name>y</name>
+                                        </expr>
+                                      </argument>)</argument_list>
+                                  </call>
+                                </expr>;</expr_stmt>
+                            </block_content>}</block>
+                        </if>
+                        <else>else <block>{<block_content>
+                              <expr_stmt>
+                                <expr>
+                                  <name>y</name>
+                                  <operator>=</operator>
+                                  <call>
+                                    <name>
+                                      <name>Week</name>
+                                      <operator>.</operator>
+                                      <name>evaluateAsYear</name>
+                                    </name>
+                                    <argument_list>(<argument>
+                                        <expr>
+                                          <name>s2</name>
+                                        </expr>
+                                      </argument>)</argument_list>
+                                  </call>
+                                </expr>;</expr_stmt>
+                              <if_stmt>
+                                <if>if <condition>(<expr>
+                                      <name>y</name>
+                                      <operator>!=</operator>
+                                      <literal type="null">null</literal>
+                                    </expr>)</condition>
+                                  <block>{<block_content>
+                                      <expr_stmt>
+                                        <expr>
+                                          <name>w</name>
+                                          <operator>=</operator>
+                                          <call>
+                                            <name>
+                                              <name>Week</name>
+                                              <operator>.</operator>
+                                              <name>stringToWeek</name>
+                                            </name>
+                                            <argument_list>(<argument>
+                                                <expr>
+                                                  <name>s1</name>
+                                                </expr>
+                                              </argument>)</argument_list>
+                                          </call>
+                                        </expr>;</expr_stmt>
+                                      <if_stmt>
+                                        <if>if <condition>(<expr>
+                                              <name>w</name>
+                                              <operator>==</operator>
+                                              <operator>-</operator>
+                                              <literal type="number">1</literal>
+                                            </expr>)</condition>
+                                          <block>{<block_content>
+                                              <throw>throw <expr>
+                                                  <operator>new</operator>
+                                                  <call>
+                                                    <name>TimePeriodFormatException</name>
+                                                    <argument_list>(
+                                    <argument>
+                                                        <expr>
+                                                          <literal type="string">"Can't evaluate the week."</literal>
+                                                        </expr>
+                                                      </argument>)</argument_list>
+                                                  </call>
+                                                </expr>;</throw>
+                                            </block_content>}</block>
+                                        </if>
+                                      </if_stmt>
+                                      <expr_stmt>
+                                        <expr>
+                                          <name>result</name>
+                                          <operator>=</operator>
+                                          <operator>new</operator>
+                                          <call>
+                                            <name>Week</name>
+                                            <argument_list>(<argument>
+                                                <expr>
+                                                  <name>w</name>
+                                                </expr>
+                                              </argument>, <argument>
+                                                <expr>
+                                                  <name>y</name>
+                                                </expr>
+                                              </argument>)</argument_list>
+                                          </call>
+                                        </expr>;</expr_stmt>
+                                    </block_content>}</block>
+                                </if>
+                                <else>else <block>{<block_content>
+                                      <throw>throw <expr>
+                                          <operator>new</operator>
+                                          <call>
+                                            <name>TimePeriodFormatException</name>
+                                            <argument_list>(
+                                <argument>
+                                                <expr>
+                                                  <literal type="string">"Can't evaluate the year."</literal>
+                                                </expr>
+                                              </argument>)</argument_list>
+                                          </call>
+                                        </expr>;</throw>
+                                    </block_content>}</block>
+                                </else>
+                              </if_stmt>
+                            </block_content>}</block>
+                        </else>
+                      </if_stmt>
+                    </block_content>}</block>
+                </if>
+                <else>else <block>{<block_content>
+                      <throw>throw <expr>
+                          <operator>new</operator>
+                          <call>
+                            <name>TimePeriodFormatException</name>
+                            <argument_list>(
+                        <argument>
+                                <expr>
+                                  <literal type="string">"Could not find separator."</literal>
+                                </expr>
+                              </argument>)</argument_list>
+                          </call>
+                        </expr>;</throw>
+                    </block_content>}</block>
+                </else>
+              </if_stmt>
+            </block_content>}</block>
+        </if>
+      </if_stmt>
+      <return>return <expr>
+          <name>result</name>
+        </expr>;</return>
+    </block_content>}</block>
+</function>

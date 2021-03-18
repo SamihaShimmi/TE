@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='utf-8'?>
+<function>
+  <type>
+    <specifier>public</specifier>
+    <name>
+      <name>TimeSeries</name>
+      <argument_list type="generic">&lt;<argument>
+          <name>S</name>
+        </argument>&gt;</argument_list>
+    </name>
+  </type>
+  <name>getSeries</name>
+  <parameter_list>(<parameter>
+      <decl>
+        <type>
+          <name>int</name>
+        </type>
+        <name>series</name>
+      </decl>
+    </parameter>)</parameter_list>
+  <block>{<block_content>
+      <expr_stmt>
+        <expr>
+          <call>
+            <name>
+              <name>Args</name>
+              <operator>.</operator>
+              <name>requireInRange</name>
+            </name>
+            <argument_list>(<argument>
+                <expr>
+                  <name>series</name>
+                </expr>
+              </argument>, <argument>
+                <expr>
+                  <literal type="string">"series"</literal>
+                </expr>
+              </argument>, <argument>
+                <expr>
+                  <literal type="number">0</literal>
+                </expr>
+              </argument>, <argument>
+                <expr>
+                  <call>
+                    <name>getSeriesCount</name>
+                    <argument_list>()</argument_list>
+                  </call>
+                  <operator>-</operator>
+                  <literal type="number">1</literal>
+                </expr>
+              </argument>)</argument_list>
+          </call>
+        </expr>;</expr_stmt>
+      <return>return <expr>
+          <call>
+            <name>
+              <name>this</name>
+              <operator>.</operator>
+              <name>data</name>
+              <operator>.</operator>
+              <name>get</name>
+            </name>
+            <argument_list>(<argument>
+                <expr>
+                  <name>series</name>
+                </expr>
+              </argument>)</argument_list>
+          </call>
+        </expr>;</return>
+    </block_content>}</block>
+</function>

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://www.srcML.org/srcML/src" xmlns:src="http://www.srcML.org/srcML/src">
+  <xs:element name="unit">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="src:function"/>
+      </xs:sequence>
+      <xs:attribute name="filename" use="required"/>
+      <xs:attribute name="language" use="required" type="xs:NCName"/>
+      <xs:attribute name="revision" use="required" type="xs:NMTOKEN"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="function">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="src:type"/>
+        <xs:element ref="src:name"/>
+        <xs:element ref="src:parameter_list"/>
+        <xs:element ref="src:block"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="type">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="src:specifier"/>
+        <xs:element ref="src:name"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="specifier" type="xs:NCName"/>
+  <xs:element name="parameter_list" type="xs:string"/>
+  <xs:element name="name">
+    <xs:complexType mixed="true">
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="src:name"/>
+        <xs:element ref="src:operator"/>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="block">
+    <xs:complexType mixed="true">
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="src:block_content"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="block_content">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" ref="src:if_stmt"/>
+        <xs:element minOccurs="0" ref="src:return"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="if_stmt">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="src:if"/>
+        <xs:element ref="src:else"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="if">
+    <xs:complexType mixed="true">
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="src:block"/>
+        <xs:element ref="src:condition"/>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="condition">
+    <xs:complexType mixed="true">
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="src:expr"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="else">
+    <xs:complexType mixed="true">
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="src:block"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="return">
+    <xs:complexType mixed="true">
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="src:expr"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="operator" type="xs:string"/>
+  <xs:element name="expr">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element ref="src:name"/>
+          <xs:element ref="src:operator"/>
+          <xs:element ref="src:call"/>
+        </xs:choice>
+        <xs:element minOccurs="0" ref="src:literal"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="call">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="src:name"/>
+        <xs:element ref="src:argument_list"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="argument_list">
+    <xs:complexType mixed="true">
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="src:argument"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="argument">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="src:expr"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="literal">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:NMTOKEN">
+          <xs:attribute name="type" use="required" type="xs:NCName"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

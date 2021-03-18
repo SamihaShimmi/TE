@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='utf-8'?>
+<function>
+  <type>
+    <specifier>public</specifier>
+    <name>void</name>
+  </type>
+  <name>removeAllSeries</name>
+  <parameter_list>()</parameter_list>
+  <block>{<block_content>
+      <if_stmt>
+        <if>if <condition>(<expr>
+              <call>
+                <name>
+                  <name>this</name>
+                  <operator>.</operator>
+                  <name>data</name>
+                  <operator>.</operator>
+                  <name>isEmpty</name>
+                </name>
+                <argument_list>()</argument_list>
+              </call>
+            </expr>)</condition>
+          <block>{<block_content>
+              <return>return;</return>
+              <comment type="line">// nothing to do</comment>
+            </block_content>}</block>
+        </if>
+      </if_stmt>
+      <comment type="line">// deregister the collection as a change listener to each series in the</comment>
+      <comment type="line">// collection</comment>
+      <for>for <control>(<init>
+            <decl>
+              <type>
+                <name>int</name>
+              </type>
+              <name>i</name>
+              <init>= <expr>
+                  <literal type="number">0</literal>
+                </expr>
+              </init>
+            </decl>;</init>
+          <condition>
+            <expr>
+              <name>i</name>
+              <operator>&lt;</operator>
+              <call>
+                <name>
+                  <name>this</name>
+                  <operator>.</operator>
+                  <name>data</name>
+                  <operator>.</operator>
+                  <name>size</name>
+                </name>
+                <argument_list>()</argument_list>
+              </call>
+            </expr>;</condition>
+          <incr>
+            <expr>
+              <name>i</name>
+              <operator>++</operator>
+            </expr>
+          </incr>)</control>
+        <block>{<block_content>
+            <decl_stmt>
+              <decl>
+                <type>
+                  <name>OHLCSeries</name>
+                </type>
+                <name>series</name>
+                <init>= <expr>
+                    <operator>(</operator>
+                    <name>OHLCSeries</name>
+                    <operator>)</operator>
+                    <call>
+                      <name>
+                        <name>this</name>
+                        <operator>.</operator>
+                        <name>data</name>
+                        <operator>.</operator>
+                        <name>get</name>
+                      </name>
+                      <argument_list>(<argument>
+                          <expr>
+                            <name>i</name>
+                          </expr>
+                        </argument>)</argument_list>
+                    </call>
+                  </expr>
+                </init>
+              </decl>;</decl_stmt>
+            <expr_stmt>
+              <expr>
+                <call>
+                  <name>
+                    <name>series</name>
+                    <operator>.</operator>
+                    <name>removeChangeListener</name>
+                  </name>
+                  <argument_list>(<argument>
+                      <expr>
+                        <name>this</name>
+                      </expr>
+                    </argument>)</argument_list>
+                </call>
+              </expr>;</expr_stmt>
+          </block_content>}</block>
+      </for>
+      <comment type="line">// remove all the series from the collection and notify listeners.</comment>
+      <expr_stmt>
+        <expr>
+          <call>
+            <name>
+              <name>this</name>
+              <operator>.</operator>
+              <name>data</name>
+              <operator>.</operator>
+              <name>clear</name>
+            </name>
+            <argument_list>()</argument_list>
+          </call>
+        </expr>;</expr_stmt>
+      <expr_stmt>
+        <expr>
+          <call>
+            <name>fireDatasetChanged</name>
+            <argument_list>()</argument_list>
+          </call>
+        </expr>;</expr_stmt>
+    </block_content>}</block>
+</function>

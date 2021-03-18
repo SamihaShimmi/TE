@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='utf-8'?>
+<function>
+  <annotation>@<name>Override</name>
+  </annotation>
+  <type>
+    <specifier>public</specifier>
+    <name>boolean</name>
+  </type>
+  <name>equals</name>
+  <parameter_list>(<parameter>
+      <decl>
+        <type>
+          <name>Object</name>
+        </type>
+        <name>object</name>
+      </decl>
+    </parameter>)</parameter_list>
+  <block>{<block_content>
+      <if_stmt>
+        <if>if <condition>(<expr>
+              <name>object</name>
+              <operator>instanceof</operator>
+              <name>FixedMillisecond</name>
+            </expr>)</condition>
+          <block>{<block_content>
+              <decl_stmt>
+                <decl>
+                  <type>
+                    <name>FixedMillisecond</name>
+                  </type>
+                  <name>m</name>
+                  <init>= <expr>
+                      <operator>(</operator>
+                      <name>FixedMillisecond</name>
+                      <operator>)</operator>
+                      <name>object</name>
+                    </expr>
+                  </init>
+                </decl>;</decl_stmt>
+              <return>return <expr>
+                  <name>
+                    <name>this</name>
+                    <operator>.</operator>
+                    <name>time</name>
+                  </name>
+                  <operator>==</operator>
+                  <call>
+                    <name>
+                      <name>m</name>
+                      <operator>.</operator>
+                      <name>getFirstMillisecond</name>
+                    </name>
+                    <argument_list>()</argument_list>
+                  </call>
+                </expr>;</return>
+            </block_content>}</block>
+        </if>
+        <else>else <block>{<block_content>
+              <return>return <expr>
+                  <literal type="boolean">false</literal>
+                </expr>;</return>
+            </block_content>}</block>
+        </else>
+      </if_stmt>
+    </block_content>}</block>
+</function>

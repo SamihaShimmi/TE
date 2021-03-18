@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='utf-8'?>
+<function>
+  <annotation>@<name>Override</name>
+  </annotation>
+  <type>
+    <specifier>public</specifier>
+    <name>int</name>
+  </type>
+  <name>hashCode</name>
+  <parameter_list>()</parameter_list>
+  <block>{<block_content>
+      <return>return <expr>
+          <operator>(</operator>
+          <name>int</name>
+          <operator>)</operator>
+          <name>
+            <name>this</name>
+            <operator>.</operator>
+            <name>time</name>
+          </name>
+        </expr>;</return>
+    </block_content>}</block>
+</function>

@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='utf-8'?>
+<function>
+  <type>
+    <specifier>public</specifier>
+    <name>
+      <name>List</name>
+      <argument_list type="generic">&lt;<argument>
+          <name>
+            <name>TimeSeries</name>
+            <argument_list type="generic">&lt;<argument>
+                <name>S</name>
+              </argument>&gt;</argument_list>
+          </name>
+        </argument>&gt;</argument_list>
+    </name>
+  </type>
+  <name>getSeries</name>
+  <parameter_list>()</parameter_list>
+  <block>{<block_content>
+      <return>return <expr>
+          <call>
+            <name>
+              <name>Collections</name>
+              <operator>.</operator>
+              <name>unmodifiableList</name>
+            </name>
+            <argument_list>(<argument>
+                <expr>
+                  <name>
+                    <name>this</name>
+                    <operator>.</operator>
+                    <name>data</name>
+                  </name>
+                </expr>
+              </argument>)</argument_list>
+          </call>
+        </expr>;</return>
+    </block_content>}</block>
+</function>

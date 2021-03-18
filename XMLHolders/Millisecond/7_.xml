@@ -1,0 +1,121 @@
+<?xml version='1.0' encoding='utf-8'?>
+<function>
+  <annotation>@<name>Override</name>
+  </annotation>
+  <type>
+    <specifier>public</specifier>
+    <name>RegularTimePeriod</name>
+  </type>
+  <name>next</name>
+  <parameter_list>()</parameter_list>
+  <block>{<block_content>
+      <decl_stmt>
+        <decl>
+          <type>
+            <name>RegularTimePeriod</name>
+          </type>
+          <name>result</name>
+          <init>= <expr>
+              <literal type="null">null</literal>
+            </expr>
+          </init>
+        </decl>;</decl_stmt>
+      <if_stmt>
+        <if>if <condition>(<expr>
+              <name>
+                <name>this</name>
+                <operator>.</operator>
+                <name>millisecond</name>
+              </name>
+              <operator>!=</operator>
+              <name>LAST_MILLISECOND_IN_SECOND</name>
+            </expr>)</condition>
+          <block>{<block_content>
+              <expr_stmt>
+                <expr>
+                  <name>result</name>
+                  <operator>=</operator>
+                  <operator>new</operator>
+                  <call>
+                    <name>Millisecond</name>
+                    <argument_list>(<argument>
+                        <expr>
+                          <name>
+                            <name>this</name>
+                            <operator>.</operator>
+                            <name>millisecond</name>
+                          </name>
+                          <operator>+</operator>
+                          <literal type="number">1</literal>
+                        </expr>
+                      </argument>, <argument>
+                        <expr>
+                          <call>
+                            <name>getSecond</name>
+                            <argument_list>()</argument_list>
+                          </call>
+                        </expr>
+                      </argument>)</argument_list>
+                  </call>
+                </expr>;</expr_stmt>
+            </block_content>}</block>
+        </if>
+        <else>else <block>{<block_content>
+              <decl_stmt>
+                <decl>
+                  <type>
+                    <name>Second</name>
+                  </type>
+                  <name>next</name>
+                  <init>= <expr>
+                      <operator>(</operator>
+                      <name>Second</name>
+                      <operator>)</operator>
+                      <call>
+                        <name>getSecond</name>
+                        <argument_list>()</argument_list>
+                      </call>
+                      <operator>.</operator>
+                      <call>
+                        <name>next</name>
+                        <argument_list>()</argument_list>
+                      </call>
+                    </expr>
+                  </init>
+                </decl>;</decl_stmt>
+              <if_stmt>
+                <if>if <condition>(<expr>
+                      <name>next</name>
+                      <operator>!=</operator>
+                      <literal type="null">null</literal>
+                    </expr>)</condition>
+                  <block>{<block_content>
+                      <expr_stmt>
+                        <expr>
+                          <name>result</name>
+                          <operator>=</operator>
+                          <operator>new</operator>
+                          <call>
+                            <name>Millisecond</name>
+                            <argument_list>(<argument>
+                                <expr>
+                                  <name>FIRST_MILLISECOND_IN_SECOND</name>
+                                </expr>
+                              </argument>, <argument>
+                                <expr>
+                                  <name>next</name>
+                                </expr>
+                              </argument>)</argument_list>
+                          </call>
+                        </expr>;</expr_stmt>
+                    </block_content>}</block>
+                </if>
+              </if_stmt>
+            </block_content>}</block>
+        </else>
+      </if_stmt>
+      <return>return <expr>
+          <name>result</name>
+        </expr>;</return>
+    </block_content>}</block>
+</function>

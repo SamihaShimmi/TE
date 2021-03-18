@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='utf-8'?>
+<function>
+  <type>
+    <specifier>public</specifier>
+    <name>void</name>
+  </type>
+  <name>update</name>
+  <parameter_list>(<parameter>
+      <decl>
+        <type>
+          <name>RegularTimePeriod</name>
+        </type>
+        <name>period</name>
+      </decl>
+    </parameter>, <parameter>
+      <decl>
+        <type>
+          <name>double</name>
+        </type>
+        <name>value</name>
+      </decl>
+    </parameter>)</parameter_list>
+  <block>{<block_content>
+      <expr_stmt>
+        <expr>
+          <call>
+            <name>update</name>
+            <argument_list>(<argument>
+                <expr>
+                  <name>period</name>
+                </expr>
+              </argument>, <argument>
+                <expr>
+                  <call>
+                    <name>
+                      <name>Double</name>
+                      <operator>.</operator>
+                      <name>valueOf</name>
+                    </name>
+                    <argument_list>(<argument>
+                        <expr>
+                          <name>value</name>
+                        </expr>
+                      </argument>)</argument_list>
+                  </call>
+                </expr>
+              </argument>)</argument_list>
+          </call>
+        </expr>;</expr_stmt>
+    </block_content>}</block>
+</function>

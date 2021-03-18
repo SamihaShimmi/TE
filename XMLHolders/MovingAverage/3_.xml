@@ -1,0 +1,338 @@
+<?xml version='1.0' encoding='utf-8'?>
+<function>
+  <type>
+    <specifier>public</specifier>
+    <specifier>static</specifier>
+    <parameter_list type="generic">&lt;<parameter>
+        <name>S</name>
+        <extends>extends <name>
+            <name>Comparable</name>
+            <argument_list type="generic">&lt;<argument>
+                <name>S</name>
+              </argument>&gt;</argument_list>
+          </name>
+        </extends>
+      </parameter>&gt;</parameter_list>
+    <name>
+      <name>TimeSeries</name>
+      <argument_list type="generic">&lt;<argument>
+          <name>S</name>
+        </argument>&gt;</argument_list>
+    </name>
+  </type>
+  <name>createPointMovingAverage</name>
+  <parameter_list>(
+            <parameter>
+      <decl>
+        <type>
+          <name>
+            <name>TimeSeries</name>
+            <argument_list type="generic">&lt;<argument>
+                <name>S</name>
+              </argument>&gt;</argument_list>
+          </name>
+        </type>
+        <name>source</name>
+      </decl>
+    </parameter>, <parameter>
+      <decl>
+        <type>
+          <name>S</name>
+        </type>
+        <name>name</name>
+      </decl>
+    </parameter>, <parameter>
+      <decl>
+        <type>
+          <name>int</name>
+        </type>
+        <name>pointCount</name>
+      </decl>
+    </parameter>)</parameter_list>
+  <block>{<block_content>
+      <expr_stmt>
+        <expr>
+          <call>
+            <name>
+              <name>Args</name>
+              <operator>.</operator>
+              <name>nullNotPermitted</name>
+            </name>
+            <argument_list>(<argument>
+                <expr>
+                  <name>source</name>
+                </expr>
+              </argument>, <argument>
+                <expr>
+                  <literal type="string">"source"</literal>
+                </expr>
+              </argument>)</argument_list>
+          </call>
+        </expr>;</expr_stmt>
+      <if_stmt>
+        <if>if <condition>(<expr>
+              <name>pointCount</name>
+              <operator>&lt;</operator>
+              <literal type="number">2</literal>
+            </expr>)</condition>
+          <block>{<block_content>
+              <throw>throw <expr>
+                  <operator>new</operator>
+                  <call>
+                    <name>IllegalArgumentException</name>
+                    <argument_list>(<argument>
+                        <expr>
+                          <literal type="string">"periodCount must be greater "</literal>
+                          <operator>+</operator>
+                          <literal type="string">"than or equal to 2."</literal>
+                        </expr>
+                      </argument>)</argument_list>
+                  </call>
+                </expr>;</throw>
+            </block_content>}</block>
+        </if>
+      </if_stmt>
+      <decl_stmt>
+        <decl>
+          <type>
+            <name>
+              <name>TimeSeries</name>
+              <argument_list type="generic">&lt;<argument>
+                  <name>S</name>
+                </argument>&gt;</argument_list>
+            </name>
+          </type>
+          <name>result</name>
+          <init>= <expr>
+              <operator>new</operator>
+              <call>
+                <name>
+                  <name>TimeSeries</name>
+                  <argument_list type="generic">&lt;&gt;</argument_list>
+                </name>
+                <argument_list>(<argument>
+                    <expr>
+                      <name>name</name>
+                    </expr>
+                  </argument>)</argument_list>
+              </call>
+            </expr>
+          </init>
+        </decl>;</decl_stmt>
+      <decl_stmt>
+        <decl>
+          <type>
+            <name>double</name>
+          </type>
+          <name>rollingSumForPeriod</name>
+          <init>= <expr>
+              <literal type="number">0.0</literal>
+            </expr>
+          </init>
+        </decl>;</decl_stmt>
+      <for>for <control>(<init>
+            <decl>
+              <type>
+                <name>int</name>
+              </type>
+              <name>i</name>
+              <init>= <expr>
+                  <literal type="number">0</literal>
+                </expr>
+              </init>
+            </decl>;</init>
+          <condition>
+            <expr>
+              <name>i</name>
+              <operator>&lt;</operator>
+              <call>
+                <name>
+                  <name>source</name>
+                  <operator>.</operator>
+                  <name>getItemCount</name>
+                </name>
+                <argument_list>()</argument_list>
+              </call>
+            </expr>;</condition>
+          <incr>
+            <expr>
+              <name>i</name>
+              <operator>++</operator>
+            </expr>
+          </incr>)</control>
+        <block>{<block_content>
+            <comment type="line">// get the current data item...</comment>
+            <decl_stmt>
+              <decl>
+                <type>
+                  <name>TimeSeriesDataItem</name>
+                </type>
+                <name>current</name>
+                <init>= <expr>
+                    <call>
+                      <name>
+                        <name>source</name>
+                        <operator>.</operator>
+                        <name>getRawDataItem</name>
+                      </name>
+                      <argument_list>(<argument>
+                          <expr>
+                            <name>i</name>
+                          </expr>
+                        </argument>)</argument_list>
+                    </call>
+                  </expr>
+                </init>
+              </decl>;</decl_stmt>
+            <decl_stmt>
+              <decl>
+                <type>
+                  <name>RegularTimePeriod</name>
+                </type>
+                <name>period</name>
+                <init>= <expr>
+                    <call>
+                      <name>
+                        <name>current</name>
+                        <operator>.</operator>
+                        <name>getPeriod</name>
+                      </name>
+                      <argument_list>()</argument_list>
+                    </call>
+                  </expr>
+                </init>
+              </decl>;</decl_stmt>
+            <comment type="line">// FIXME: what if value is null on next line?</comment>
+            <expr_stmt>
+              <expr>
+                <name>rollingSumForPeriod</name>
+                <operator>+=</operator>
+                <call>
+                  <name>
+                    <name>current</name>
+                    <operator>.</operator>
+                    <name>getValue</name>
+                  </name>
+                  <argument_list>()</argument_list>
+                </call>
+                <operator>.</operator>
+                <call>
+                  <name>doubleValue</name>
+                  <argument_list>()</argument_list>
+                </call>
+              </expr>;</expr_stmt>
+            <if_stmt>
+              <if>if <condition>(<expr>
+                    <name>i</name>
+                    <operator>&gt;</operator>
+                    <name>pointCount</name>
+                    <operator>-</operator>
+                    <literal type="number">1</literal>
+                  </expr>)</condition>
+                <block>{<block_content>
+                    <comment type="line">// remove the point i-periodCount out of the rolling sum.</comment>
+                    <decl_stmt>
+                      <decl>
+                        <type>
+                          <name>TimeSeriesDataItem</name>
+                        </type>
+                        <name>startOfMovingAvg</name>
+                        <init>= <expr>
+                            <call>
+                              <name>
+                                <name>source</name>
+                                <operator>.</operator>
+                                <name>getRawDataItem</name>
+                              </name>
+                              <argument_list>(
+                        <argument>
+                                  <expr>
+                                    <name>i</name>
+                                    <operator>-</operator>
+                                    <name>pointCount</name>
+                                  </expr>
+                                </argument>)</argument_list>
+                            </call>
+                          </expr>
+                        </init>
+                      </decl>;</decl_stmt>
+                    <expr_stmt>
+                      <expr>
+                        <name>rollingSumForPeriod</name>
+                        <operator>-=</operator>
+                        <call>
+                          <name>
+                            <name>startOfMovingAvg</name>
+                            <operator>.</operator>
+                            <name>getValue</name>
+                          </name>
+                          <argument_list>()</argument_list>
+                        </call>
+                        <operator>.</operator>
+                        <call>
+                          <name>doubleValue</name>
+                          <argument_list>()</argument_list>
+                        </call>
+                      </expr>;</expr_stmt>
+                    <expr_stmt>
+                      <expr>
+                        <call>
+                          <name>
+                            <name>result</name>
+                            <operator>.</operator>
+                            <name>add</name>
+                          </name>
+                          <argument_list>(<argument>
+                              <expr>
+                                <name>period</name>
+                              </expr>
+                            </argument>, <argument>
+                              <expr>
+                                <name>rollingSumForPeriod</name>
+                                <operator>/</operator>
+                                <name>pointCount</name>
+                              </expr>
+                            </argument>)</argument_list>
+                        </call>
+                      </expr>;</expr_stmt>
+                  </block_content>}</block>
+              </if>
+              <if type="elseif">else if <condition>(<expr>
+                    <name>i</name>
+                    <operator>==</operator>
+                    <name>pointCount</name>
+                    <operator>-</operator>
+                    <literal type="number">1</literal>
+                  </expr>)</condition>
+                <block>{<block_content>
+                    <expr_stmt>
+                      <expr>
+                        <call>
+                          <name>
+                            <name>result</name>
+                            <operator>.</operator>
+                            <name>add</name>
+                          </name>
+                          <argument_list>(<argument>
+                              <expr>
+                                <name>period</name>
+                              </expr>
+                            </argument>, <argument>
+                              <expr>
+                                <name>rollingSumForPeriod</name>
+                                <operator>/</operator>
+                                <name>pointCount</name>
+                              </expr>
+                            </argument>)</argument_list>
+                        </call>
+                      </expr>;</expr_stmt>
+                  </block_content>}</block>
+              </if>
+            </if_stmt>
+          </block_content>}</block>
+      </for>
+      <return>return <expr>
+          <name>result</name>
+        </expr>;</return>
+    </block_content>}</block>
+</function>

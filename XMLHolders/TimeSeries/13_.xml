@@ -1,0 +1,150 @@
+<?xml version='1.0' encoding='utf-8'?>
+<function>
+  <type>
+    <specifier>public</specifier>
+    <name>Range</name>
+  </type>
+  <name>findValueRange</name>
+  <parameter_list>(<parameter>
+      <decl>
+        <type>
+          <name>Range</name>
+        </type>
+        <name>xRange</name>
+      </decl>
+    </parameter>, <parameter>
+      <decl>
+        <type>
+          <name>TimePeriodAnchor</name>
+        </type>
+        <name>xAnchor</name>
+      </decl>
+    </parameter>, 
+            <parameter>
+      <decl>
+        <type>
+          <name>TimeZone</name>
+        </type>
+        <name>zone</name>
+      </decl>
+    </parameter>)</parameter_list>
+  <block>{<block_content>
+      <expr_stmt>
+        <expr>
+          <call>
+            <name>
+              <name>Args</name>
+              <operator>.</operator>
+              <name>nullNotPermitted</name>
+            </name>
+            <argument_list>(<argument>
+                <expr>
+                  <name>xRange</name>
+                </expr>
+              </argument>, <argument>
+                <expr>
+                  <literal type="string">"xRange"</literal>
+                </expr>
+              </argument>)</argument_list>
+          </call>
+        </expr>;</expr_stmt>
+      <expr_stmt>
+        <expr>
+          <call>
+            <name>
+              <name>Args</name>
+              <operator>.</operator>
+              <name>nullNotPermitted</name>
+            </name>
+            <argument_list>(<argument>
+                <expr>
+                  <name>xAnchor</name>
+                </expr>
+              </argument>, <argument>
+                <expr>
+                  <literal type="string">"xAnchor"</literal>
+                </expr>
+              </argument>)</argument_list>
+          </call>
+        </expr>;</expr_stmt>
+      <expr_stmt>
+        <expr>
+          <call>
+            <name>
+              <name>Args</name>
+              <operator>.</operator>
+              <name>nullNotPermitted</name>
+            </name>
+            <argument_list>(<argument>
+                <expr>
+                  <name>zone</name>
+                </expr>
+              </argument>, <argument>
+                <expr>
+                  <literal type="string">"zone"</literal>
+                </expr>
+              </argument>)</argument_list>
+          </call>
+        </expr>;</expr_stmt>
+      <if_stmt>
+        <if>if <condition>(<expr>
+              <call>
+                <name>
+                  <name>this</name>
+                  <operator>.</operator>
+                  <name>data</name>
+                  <operator>.</operator>
+                  <name>isEmpty</name>
+                </name>
+                <argument_list>()</argument_list>
+              </call>
+            </expr>)</condition>
+          <block>{<block_content>
+              <return>return <expr>
+                  <literal type="null">null</literal>
+                </expr>;</return>
+            </block_content>}</block>
+        </if>
+      </if_stmt>
+      <decl_stmt>
+        <decl>
+          <type>
+            <name>Calendar</name>
+          </type>
+          <name>calendar</name>
+          <init>= <expr>
+              <call>
+                <name>
+                  <name>Calendar</name>
+                  <operator>.</operator>
+                  <name>getInstance</name>
+                </name>
+                <argument_list>(<argument>
+                    <expr>
+                      <name>zone</name>
+                    </expr>
+                  </argument>)</argument_list>
+              </call>
+            </expr>
+          </init>
+        </decl>;</decl_stmt>
+      <return>return <expr>
+          <call>
+            <name>findValueRange</name>
+            <argument_list>(<argument>
+                <expr>
+                  <name>xRange</name>
+                </expr>
+              </argument>, <argument>
+                <expr>
+                  <name>xAnchor</name>
+                </expr>
+              </argument>, <argument>
+                <expr>
+                  <name>calendar</name>
+                </expr>
+              </argument>)</argument_list>
+          </call>
+        </expr>;</return>
+    </block_content>}</block>
+</function>

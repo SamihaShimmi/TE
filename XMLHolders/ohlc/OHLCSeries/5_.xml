@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='utf-8'?>
+<function>
+  <annotation>@<name>Override</name>
+  </annotation>
+  <type>
+    <specifier>public</specifier>
+    <name>ComparableObjectItem</name>
+  </type>
+  <name>remove</name>
+  <parameter_list>(<parameter>
+      <decl>
+        <type>
+          <name>int</name>
+        </type>
+        <name>index</name>
+      </decl>
+    </parameter>)</parameter_list>
+  <block>{<block_content>
+      <return>return <expr>
+          <call>
+            <name>
+              <name>super</name>
+              <operator>.</operator>
+              <name>remove</name>
+            </name>
+            <argument_list>(<argument>
+                <expr>
+                  <name>index</name>
+                </expr>
+              </argument>)</argument_list>
+          </call>
+        </expr>;</return>
+    </block_content>}</block>
+</function>

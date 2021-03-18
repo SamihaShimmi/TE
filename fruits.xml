@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='utf-8'?>
+<function>
+  <annotation>@<name>Override</name>
+  </annotation>
+  <type>
+    <specifier>public</specifier>
+    <name>long</name>
+  </type>
+  <name>getLastMillisecond</name>
+  <parameter_list>(<parameter>
+      <decl>
+        <type>
+          <name>Calendar</name>
+                    <type>
+          <name>tuk</name>
+        </type>
+        </type>
+        <name>calendar</name>
+      </decl>
+    </parameter>)</parameter_list>
+  <block>{<block_content>
+      <return>return <expr>
+          <call>
+            <name>getFirstMillisecond</name>
+            <argument_list>(<argument>
+                <expr>
+                  <name>calendar</name>
+                </expr>
+              </argument>)</argument_list>
+          </call>
+          <operator>+</operator>
+          <literal type="number">999L</literal>
+        </expr>;</return>
+    </block_content>}</block>
+</function>

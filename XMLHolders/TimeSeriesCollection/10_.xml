@@ -1,0 +1,139 @@
+<?xml version='1.0' encoding='utf-8'?>
+<function>
+  <type>
+    <specifier>public</specifier>
+    <name>int</name>
+  </type>
+  <name>getSeriesIndex</name>
+  <parameter_list>(<parameter>
+      <decl>
+        <type>
+          <name>Comparable</name>
+        </type>
+        <name>key</name>
+      </decl>
+    </parameter>)</parameter_list>
+  <block>{<block_content>
+      <expr_stmt>
+        <expr>
+          <call>
+            <name>
+              <name>Args</name>
+              <operator>.</operator>
+              <name>nullNotPermitted</name>
+            </name>
+            <argument_list>(<argument>
+                <expr>
+                  <name>key</name>
+                </expr>
+              </argument>, <argument>
+                <expr>
+                  <literal type="string">"key"</literal>
+                </expr>
+              </argument>)</argument_list>
+          </call>
+        </expr>;</expr_stmt>
+      <decl_stmt>
+        <decl>
+          <type>
+            <name>int</name>
+          </type>
+          <name>seriesCount</name>
+          <init>= <expr>
+              <call>
+                <name>getSeriesCount</name>
+                <argument_list>()</argument_list>
+              </call>
+            </expr>
+          </init>
+        </decl>;</decl_stmt>
+      <for>for <control>(<init>
+            <decl>
+              <type>
+                <name>int</name>
+              </type>
+              <name>i</name>
+              <init>= <expr>
+                  <literal type="number">0</literal>
+                </expr>
+              </init>
+            </decl>;</init>
+          <condition>
+            <expr>
+              <name>i</name>
+              <operator>&lt;</operator>
+              <name>seriesCount</name>
+            </expr>;</condition>
+          <incr>
+            <expr>
+              <name>i</name>
+              <operator>++</operator>
+            </expr>
+          </incr>)</control>
+        <block>{<block_content>
+            <decl_stmt>
+              <decl>
+                <type>
+                  <name>
+                    <name>TimeSeries</name>
+                    <argument_list type="generic">&lt;<argument>
+                        <name>S</name>
+                      </argument>&gt;</argument_list>
+                  </name>
+                </type>
+                <name>series</name>
+                <init>= <expr>
+                    <call>
+                      <name>
+                        <name>this</name>
+                        <operator>.</operator>
+                        <name>data</name>
+                        <operator>.</operator>
+                        <name>get</name>
+                      </name>
+                      <argument_list>(<argument>
+                          <expr>
+                            <name>i</name>
+                          </expr>
+                        </argument>)</argument_list>
+                    </call>
+                  </expr>
+                </init>
+              </decl>;</decl_stmt>
+            <if_stmt>
+              <if>if <condition>(<expr>
+                    <call>
+                      <name>
+                        <name>key</name>
+                        <operator>.</operator>
+                        <name>equals</name>
+                      </name>
+                      <argument_list>(<argument>
+                          <expr>
+                            <call>
+                              <name>
+                                <name>series</name>
+                                <operator>.</operator>
+                                <name>getKey</name>
+                              </name>
+                              <argument_list>()</argument_list>
+                            </call>
+                          </expr>
+                        </argument>)</argument_list>
+                    </call>
+                  </expr>)</condition>
+                <block>{<block_content>
+                    <return>return <expr>
+                        <name>i</name>
+                      </expr>;</return>
+                  </block_content>}</block>
+              </if>
+            </if_stmt>
+          </block_content>}</block>
+      </for>
+      <return>return <expr>
+          <operator>-</operator>
+          <literal type="number">1</literal>
+        </expr>;</return>
+    </block_content>}</block>
+</function>

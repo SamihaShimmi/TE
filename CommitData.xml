@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<unit xmlns="http://www.srcML.org/srcML/src" revision="1.0.0" language="Java" filename="CommitData.java"><comment type="line">// Copyright (C) 2014 The Android Open Source Project</comment>
+<comment type="line">//</comment>
+<comment type="line">// Licensed under the Apache License, Version 2.0 (the "License");</comment>
+<comment type="line">// you may not use this file except in compliance with the License.</comment>
+<comment type="line">// You may obtain a copy of the License at</comment>
+<comment type="line">//</comment>
+<comment type="line">// http://www.apache.org/licenses/LICENSE-2.0</comment>
+<comment type="line">//</comment>
+<comment type="line">// Unless required by applicable law or agreed to in writing, software</comment>
+<comment type="line">// distributed under the License is distributed on an "AS IS" BASIS,</comment>
+<comment type="line">// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</comment>
+<comment type="line">// See the License for the specific language governing permissions and</comment>
+<comment type="line">// limitations under the License.</comment>
+
+<package>package <name><name>com</name><operator>.</operator><name>google</name><operator>.</operator><name>gitiles</name></name>;</package>
+
+<import>import static <name><name>com</name><operator>.</operator><name>google</name><operator>.</operator><name>common</name><operator>.</operator><name>base</name><operator>.</operator><name>Preconditions</name><operator>.</operator><name>checkNotNull</name></name>;</import>
+<import>import static <name><name>com</name><operator>.</operator><name>google</name><operator>.</operator><name>common</name><operator>.</operator><name>base</name><operator>.</operator><name>Preconditions</name><operator>.</operator><name>checkState</name></name>;</import>
+<import>import static <name><name>java</name><operator>.</operator><name>util</name><operator>.</operator><name>Comparator</name><operator>.</operator><name>comparing</name></name>;</import>
+<import>import static <name><name>java</name><operator>.</operator><name>util</name><operator>.</operator><name>stream</name><operator>.</operator><name>Collectors</name><operator>.</operator><name>toList</name></name>;</import>
+
+<import>import <name><name>com</name><operator>.</operator><name>google</name><operator>.</operator><name>common</name><operator>.</operator><name>collect</name><operator>.</operator><name>ImmutableList</name></name>;</import>
+<import>import <name><name>com</name><operator>.</operator><name>google</name><operator>.</operator><name>common</name><operator>.</operator><name>collect</name><operator>.</operator><name>ImmutableSet</name></name>;</import>
+<import>import <name><name>com</name><operator>.</operator><name>google</name><operator>.</operator><name>common</name><operator>.</operator><name>collect</name><operator>.</operator><name>Iterables</name></name>;</import>
+<import>import <name><name>com</name><operator>.</operator><name>google</name><operator>.</operator><name>common</name><operator>.</operator><name>collect</name><operator>.</operator><name>Sets</name></name>;</import>
+<import>import <name><name>java</name><operator>.</operator><name>io</name><operator>.</operator><name>IOException</name></name>;</import>
+<import>import <name><name>java</name><operator>.</operator><name>util</name><operator>.</operator><name>Arrays</name></name>;</import>
+<import>import <name><name>java</name><operator>.</operator><name>util</name><operator>.</operator><name>List</name></name>;</import>
+<import>import <name><name>java</name><operator>.</operator><name>util</name><operator>.</operator><name>Map</name></name>;</import>
+<import>import <name><name>java</name><operator>.</operator><name>util</name><operator>.</operator><name>Set</name></name>;</import>
+<import>import <name><name>javax</name><operator>.</operator><name>annotation</name><operator>.</operator><name>Nullable</name></name>;</import>
+<import>import <name><name>javax</name><operator>.</operator><name>servlet</name><operator>.</operator><name>http</name><operator>.</operator><name>HttpServletRequest</name></name>;</import>
+<import>import <name><name>org</name><operator>.</operator><name>eclipse</name><operator>.</operator><name>jgit</name><operator>.</operator><name>diff</name><operator>.</operator><name>DiffEntry</name></name>;</import>
+<import>import <name><name>org</name><operator>.</operator><name>eclipse</name><operator>.</operator><name>jgit</name><operator>.</operator><name>diff</name><operator>.</operator><name>DiffFormatter</name></name>;</import>
+<import>import <name><name>org</name><operator>.</operator><name>eclipse</name><operator>.</operator><name>jgit</name><operator>.</operator><name>http</name><operator>.</operator><name>server</name><operator>.</operator><name>ServletUtils</name></name>;</import>
+<import>import <name><name>org</name><operator>.</operator><name>eclipse</name><operator>.</operator><name>jgit</name><operator>.</operator><name>lib</name><operator>.</operator><name>AbbreviatedObjectId</name></name>;</import>
+<import>import <name><name>org</name><operator>.</operator><name>eclipse</name><operator>.</operator><name>jgit</name><operator>.</operator><name>lib</name><operator>.</operator><name>AnyObjectId</name></name>;</import>
+<import>import <name><name>org</name><operator>.</operator><name>eclipse</name><operator>.</operator><name>jgit</name><operator>.</operator><name>lib</name><operator>.</operator><name>Constants</name></name>;</import>
+<import>import <name><name>org</name><operator>.</operator><name>eclipse</name><operator>.</operator><name>jgit</name><operator>.</operator><name>lib</name><operator>.</operator><name>ObjectId</name></name>;</import>
+<import>import <name><name>org</name><operator>.</operator><name>eclipse</name><operator>.</operator><name>jgit</name><operator>.</operator><name>lib</name><operator>.</operator><name>ObjectReader</name></name>;</import>
+<import>import <name><name>org</name><operator>.</operator><name>eclipse</name><operator>.</operator><name>jgit</name><operator>.</operator><name>lib</name><operator>.</operator><name>PersonIdent</name></name>;</import>
+<import>import <name><name>org</name><operator>.</operator><name>eclipse</name><operator>.</operator><name>jgit</name><operator>.</operator><name>lib</name><operator>.</operator><name>Ref</name></name>;</import>
+<import>import <name><name>org</name><operator>.</operator><name>eclipse</name><operator>.</operator><name>jgit</name><operator>.</operator><name>lib</name><operator>.</operator><name>Repository</name></name>;</import>
+<import>import <name><name>org</name><operator>.</operator><name>eclipse</name><operator>.</operator><name>jgit</name><operator>.</operator><name>revwalk</name><operator>.</operator><name>RevCommit</name></name>;</import>
+<import>import <name><name>org</name><operator>.</operator><name>eclipse</name><operator>.</operator><name>jgit</name><operator>.</operator><name>revwalk</name><operator>.</operator><name>RevWalk</name></name>;</import>
+<import>import <name><name>org</name><operator>.</operator><name>eclipse</name><operator>.</operator><name>jgit</name><operator>.</operator><name>treewalk</name><operator>.</operator><name>AbstractTreeIterator</name></name>;</import>
+<import>import <name><name>org</name><operator>.</operator><name>eclipse</name><operator>.</operator><name>jgit</name><operator>.</operator><name>treewalk</name><operator>.</operator><name>CanonicalTreeParser</name></name>;</import>
+<import>import <name><name>org</name><operator>.</operator><name>eclipse</name><operator>.</operator><name>jgit</name><operator>.</operator><name>treewalk</name><operator>.</operator><name>EmptyTreeIterator</name></name>;</import>
+<import>import <name><name>org</name><operator>.</operator><name>eclipse</name><operator>.</operator><name>jgit</name><operator>.</operator><name>util</name><operator>.</operator><name>io</name><operator>.</operator><name>NullOutputStream</name></name>;</import>
+
+<comment type="block" format="javadoc">/** Format-independent data about a single commit. */</comment>
+<class>class <name>CommitData</name> <block>{
+  <enum>enum <name>Field</name> <block>{
+    <decl><name>ABBREV_SHA</name></decl>,
+    <decl><name>ARCHIVE_TYPE</name></decl>,
+    <decl><name>ARCHIVE_URL</name></decl>,
+    <decl><name>AUTHOR</name></decl>,
+    <decl><name>BRANCHES</name></decl>,
+    <decl><name>COMMITTER</name></decl>,
+    <decl><name>DIFF_TREE</name></decl>,
+    <decl><name>LOG_URL</name></decl>,
+    <decl><name>MESSAGE</name></decl>,
+    <decl><name>PARENTS</name></decl>,
+    <decl><name>PARENT_BLAME_URL</name></decl>,
+    <decl><name>SHA</name></decl>,
+    <decl><name>SHORT_MESSAGE</name></decl>,
+    <decl><name>TAGS</name></decl>,
+    <decl><name>TREE</name></decl>,
+    <decl><name>TREE_URL</name></decl>,
+    <decl><name>URL</name></decl>;
+
+    <function><type><specifier>static</specifier> <name><name>ImmutableSet</name><argument_list type="generic">&lt;<argument><name>Field</name></argument>&gt;</argument_list></name></type> <name>setOf</name><parameter_list>(<parameter><decl><type><name><name>Iterable</name><argument_list type="generic">&lt;<argument><name>Field</name></argument>&gt;</argument_list></name></type> <name>base</name></decl></parameter>, <parameter><decl><type><name>Field</name><modifier>...</modifier></type> <name>fields</name></decl></parameter>)</parameter_list> <block>{<block_content>
+      <return>return <expr><call><name><name>Sets</name><operator>.</operator><name>immutableEnumSet</name></name><argument_list>(<argument><expr><call><name><name>Iterables</name><operator>.</operator><name>concat</name></name><argument_list>(<argument><expr><name>base</name></expr></argument>, <argument><expr><call><name><name>Arrays</name><operator>.</operator><name>asList</name></name><argument_list>(<argument><expr><name>fields</name></expr></argument>)</argument_list></call></expr></argument>)</argument_list></call></expr></argument>)</argument_list></call></expr>;</return>
+    </block_content>}</block></function>
+  }</block></enum>
+
+  <class><specifier>static</specifier> class <name>DiffList</name> <block>{
+    <decl_stmt><decl><type><name>Revision</name></type> <name>revision</name></decl>;</decl_stmt>
+    <decl_stmt><decl><type><name>Revision</name></type> <name>oldRevision</name></decl>;</decl_stmt>
+    <decl_stmt><decl><type><name><name>List</name><argument_list type="generic">&lt;<argument><name>DiffEntry</name></argument>&gt;</argument_list></name></type> <name>entries</name></decl>;</decl_stmt>
+  }</block></class>
+
+  <class><specifier>static</specifier> class <name>Builder</name> <block>{
+    <decl_stmt><decl><type><specifier>private</specifier> <name>ArchiveFormat</name></type> <name>archiveFormat</name></decl>;</decl_stmt>
+    <decl_stmt><decl><type><specifier>private</specifier> <name><name>Map</name><argument_list type="generic">&lt;<argument><name>AnyObjectId</name></argument>, <argument><name><name>Set</name><argument_list type="generic">&lt;<argument><name>Ref</name></argument>&gt;</argument_list></name></argument>&gt;</argument_list></name></type> <name>refsById</name></decl>;</decl_stmt>
+
+    <function><type><name>Builder</name></type> <name>setArchiveFormat</name><parameter_list>(<parameter><decl><type><annotation>@<name>Nullable</name></annotation> <name>ArchiveFormat</name></type> <name>archiveFormat</name></decl></parameter>)</parameter_list> <block>{<block_content>
+      <expr_stmt><expr><name><name>this</name><operator>.</operator><name>archiveFormat</name></name> <operator>=</operator> <name>archiveFormat</name></expr>;</expr_stmt>
+      <return>return <expr><name>this</name></expr>;</return>
+    </block_content>}</block></function>
+
+    <function><type><name>CommitData</name></type> <name>build</name><parameter_list>(<parameter><decl><type><name>HttpServletRequest</name></type> <name>req</name></decl></parameter>, <parameter><decl><type><name>RevWalk</name></type> <name>walk</name></decl></parameter>, <parameter><decl><type><name>RevCommit</name></type> <name>c</name></decl></parameter>, <parameter><decl><type><name><name>Set</name><argument_list type="generic">&lt;<argument><name>Field</name></argument>&gt;</argument_list></name></type> <name>fs</name></decl></parameter>)</parameter_list>
+        <throws>throws <argument><expr><name>IOException</name></expr></argument></throws> <block>{<block_content>
+      <expr_stmt><expr><call><name>checkFields</name><argument_list>(<argument><expr><name>fs</name></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+      <expr_stmt><expr><call><name>checkNotNull</name><argument_list>(<argument><expr><name>req</name></expr></argument>, <argument><expr><literal type="string">"request"</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+      <expr_stmt><expr><call><name>checkNotNull</name><argument_list>(<argument><expr><name>walk</name></expr></argument>, <argument><expr><literal type="string">"walk"</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+      <decl_stmt><decl><type><name>Repository</name></type> <name>repo</name> <init>= <expr><call><name><name>ServletUtils</name><operator>.</operator><name>getRepository</name></name><argument_list>(<argument><expr><name>req</name></expr></argument>)</argument_list></call></expr></init></decl>;</decl_stmt>
+      <decl_stmt><decl><type><name>GitilesView</name></type> <name>view</name> <init>= <expr><call><name><name>ViewFilter</name><operator>.</operator><name>getView</name></name><argument_list>(<argument><expr><name>req</name></expr></argument>)</argument_list></call></expr></init></decl>;</decl_stmt>
+
+      <decl_stmt><decl><type><name>CommitData</name></type> <name>result</name> <init>= <expr><operator>new</operator> <call><name>CommitData</name><argument_list>()</argument_list></call></expr></init></decl>;</decl_stmt>
+
+      <if_stmt><if>if <condition>(<expr><call><name><name>fs</name><operator>.</operator><name>contains</name></name><argument_list>(<argument><expr><name><name>Field</name><operator>.</operator><name>AUTHOR</name></name></expr></argument>)</argument_list></call></expr>)</condition> <block>{<block_content>
+        <expr_stmt><expr><call><name><name>walk</name><operator>.</operator><name>parseBody</name></name><argument_list>(<argument><expr><name>c</name></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+        <expr_stmt><expr><name><name>result</name><operator>.</operator><name>author</name></name> <operator>=</operator> <call><name><name>c</name><operator>.</operator><name>getAuthorIdent</name></name><argument_list>()</argument_list></call></expr>;</expr_stmt>
+      </block_content>}</block></if></if_stmt>
+      <if_stmt><if>if <condition>(<expr><call><name><name>fs</name><operator>.</operator><name>contains</name></name><argument_list>(<argument><expr><name><name>Field</name><operator>.</operator><name>COMMITTER</name></name></expr></argument>)</argument_list></call></expr>)</condition> <block>{<block_content>
+        <expr_stmt><expr><call><name><name>walk</name><operator>.</operator><name>parseBody</name></name><argument_list>(<argument><expr><name>c</name></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+        <expr_stmt><expr><name><name>result</name><operator>.</operator><name>committer</name></name> <operator>=</operator> <call><name><name>c</name><operator>.</operator><name>getCommitterIdent</name></name><argument_list>()</argument_list></call></expr>;</expr_stmt>
+      </block_content>}</block></if></if_stmt>
+      <if_stmt><if>if <condition>(<expr><call><name><name>fs</name><operator>.</operator><name>contains</name></name><argument_list>(<argument><expr><name><name>Field</name><operator>.</operator><name>SHA</name></name></expr></argument>)</argument_list></call></expr>)</condition> <block>{<block_content>
+        <expr_stmt><expr><name><name>result</name><operator>.</operator><name>sha</name></name> <operator>=</operator> <call><name><name>c</name><operator>.</operator><name>copy</name></name><argument_list>()</argument_list></call></expr>;</expr_stmt>
+      </block_content>}</block></if></if_stmt>
+      <if_stmt><if>if <condition>(<expr><call><name><name>fs</name><operator>.</operator><name>contains</name></name><argument_list>(<argument><expr><name><name>Field</name><operator>.</operator><name>ABBREV_SHA</name></name></expr></argument>)</argument_list></call></expr>)</condition> <block>{<block_content>
+        <try>try <init>(<decl><type><name>ObjectReader</name></type> <name>reader</name> <init>= <expr><call><name><name>repo</name><operator>.</operator><name>getObjectDatabase</name></name><argument_list>()</argument_list></call><operator>.</operator><call><name>newReader</name><argument_list>()</argument_list></call></expr></init></decl>)</init> <block>{<block_content>
+          <expr_stmt><expr><name><name>result</name><operator>.</operator><name>abbrev</name></name> <operator>=</operator> <call><name><name>reader</name><operator>.</operator><name>abbreviate</name></name><argument_list>(<argument><expr><name>c</name></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+        </block_content>}</block></try>
+      </block_content>}</block></if></if_stmt>
+      <if_stmt><if>if <condition>(<expr><call><name><name>fs</name><operator>.</operator><name>contains</name></name><argument_list>(<argument><expr><name><name>Field</name><operator>.</operator><name>URL</name></name></expr></argument>)</argument_list></call></expr>)</condition> <block>{<block_content>
+        <expr_stmt><expr><name><name>result</name><operator>.</operator><name>url</name></name> <operator>=</operator> <call><name><name>GitilesView</name><operator>.</operator><name>revision</name></name><argument_list>()</argument_list></call><operator>.</operator><call><name>copyFrom</name><argument_list>(<argument><expr><name>view</name></expr></argument>)</argument_list></call><operator>.</operator><call><name>setRevision</name><argument_list>(<argument><expr><name>c</name></expr></argument>)</argument_list></call><operator>.</operator><call><name>toUrl</name><argument_list>()</argument_list></call></expr>;</expr_stmt>
+      </block_content>}</block></if></if_stmt>
+      <if_stmt><if>if <condition>(<expr><call><name><name>fs</name><operator>.</operator><name>contains</name></name><argument_list>(<argument><expr><name><name>Field</name><operator>.</operator><name>LOG_URL</name></name></expr></argument>)</argument_list></call></expr>)</condition> <block>{<block_content>
+        <expr_stmt><expr><name><name>result</name><operator>.</operator><name>logUrl</name></name> <operator>=</operator> <call><name>urlFromView</name><argument_list>(<argument><expr><name>view</name></expr></argument>, <argument><expr><name>c</name></expr></argument>, <argument><expr><call><name><name>GitilesView</name><operator>.</operator><name>log</name></name><argument_list>()</argument_list></call></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+      </block_content>}</block></if></if_stmt>
+      <if_stmt><if>if <condition>(<expr><call><name><name>fs</name><operator>.</operator><name>contains</name></name><argument_list>(<argument><expr><name><name>Field</name><operator>.</operator><name>ARCHIVE_URL</name></name></expr></argument>)</argument_list></call></expr>)</condition> <block>{<block_content>
+        <expr_stmt><expr><name><name>result</name><operator>.</operator><name>archiveUrl</name></name> <operator>=</operator>
+            <call><name>urlFromView</name><argument_list>(
+                <argument><expr><name>view</name></expr></argument>, <argument><expr><name>c</name></expr></argument>, <argument><expr><call><name><name>GitilesView</name><operator>.</operator><name>archive</name></name><argument_list>()</argument_list></call><operator>.</operator><call><name>setExtension</name><argument_list>(<argument><expr><call><name><name>archiveFormat</name><operator>.</operator><name>getDefaultSuffix</name></name><argument_list>()</argument_list></call></expr></argument>)</argument_list></call></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+      </block_content>}</block></if></if_stmt>
+      <if_stmt><if>if <condition>(<expr><call><name><name>fs</name><operator>.</operator><name>contains</name></name><argument_list>(<argument><expr><name><name>Field</name><operator>.</operator><name>ARCHIVE_TYPE</name></name></expr></argument>)</argument_list></call></expr>)</condition> <block>{<block_content>
+        <expr_stmt><expr><name><name>result</name><operator>.</operator><name>archiveType</name></name> <operator>=</operator> <name>archiveFormat</name></expr>;</expr_stmt>
+      </block_content>}</block></if></if_stmt>
+      <if_stmt><if>if <condition>(<expr><call><name><name>fs</name><operator>.</operator><name>contains</name></name><argument_list>(<argument><expr><name><name>Field</name><operator>.</operator><name>TREE</name></name></expr></argument>)</argument_list></call></expr>)</condition> <block>{<block_content>
+        <expr_stmt><expr><name><name>result</name><operator>.</operator><name>tree</name></name> <operator>=</operator> <call><name><name>c</name><operator>.</operator><name>getTree</name></name><argument_list>()</argument_list></call><operator>.</operator><call><name>copy</name><argument_list>()</argument_list></call></expr>;</expr_stmt>
+      </block_content>}</block></if></if_stmt>
+      <if_stmt><if>if <condition>(<expr><call><name><name>fs</name><operator>.</operator><name>contains</name></name><argument_list>(<argument><expr><name><name>Field</name><operator>.</operator><name>TREE_URL</name></name></expr></argument>)</argument_list></call></expr>)</condition> <block>{<block_content>
+        <comment type="line">// Tree always implies the root tree.</comment>
+        <expr_stmt><expr><name><name>result</name><operator>.</operator><name>treeUrl</name></name> <operator>=</operator> <call><name><name>GitilesView</name><operator>.</operator><name>path</name></name><argument_list>()</argument_list></call><operator>.</operator><call><name>copyFrom</name><argument_list>(<argument><expr><name>view</name></expr></argument>)</argument_list></call><operator>.</operator><call><name>setPathPart</name><argument_list>(<argument><expr><literal type="string">"/"</literal></expr></argument>)</argument_list></call><operator>.</operator><call><name>toUrl</name><argument_list>()</argument_list></call></expr>;</expr_stmt>
+      </block_content>}</block></if></if_stmt>
+      <if_stmt><if>if <condition>(<expr><call><name><name>fs</name><operator>.</operator><name>contains</name></name><argument_list>(<argument><expr><name><name>Field</name><operator>.</operator><name>PARENTS</name></name></expr></argument>)</argument_list></call></expr>)</condition> <block>{<block_content>
+        <expr_stmt><expr><name><name>result</name><operator>.</operator><name>parents</name></name> <operator>=</operator> <call><name><name>Arrays</name><operator>.</operator><name>asList</name></name><argument_list>(<argument><expr><call><name><name>c</name><operator>.</operator><name>getParents</name></name><argument_list>()</argument_list></call></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+      </block_content>}</block></if></if_stmt>
+      <if_stmt><if>if <condition>(<expr><call><name><name>fs</name><operator>.</operator><name>contains</name></name><argument_list>(<argument><expr><name><name>Field</name><operator>.</operator><name>BRANCHES</name></name></expr></argument>)</argument_list></call></expr>)</condition> <block>{<block_content>
+        <expr_stmt><expr><name><name>result</name><operator>.</operator><name>branches</name></name> <operator>=</operator> <call><name>getRefsById</name><argument_list>(<argument><expr><name>repo</name></expr></argument>, <argument><expr><name>c</name></expr></argument>, <argument><expr><name><name>Constants</name><operator>.</operator><name>R_HEADS</name></name></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+      </block_content>}</block></if></if_stmt>
+      <if_stmt><if>if <condition>(<expr><call><name><name>fs</name><operator>.</operator><name>contains</name></name><argument_list>(<argument><expr><name><name>Field</name><operator>.</operator><name>TAGS</name></name></expr></argument>)</argument_list></call></expr>)</condition> <block>{<block_content>
+        <expr_stmt><expr><name><name>result</name><operator>.</operator><name>tags</name></name> <operator>=</operator> <call><name>getRefsById</name><argument_list>(<argument><expr><name>repo</name></expr></argument>, <argument><expr><name>c</name></expr></argument>, <argument><expr><name><name>Constants</name><operator>.</operator><name>R_TAGS</name></name></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+      </block_content>}</block></if></if_stmt>
+      <if_stmt><if>if <condition>(<expr><call><name><name>fs</name><operator>.</operator><name>contains</name></name><argument_list>(<argument><expr><name><name>Field</name><operator>.</operator><name>MESSAGE</name></name></expr></argument>)</argument_list></call></expr>)</condition> <block>{<block_content>
+        <expr_stmt><expr><call><name><name>walk</name><operator>.</operator><name>parseBody</name></name><argument_list>(<argument><expr><name>c</name></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+        <expr_stmt><expr><name><name>result</name><operator>.</operator><name>message</name></name> <operator>=</operator> <call><name><name>c</name><operator>.</operator><name>getFullMessage</name></name><argument_list>()</argument_list></call></expr>;</expr_stmt>
+      </block_content>}</block></if></if_stmt>
+      <if_stmt><if>if <condition>(<expr><call><name><name>fs</name><operator>.</operator><name>contains</name></name><argument_list>(<argument><expr><name><name>Field</name><operator>.</operator><name>SHORT_MESSAGE</name></name></expr></argument>)</argument_list></call></expr>)</condition> <block>{<block_content>
+        <expr_stmt><expr><call><name><name>walk</name><operator>.</operator><name>parseBody</name></name><argument_list>(<argument><expr><name>c</name></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+        <decl_stmt><decl><type><name>String</name></type> <name>msg</name> <init>= <expr><call><name><name>c</name><operator>.</operator><name>getShortMessage</name></name><argument_list>()</argument_list></call></expr></init></decl>;</decl_stmt>
+        <if_stmt><if>if <condition>(<expr><call><name><name>msg</name><operator>.</operator><name>length</name></name><argument_list>()</argument_list></call> <operator>&gt;</operator> <literal type="number">80</literal></expr>)</condition> <block>{<block_content>
+          <decl_stmt><decl><type><name>String</name></type> <name>ft</name> <init>= <expr><name><name>result</name><operator>.</operator><name>message</name></name></expr></init></decl>;</decl_stmt>
+          <if_stmt><if>if <condition>(<expr><name>ft</name> <operator>==</operator> <literal type="null">null</literal></expr>)</condition> <block>{<block_content>
+            <expr_stmt><expr><name>ft</name> <operator>=</operator> <call><name><name>c</name><operator>.</operator><name>getFullMessage</name></name><argument_list>()</argument_list></call></expr>;</expr_stmt>
+          </block_content>}</block></if></if_stmt>
+          <decl_stmt><decl><type><name>int</name></type> <name>lf</name> <init>= <expr><call><name><name>ft</name><operator>.</operator><name>indexOf</name></name><argument_list>(<argument><expr><literal type="char">'\n'</literal></expr></argument>)</argument_list></call></expr></init></decl>;</decl_stmt>
+          <if_stmt><if>if <condition>(<expr><name>lf</name> <operator>&gt;</operator> <literal type="number">0</literal></expr>)</condition> <block>{<block_content>
+            <expr_stmt><expr><name>msg</name> <operator>=</operator> <call><name><name>ft</name><operator>.</operator><name>substring</name></name><argument_list>(<argument><expr><literal type="number">0</literal></expr></argument>, <argument><expr><name>lf</name></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+          </block_content>}</block></if></if_stmt>
+        </block_content>}</block></if></if_stmt>
+        <expr_stmt><expr><name><name>result</name><operator>.</operator><name>shortMessage</name></name> <operator>=</operator> <name>msg</name></expr>;</expr_stmt>
+      </block_content>}</block></if></if_stmt>
+      <if_stmt><if>if <condition>(<expr><call><name><name>fs</name><operator>.</operator><name>contains</name></name><argument_list>(<argument><expr><name><name>Field</name><operator>.</operator><name>DIFF_TREE</name></name></expr></argument>)</argument_list></call></expr>)</condition> <block>{<block_content>
+        <expr_stmt><expr><name><name>result</name><operator>.</operator><name>diffEntries</name></name> <operator>=</operator> <call><name>computeDiffEntries</name><argument_list>(<argument><expr><name>repo</name></expr></argument>, <argument><expr><name>view</name></expr></argument>, <argument><expr><name>walk</name></expr></argument>, <argument><expr><name>c</name></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+      </block_content>}</block></if></if_stmt>
+
+      <return>return <expr><name>result</name></expr>;</return>
+    </block_content>}</block></function>
+
+    <function><type><specifier>private</specifier> <name>void</name></type> <name>checkFields</name><parameter_list>(<parameter><decl><type><name><name>Set</name><argument_list type="generic">&lt;<argument><name>Field</name></argument>&gt;</argument_list></name></type> <name>fs</name></decl></parameter>)</parameter_list> <block>{<block_content>
+      <if_stmt><if>if <condition>(<expr><call><name><name>fs</name><operator>.</operator><name>contains</name></name><argument_list>(<argument><expr><name><name>Field</name><operator>.</operator><name>ARCHIVE_URL</name></name></expr></argument>)</argument_list></call> <operator>||</operator> <call><name><name>fs</name><operator>.</operator><name>contains</name></name><argument_list>(<argument><expr><name><name>Field</name><operator>.</operator><name>ARCHIVE_TYPE</name></name></expr></argument>)</argument_list></call></expr>)</condition> <block>{<block_content>
+        <expr_stmt><expr><call><name>checkState</name><argument_list>(<argument><expr><name>archiveFormat</name> <operator>!=</operator> <literal type="null">null</literal></expr></argument>, <argument><expr><literal type="string">"archive format required"</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+      </block_content>}</block></if></if_stmt>
+    </block_content>}</block></function>
+
+    <function><type><specifier>private</specifier> <specifier>static</specifier> <name>String</name></type> <name>urlFromView</name><parameter_list>(
+        <parameter><decl><type><name>GitilesView</name></type> <name>view</name></decl></parameter>, <parameter><decl><type><name>RevCommit</name></type> <name>commit</name></decl></parameter>, <parameter><decl><type><name><name>GitilesView</name><operator>.</operator><name>Builder</name></name></type> <name>builder</name></decl></parameter>)</parameter_list> <block>{<block_content>
+      <decl_stmt><decl><type><name>Revision</name></type> <name>rev</name> <init>= <expr><call><name><name>view</name><operator>.</operator><name>getRevision</name></name><argument_list>()</argument_list></call></expr></init></decl>;</decl_stmt>
+      <return>return <expr><call><name><name>builder</name>
+          <operator>.</operator><name>copyFrom</name></name><argument_list>(<argument><expr><name>view</name></expr></argument>)</argument_list></call>
+          <operator>.</operator><call><name>setOldRevision</name><argument_list>(<argument><expr><name><name>Revision</name><operator>.</operator><name>NULL</name></name></expr></argument>)</argument_list></call>
+          <operator>.</operator><call><name>setRevision</name><argument_list>(<argument><expr><ternary><condition><expr><call><name><name>rev</name><operator>.</operator><name>getId</name></name><argument_list>()</argument_list></call><operator>.</operator><call><name>equals</name><argument_list>(<argument><expr><name>commit</name></expr></argument>)</argument_list></call></expr> ?</condition><then> <expr><call><name><name>rev</name><operator>.</operator><name>getName</name></name><argument_list>()</argument_list></call></expr> </then><else>: <expr><call><name><name>commit</name><operator>.</operator><name>name</name></name><argument_list>()</argument_list></call></expr></else></ternary></expr></argument>, <argument><expr><name>commit</name></expr></argument>)</argument_list></call>
+          <operator>.</operator><call><name>setPathPart</name><argument_list>(<argument><expr><call><name><name>view</name><operator>.</operator><name>getPathPart</name></name><argument_list>()</argument_list></call></expr></argument>)</argument_list></call>
+          <operator>.</operator><call><name>toUrl</name><argument_list>()</argument_list></call></expr>;</return>
+    </block_content>}</block></function>
+
+    <function><type><specifier>private</specifier> <name><name>List</name><argument_list type="generic">&lt;<argument><name>Ref</name></argument>&gt;</argument_list></name></type> <name>getRefsById</name><parameter_list>(<parameter><decl><type><name>Repository</name></type> <name>repo</name></decl></parameter>, <parameter><decl><type><name>ObjectId</name></type> <name>id</name></decl></parameter>, <parameter><decl><type><name>String</name></type> <name>prefix</name></decl></parameter>)</parameter_list> <block>{<block_content>
+      <if_stmt><if>if <condition>(<expr><name>refsById</name> <operator>==</operator> <literal type="null">null</literal></expr>)</condition> <block>{<block_content>
+        <expr_stmt><expr><name>refsById</name> <operator>=</operator> <call><name><name>repo</name><operator>.</operator><name>getAllRefsByPeeledObjectId</name></name><argument_list>()</argument_list></call></expr>;</expr_stmt>
+      </block_content>}</block></if></if_stmt>
+      <decl_stmt><decl><type><name><name>Set</name><argument_list type="generic">&lt;<argument><name>Ref</name></argument>&gt;</argument_list></name></type> <name>refs</name> <init>= <expr><call><name><name>refsById</name><operator>.</operator><name>get</name></name><argument_list>(<argument><expr><name>id</name></expr></argument>)</argument_list></call></expr></init></decl>;</decl_stmt>
+      <if_stmt><if>if <condition>(<expr><name>refs</name> <operator>==</operator> <literal type="null">null</literal></expr>)</condition> <block>{<block_content>
+        <return>return <expr><call><name><name>ImmutableList</name><operator>.</operator><name>of</name></name><argument_list>()</argument_list></call></expr>;</return>
+      </block_content>}</block></if></if_stmt>
+      <return>return <expr><call><name><name>refs</name><operator>.</operator><name>stream</name></name><argument_list>()</argument_list></call>
+          <operator>.</operator><call><name>filter</name><argument_list>(<argument><expr><lambda><parameter_list type="pseudo"><parameter><decl><name>r</name></decl></parameter></parameter_list> -&gt;<block type="pseudo"><block_content> <expr><call><name><name>r</name><operator>.</operator><name>getName</name></name><argument_list>()</argument_list></call><operator>.</operator><call><name>startsWith</name><argument_list>(<argument><expr><name>prefix</name></expr></argument>)</argument_list></call></expr></block_content></block></lambda></expr></argument>)</argument_list></call>
+          <operator>.</operator><call><name>sorted</name><argument_list>(<argument><expr><call><name>comparing</name><argument_list>(<argument><expr><name>Ref</name><operator>::</operator><name>getName</name></expr></argument>)</argument_list></call></expr></argument>)</argument_list></call>
+          <operator>.</operator><call><name>collect</name><argument_list>(<argument><expr><call><name>toList</name><argument_list>()</argument_list></call></expr></argument>)</argument_list></call></expr>;</return>
+    </block_content>}</block></function>
+
+    <function><type><specifier>private</specifier> <name>AbstractTreeIterator</name></type> <name>getTreeIterator</name><parameter_list>(<parameter><decl><type><name>RevWalk</name></type> <name>walk</name></decl></parameter>, <parameter><decl><type><name>RevCommit</name></type> <name>commit</name></decl></parameter>)</parameter_list>
+        <throws>throws <argument><expr><name>IOException</name></expr></argument></throws> <block>{<block_content>
+      <decl_stmt><decl><type><name>CanonicalTreeParser</name></type> <name>p</name> <init>= <expr><operator>new</operator> <call><name>CanonicalTreeParser</name><argument_list>()</argument_list></call></expr></init></decl>;</decl_stmt>
+      <expr_stmt><expr><call><name><name>p</name><operator>.</operator><name>reset</name></name><argument_list>(<argument><expr><call><name><name>walk</name><operator>.</operator><name>getObjectReader</name></name><argument_list>()</argument_list></call></expr></argument>, <argument><expr><call><name><name>walk</name><operator>.</operator><name>parseTree</name></name><argument_list>(<argument><expr><call><name><name>walk</name><operator>.</operator><name>parseCommit</name></name><argument_list>(<argument><expr><name>commit</name></expr></argument>)</argument_list></call><operator>.</operator><call><name>getTree</name><argument_list>()</argument_list></call></expr></argument>)</argument_list></call></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+      <return>return <expr><name>p</name></expr>;</return>
+    </block_content>}</block></function>
+
+    <function><type><specifier>private</specifier> <name>DiffList</name></type> <name>computeDiffEntries</name><parameter_list>(
+        <parameter><decl><type><name>Repository</name></type> <name>repo</name></decl></parameter>, <parameter><decl><type><name>GitilesView</name></type> <name>view</name></decl></parameter>, <parameter><decl><type><name>RevWalk</name></type> <name>walk</name></decl></parameter>, <parameter><decl><type><name>RevCommit</name></type> <name>commit</name></decl></parameter>)</parameter_list> <throws>throws <argument><expr><name>IOException</name></expr></argument></throws> <block>{<block_content>
+      <decl_stmt><decl><type><name>DiffList</name></type> <name>result</name> <init>= <expr><operator>new</operator> <call><name>DiffList</name><argument_list>()</argument_list></call></expr></init></decl>;</decl_stmt>
+      <expr_stmt><expr><name><name>result</name><operator>.</operator><name>revision</name></name> <operator>=</operator>
+          <ternary><condition><expr><call><name><name>view</name><operator>.</operator><name>getRevision</name></name><argument_list>()</argument_list></call><operator>.</operator><call><name>matches</name><argument_list>(<argument><expr><name>commit</name></expr></argument>)</argument_list></call></expr>
+              ?</condition><then> <expr><call><name><name>view</name><operator>.</operator><name>getRevision</name></name><argument_list>()</argument_list></call></expr>
+              </then><else>: <expr><call><name><name>Revision</name><operator>.</operator><name>peeled</name></name><argument_list>(<argument><expr><call><name><name>commit</name><operator>.</operator><name>name</name></name><argument_list>()</argument_list></call></expr></argument>, <argument><expr><name>commit</name></expr></argument>)</argument_list></call></expr></else></ternary></expr>;</expr_stmt>
+
+      <decl_stmt><decl><type><name>AbstractTreeIterator</name></type> <name>oldTree</name></decl>;</decl_stmt>
+      <switch>switch <condition>(<expr><call><name><name>commit</name><operator>.</operator><name>getParentCount</name></name><argument_list>()</argument_list></call></expr>)</condition> <block>{<block_content>
+        <case>case <expr><literal type="number">0</literal></expr>:</case>
+          <expr_stmt><expr><name><name>result</name><operator>.</operator><name>oldRevision</name></name> <operator>=</operator> <name><name>Revision</name><operator>.</operator><name>NULL</name></name></expr>;</expr_stmt>
+          <expr_stmt><expr><name>oldTree</name> <operator>=</operator> <operator>new</operator> <call><name>EmptyTreeIterator</name><argument_list>()</argument_list></call></expr>;</expr_stmt>
+          <break>break;</break>
+        <case>case <expr><literal type="number">1</literal></expr>:</case>
+          <expr_stmt><expr><name><name>result</name><operator>.</operator><name>oldRevision</name></name> <operator>=</operator>
+              <call><name><name>Revision</name><operator>.</operator><name>peeled</name></name><argument_list>(<argument><expr><call><name><name>result</name><operator>.</operator><name>revision</name><operator>.</operator><name>getName</name></name><argument_list>()</argument_list></call> <operator>+</operator> <literal type="string">"^"</literal></expr></argument>, <argument><expr><call><name><name>commit</name><operator>.</operator><name>getParent</name></name><argument_list>(<argument><expr><literal type="number">0</literal></expr></argument>)</argument_list></call></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+          <expr_stmt><expr><name>oldTree</name> <operator>=</operator> <call><name>getTreeIterator</name><argument_list>(<argument><expr><name>walk</name></expr></argument>, <argument><expr><call><name><name>commit</name><operator>.</operator><name>getParent</name></name><argument_list>(<argument><expr><literal type="number">0</literal></expr></argument>)</argument_list></call></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+          <break>break;</break>
+        <default>default:</default>
+          <comment type="line">// TODO(dborowitz): handle merges</comment>
+          <return>return <expr><name>result</name></expr>;</return>
+      </block_content>}</block></switch>
+      <decl_stmt><decl><type><name>AbstractTreeIterator</name></type> <name>newTree</name> <init>= <expr><call><name>getTreeIterator</name><argument_list>(<argument><expr><name>walk</name></expr></argument>, <argument><expr><name>commit</name></expr></argument>)</argument_list></call></expr></init></decl>;</decl_stmt>
+
+      <try>try <init>(<decl><type><name>DiffFormatter</name></type> <name>diff</name> <init>= <expr><operator>new</operator> <call><name>DiffFormatter</name><argument_list>(<argument><expr><name><name>NullOutputStream</name><operator>.</operator><name>INSTANCE</name></name></expr></argument>)</argument_list></call></expr></init></decl>)</init> <block>{<block_content>
+        <expr_stmt><expr><call><name><name>diff</name><operator>.</operator><name>setRepository</name></name><argument_list>(<argument><expr><name>repo</name></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+        <expr_stmt><expr><call><name><name>diff</name><operator>.</operator><name>setDetectRenames</name></name><argument_list>(<argument><expr><literal type="boolean">true</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+        <expr_stmt><expr><name><name>result</name><operator>.</operator><name>entries</name></name> <operator>=</operator> <call><name><name>diff</name><operator>.</operator><name>scan</name></name><argument_list>(<argument><expr><name>oldTree</name></expr></argument>, <argument><expr><name>newTree</name></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+        <return>return <expr><name>result</name></expr>;</return>
+      </block_content>}</block></try>
+    </block_content>}</block></function>
+  }</block></class>
+
+  <decl_stmt><decl><type><name>ObjectId</name></type> <name>sha</name></decl>;</decl_stmt>
+  <decl_stmt><decl><type><name>PersonIdent</name></type> <name>author</name></decl>;</decl_stmt>
+  <decl_stmt><decl><type><name>PersonIdent</name></type> <name>committer</name></decl>;</decl_stmt>
+  <decl_stmt><decl><type><name>AbbreviatedObjectId</name></type> <name>abbrev</name></decl>;</decl_stmt>
+  <decl_stmt><decl><type><name>ObjectId</name></type> <name>tree</name></decl>;</decl_stmt>
+  <decl_stmt><decl><type><name><name>List</name><argument_list type="generic">&lt;<argument><name>RevCommit</name></argument>&gt;</argument_list></name></type> <name>parents</name></decl>;</decl_stmt>
+  <decl_stmt><decl><type><name>String</name></type> <name>shortMessage</name></decl>;</decl_stmt>
+  <decl_stmt><decl><type><name>String</name></type> <name>message</name></decl>;</decl_stmt>
+
+  <decl_stmt><decl><type><name><name>List</name><argument_list type="generic">&lt;<argument><name>Ref</name></argument>&gt;</argument_list></name></type> <name>branches</name></decl>;</decl_stmt>
+  <decl_stmt><decl><type><name><name>List</name><argument_list type="generic">&lt;<argument><name>Ref</name></argument>&gt;</argument_list></name></type> <name>tags</name></decl>;</decl_stmt>
+  <decl_stmt><decl><type><name>DiffList</name></type> <name>diffEntries</name></decl>;</decl_stmt>
+
+  <decl_stmt><decl><type><name>String</name></type> <name>url</name></decl>;</decl_stmt>
+  <decl_stmt><decl><type><name>String</name></type> <name>logUrl</name></decl>;</decl_stmt>
+  <decl_stmt><decl><type><name>String</name></type> <name>treeUrl</name></decl>;</decl_stmt>
+  <decl_stmt><decl><type><name>String</name></type> <name>archiveUrl</name></decl>;</decl_stmt>
+  <decl_stmt><decl><type><name>ArchiveFormat</name></type> <name>archiveType</name></decl>;</decl_stmt>
+}</block></class>
+</unit>

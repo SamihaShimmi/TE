@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='utf-8'?>
+<function>
+  <type>
+    <specifier>public</specifier>
+    <specifier>static</specifier>
+    <name>Day</name>
+  </type>
+  <name>parseDay</name>
+  <parameter_list>(<parameter>
+      <decl>
+        <type>
+          <name>String</name>
+        </type>
+        <name>s</name>
+      </decl>
+    </parameter>)</parameter_list>
+  <block>{<block_content>
+      <try>try <block>{<block_content>
+            <return>return <expr>
+                <operator>new</operator>
+                <call>
+                  <name>Day</name>
+                  <argument_list>(<argument>
+                      <expr>
+                        <call>
+                          <name>
+                            <name>Day</name>
+                            <operator>.</operator>
+                            <name>DATE_FORMAT</name>
+                            <operator>.</operator>
+                            <name>parse</name>
+                          </name>
+                          <argument_list>(<argument>
+                              <expr>
+                                <name>s</name>
+                              </expr>
+                            </argument>)</argument_list>
+                        </call>
+                      </expr>
+                    </argument>)</argument_list>
+                </call>
+              </expr>;</return>
+          </block_content>}</block>
+        <catch>catch <parameter_list>(<parameter>
+              <decl>
+                <type>
+                  <name>ParseException</name>
+                </type>
+                <name>e1</name>
+              </decl>
+            </parameter>)</parameter_list>
+          <block>{<block_content>
+              <try>try <block>{<block_content>
+                    <return>return <expr>
+                        <operator>new</operator>
+                        <call>
+                          <name>Day</name>
+                          <argument_list>(<argument>
+                              <expr>
+                                <call>
+                                  <name>
+                                    <name>Day</name>
+                                    <operator>.</operator>
+                                    <name>DATE_FORMAT_SHORT</name>
+                                    <operator>.</operator>
+                                    <name>parse</name>
+                                  </name>
+                                  <argument_list>(<argument>
+                                      <expr>
+                                        <name>s</name>
+                                      </expr>
+                                    </argument>)</argument_list>
+                                </call>
+                              </expr>
+                            </argument>)</argument_list>
+                        </call>
+                      </expr>;</return>
+                  </block_content>}</block>
+                <catch>catch <parameter_list>(<parameter>
+                      <decl>
+                        <type>
+                          <name>ParseException</name>
+                        </type>
+                        <name>e2</name>
+                      </decl>
+                    </parameter>)</parameter_list>
+                  <block>{<block_content>
+                      <comment type="line">// ignore</comment>
+                    </block_content>}</block>
+                </catch>
+              </try>
+            </block_content>}</block>
+        </catch>
+      </try>
+      <return>return <expr>
+          <literal type="null">null</literal>
+        </expr>;</return>
+    </block_content>}</block>
+</function>

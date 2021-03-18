@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='utf-8'?>
+<function>
+  <type>
+    <specifier>public</specifier>
+    <name>void</name>
+  </type>
+  <name>add</name>
+  <parameter_list>(<parameter>
+      <decl>
+        <type>
+          <name>TimeSeriesDataItem</name>
+        </type>
+        <name>item</name>
+      </decl>
+    </parameter>)</parameter_list>
+  <block>{<block_content>
+      <expr_stmt>
+        <expr>
+          <call>
+            <name>add</name>
+            <argument_list>(<argument>
+                <expr>
+                  <name>item</name>
+                </expr>
+              </argument>, <argument>
+                <expr>
+                  <literal type="boolean">true</literal>
+                </expr>
+              </argument>)</argument_list>
+          </call>
+        </expr>;</expr_stmt>
+    </block_content>}</block>
+</function>

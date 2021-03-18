@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='utf-8'?>
+<function>
+  <type>
+    <specifier>public</specifier>
+    <name>void</name>
+  </type>
+  <name>setValue</name>
+  <parameter_list>(<parameter>
+      <decl>
+        <type>
+          <name>Number</name>
+        </type>
+        <name>value</name>
+      </decl>
+    </parameter>)</parameter_list>
+  <block>{<block_content>
+      <expr_stmt>
+        <expr>
+          <name>
+            <name>this</name>
+            <operator>.</operator>
+            <name>value</name>
+          </name>
+          <operator>=</operator>
+          <name>value</name>
+        </expr>;</expr_stmt>
+    </block_content>}</block>
+</function>

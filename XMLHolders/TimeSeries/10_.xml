@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='utf-8'?>
+<function>
+  <type>
+    <specifier>public</specifier>
+    <name>void</name>
+  </type>
+  <name>setMaximumItemAge</name>
+  <parameter_list>(<parameter>
+      <decl>
+        <type>
+          <name>long</name>
+        </type>
+        <name>periods</name>
+      </decl>
+    </parameter>)</parameter_list>
+  <block>{<block_content>
+      <if_stmt>
+        <if>if <condition>(<expr>
+              <name>periods</name>
+              <operator>&lt;</operator>
+              <literal type="number">0</literal>
+            </expr>)</condition>
+          <block>{<block_content>
+              <throw>throw <expr>
+                  <operator>new</operator>
+                  <call>
+                    <name>IllegalArgumentException</name>
+                    <argument_list>(<argument>
+                        <expr>
+                          <literal type="string">"Negative 'periods' argument."</literal>
+                        </expr>
+                      </argument>)</argument_list>
+                  </call>
+                </expr>;</throw>
+            </block_content>}</block>
+        </if>
+      </if_stmt>
+      <expr_stmt>
+        <expr>
+          <name>
+            <name>this</name>
+            <operator>.</operator>
+            <name>maximumItemAge</name>
+          </name>
+          <operator>=</operator>
+          <name>periods</name>
+        </expr>;</expr_stmt>
+      <expr_stmt>
+        <expr>
+          <call>
+            <name>removeAgedItems</name>
+            <argument_list>(<argument>
+                <expr>
+                  <literal type="boolean">true</literal>
+                </expr>
+              </argument>)</argument_list>
+          </call>
+        </expr>;</expr_stmt>
+      <comment type="line">// remove old items and notify if necessary</comment>
+    </block_content>}</block>
+</function>

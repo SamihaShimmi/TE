@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='utf-8'?>
+<function>
+  <annotation>@<name>Override</name>
+  </annotation>
+  <type>
+    <specifier>public</specifier>
+    <name>int</name>
+  </type>
+  <name>getItemCount</name>
+  <parameter_list>()</parameter_list>
+  <block>{<block_content>
+      <return>return <expr>
+          <call>
+            <name>
+              <name>this</name>
+              <operator>.</operator>
+              <name>values</name>
+              <operator>.</operator>
+              <name>getRowCount</name>
+            </name>
+            <argument_list>()</argument_list>
+          </call>
+        </expr>;</return>
+    </block_content>}</block>
+</function>

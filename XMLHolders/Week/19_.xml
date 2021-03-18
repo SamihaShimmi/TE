@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='utf-8'?>
+<function>
+  <type>
+    <specifier>private</specifier>
+    <specifier>static</specifier>
+    <name>int</name>
+  </type>
+  <name>stringToWeek</name>
+  <parameter_list>(<parameter>
+      <decl>
+        <type>
+          <name>String</name>
+        </type>
+        <name>s</name>
+      </decl>
+    </parameter>)</parameter_list>
+  <block>{<block_content>
+      <decl_stmt>
+        <decl>
+          <type>
+            <name>int</name>
+          </type>
+          <name>result</name>
+          <init>= <expr>
+              <operator>-</operator>
+              <literal type="number">1</literal>
+            </expr>
+          </init>
+        </decl>;</decl_stmt>
+      <expr_stmt>
+        <expr>
+          <name>s</name>
+          <operator>=</operator>
+          <call>
+            <name>
+              <name>s</name>
+              <operator>.</operator>
+              <name>replace</name>
+            </name>
+            <argument_list>(<argument>
+                <expr>
+                  <literal type="char">'W'</literal>
+                </expr>
+              </argument>, <argument>
+                <expr>
+                  <literal type="char">' '</literal>
+                </expr>
+              </argument>)</argument_list>
+          </call>
+        </expr>;</expr_stmt>
+      <expr_stmt>
+        <expr>
+          <name>s</name>
+          <operator>=</operator>
+          <call>
+            <name>
+              <name>s</name>
+              <operator>.</operator>
+              <name>trim</name>
+            </name>
+            <argument_list>()</argument_list>
+          </call>
+        </expr>;</expr_stmt>
+      <try>try <block>{<block_content>
+            <expr_stmt>
+              <expr>
+                <name>result</name>
+                <operator>=</operator>
+                <call>
+                  <name>
+                    <name>Integer</name>
+                    <operator>.</operator>
+                    <name>parseInt</name>
+                  </name>
+                  <argument_list>(<argument>
+                      <expr>
+                        <name>s</name>
+                      </expr>
+                    </argument>)</argument_list>
+                </call>
+              </expr>;</expr_stmt>
+            <if_stmt>
+              <if>if <condition>(<expr>
+                    <operator>(</operator>
+                    <name>result</name>
+                    <operator>&lt;</operator>
+                    <literal type="number">1</literal>
+                    <operator>)</operator>
+                    <operator>||</operator>
+                    <operator>(</operator>
+                    <name>result</name>
+                    <operator>&gt;</operator>
+                    <name>LAST_WEEK_IN_YEAR</name>
+                    <operator>)</operator>
+                  </expr>)</condition>
+                <block>{<block_content>
+                    <expr_stmt>
+                      <expr>
+                        <name>result</name>
+                        <operator>=</operator>
+                        <operator>-</operator>
+                        <literal type="number">1</literal>
+                      </expr>;</expr_stmt>
+                  </block_content>}</block>
+              </if>
+            </if_stmt>
+          </block_content>}</block>
+        <catch>catch <parameter_list>(<parameter>
+              <decl>
+                <type>
+                  <name>NumberFormatException</name>
+                </type>
+                <name>e</name>
+              </decl>
+            </parameter>)</parameter_list>
+          <block>{<block_content>
+              <comment type="line">// suppress</comment>
+            </block_content>}</block>
+        </catch>
+      </try>
+      <return>return <expr>
+          <name>result</name>
+        </expr>;</return>
+    </block_content>}</block>
+</function>

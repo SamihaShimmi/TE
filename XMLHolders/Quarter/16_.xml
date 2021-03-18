@@ -1,0 +1,319 @@
+<?xml version='1.0' encoding='utf-8'?>
+<function>
+  <type>
+    <specifier>public</specifier>
+    <specifier>static</specifier>
+    <name>Quarter</name>
+  </type>
+  <name>parseQuarter</name>
+  <parameter_list>(<parameter>
+      <decl>
+        <type>
+          <name>String</name>
+        </type>
+        <name>s</name>
+      </decl>
+    </parameter>)</parameter_list>
+  <block>{<block_content>
+      <comment type="line">// find the Q and the integer following it (remove both from the</comment>
+      <comment type="line">// string)...</comment>
+      <decl_stmt>
+        <decl>
+          <type>
+            <name>int</name>
+          </type>
+          <name>i</name>
+          <init>= <expr>
+              <call>
+                <name>
+                  <name>s</name>
+                  <operator>.</operator>
+                  <name>indexOf</name>
+                </name>
+                <argument_list>(<argument>
+                    <expr>
+                      <literal type="string">"Q"</literal>
+                    </expr>
+                  </argument>)</argument_list>
+              </call>
+            </expr>
+          </init>
+        </decl>;</decl_stmt>
+      <if_stmt>
+        <if>if <condition>(<expr>
+              <name>i</name>
+              <operator>==</operator>
+              <operator>-</operator>
+              <literal type="number">1</literal>
+            </expr>)</condition>
+          <block>{<block_content>
+              <throw>throw <expr>
+                  <operator>new</operator>
+                  <call>
+                    <name>TimePeriodFormatException</name>
+                    <argument_list>(<argument>
+                        <expr>
+                          <literal type="string">"Missing Q."</literal>
+                        </expr>
+                      </argument>)</argument_list>
+                  </call>
+                </expr>;</throw>
+            </block_content>}</block>
+        </if>
+      </if_stmt>
+      <if_stmt>
+        <if>if <condition>(<expr>
+              <name>i</name>
+              <operator>==</operator>
+              <call>
+                <name>
+                  <name>s</name>
+                  <operator>.</operator>
+                  <name>length</name>
+                </name>
+                <argument_list>()</argument_list>
+              </call>
+              <operator>-</operator>
+              <literal type="number">1</literal>
+            </expr>)</condition>
+          <block>{<block_content>
+              <throw>throw <expr>
+                  <operator>new</operator>
+                  <call>
+                    <name>TimePeriodFormatException</name>
+                    <argument_list>(<argument>
+                        <expr>
+                          <literal type="string">"Q found at end of string."</literal>
+                        </expr>
+                      </argument>)</argument_list>
+                  </call>
+                </expr>;</throw>
+            </block_content>}</block>
+        </if>
+      </if_stmt>
+      <decl_stmt>
+        <decl>
+          <type>
+            <name>String</name>
+          </type>
+          <name>qstr</name>
+          <init>= <expr>
+              <call>
+                <name>
+                  <name>s</name>
+                  <operator>.</operator>
+                  <name>substring</name>
+                </name>
+                <argument_list>(<argument>
+                    <expr>
+                      <name>i</name>
+                      <operator>+</operator>
+                      <literal type="number">1</literal>
+                    </expr>
+                  </argument>, <argument>
+                    <expr>
+                      <name>i</name>
+                      <operator>+</operator>
+                      <literal type="number">2</literal>
+                    </expr>
+                  </argument>)</argument_list>
+              </call>
+            </expr>
+          </init>
+        </decl>;</decl_stmt>
+      <decl_stmt>
+        <decl>
+          <type>
+            <name>int</name>
+          </type>
+          <name>quarter</name>
+          <init>= <expr>
+              <call>
+                <name>
+                  <name>Integer</name>
+                  <operator>.</operator>
+                  <name>parseInt</name>
+                </name>
+                <argument_list>(<argument>
+                    <expr>
+                      <name>qstr</name>
+                    </expr>
+                  </argument>)</argument_list>
+              </call>
+            </expr>
+          </init>
+        </decl>;</decl_stmt>
+      <decl_stmt>
+        <decl>
+          <type>
+            <name>String</name>
+          </type>
+          <name>remaining</name>
+          <init>= <expr>
+              <call>
+                <name>
+                  <name>s</name>
+                  <operator>.</operator>
+                  <name>substring</name>
+                </name>
+                <argument_list>(<argument>
+                    <expr>
+                      <literal type="number">0</literal>
+                    </expr>
+                  </argument>, <argument>
+                    <expr>
+                      <name>i</name>
+                    </expr>
+                  </argument>)</argument_list>
+              </call>
+              <operator>+</operator>
+              <call>
+                <name>
+                  <name>s</name>
+                  <operator>.</operator>
+                  <name>substring</name>
+                </name>
+                <argument_list>(<argument>
+                    <expr>
+                      <name>i</name>
+                      <operator>+</operator>
+                      <literal type="number">2</literal>
+                    </expr>
+                  </argument>, <argument>
+                    <expr>
+                      <call>
+                        <name>
+                          <name>s</name>
+                          <operator>.</operator>
+                          <name>length</name>
+                        </name>
+                        <argument_list>()</argument_list>
+                      </call>
+                    </expr>
+                  </argument>)</argument_list>
+              </call>
+            </expr>
+          </init>
+        </decl>;</decl_stmt>
+      <comment type="line">// replace any / , or - with a space</comment>
+      <expr_stmt>
+        <expr>
+          <name>remaining</name>
+          <operator>=</operator>
+          <call>
+            <name>
+              <name>remaining</name>
+              <operator>.</operator>
+              <name>replace</name>
+            </name>
+            <argument_list>(<argument>
+                <expr>
+                  <literal type="char">'/'</literal>
+                </expr>
+              </argument>, <argument>
+                <expr>
+                  <literal type="char">' '</literal>
+                </expr>
+              </argument>)</argument_list>
+          </call>
+        </expr>;</expr_stmt>
+      <expr_stmt>
+        <expr>
+          <name>remaining</name>
+          <operator>=</operator>
+          <call>
+            <name>
+              <name>remaining</name>
+              <operator>.</operator>
+              <name>replace</name>
+            </name>
+            <argument_list>(<argument>
+                <expr>
+                  <literal type="char">','</literal>
+                </expr>
+              </argument>, <argument>
+                <expr>
+                  <literal type="char">' '</literal>
+                </expr>
+              </argument>)</argument_list>
+          </call>
+        </expr>;</expr_stmt>
+      <expr_stmt>
+        <expr>
+          <name>remaining</name>
+          <operator>=</operator>
+          <call>
+            <name>
+              <name>remaining</name>
+              <operator>.</operator>
+              <name>replace</name>
+            </name>
+            <argument_list>(<argument>
+                <expr>
+                  <literal type="char">'-'</literal>
+                </expr>
+              </argument>, <argument>
+                <expr>
+                  <literal type="char">' '</literal>
+                </expr>
+              </argument>)</argument_list>
+          </call>
+        </expr>;</expr_stmt>
+      <comment type="line">// parse the string...</comment>
+      <decl_stmt>
+        <decl>
+          <type>
+            <name>Year</name>
+          </type>
+          <name>year</name>
+          <init>= <expr>
+              <call>
+                <name>
+                  <name>Year</name>
+                  <operator>.</operator>
+                  <name>parseYear</name>
+                </name>
+                <argument_list>(<argument>
+                    <expr>
+                      <call>
+                        <name>
+                          <name>remaining</name>
+                          <operator>.</operator>
+                          <name>trim</name>
+                        </name>
+                        <argument_list>()</argument_list>
+                      </call>
+                    </expr>
+                  </argument>)</argument_list>
+              </call>
+            </expr>
+          </init>
+        </decl>;</decl_stmt>
+      <decl_stmt>
+        <decl>
+          <type>
+            <name>Quarter</name>
+          </type>
+          <name>result</name>
+          <init>= <expr>
+              <operator>new</operator>
+              <call>
+                <name>Quarter</name>
+                <argument_list>(<argument>
+                    <expr>
+                      <name>quarter</name>
+                    </expr>
+                  </argument>, <argument>
+                    <expr>
+                      <name>year</name>
+                    </expr>
+                  </argument>)</argument_list>
+              </call>
+            </expr>
+          </init>
+        </decl>;</decl_stmt>
+      <return>return <expr>
+          <name>result</name>
+        </expr>;</return>
+    </block_content>}</block>
+</function>

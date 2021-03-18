@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='utf-8'?>
+<function>
+  <annotation>@<name>Override</name>
+  </annotation>
+  <type>
+    <specifier>public</specifier>
+    <name>double</name>
+  </type>
+  <name>getStartXValue</name>
+  <parameter_list>(<parameter>
+      <decl>
+        <type>
+          <name>int</name>
+        </type>
+        <name>series</name>
+      </decl>
+    </parameter>, <parameter>
+      <decl>
+        <type>
+          <name>int</name>
+        </type>
+        <name>item</name>
+      </decl>
+    </parameter>)</parameter_list>
+  <block>{<block_content>
+      <decl_stmt>
+        <decl>
+          <type>
+            <name>TimePeriod</name>
+          </type>
+          <name>period</name>
+          <init>= <expr>
+              <operator>(</operator>
+              <name>TimePeriod</name>
+              <operator>)</operator>
+              <call>
+                <name>
+                  <name>this</name>
+                  <operator>.</operator>
+                  <name>values</name>
+                  <operator>.</operator>
+                  <name>getRowKey</name>
+                </name>
+                <argument_list>(<argument>
+                    <expr>
+                      <name>item</name>
+                    </expr>
+                  </argument>)</argument_list>
+              </call>
+            </expr>
+          </init>
+        </decl>;</decl_stmt>
+      <return>return <expr>
+          <call>
+            <name>
+              <name>period</name>
+              <operator>.</operator>
+              <name>getStart</name>
+            </name>
+            <argument_list>()</argument_list>
+          </call>
+          <operator>.</operator>
+          <call>
+            <name>getTime</name>
+            <argument_list>()</argument_list>
+          </call>
+        </expr>;</return>
+    </block_content>}</block>
+</function>

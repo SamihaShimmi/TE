@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='utf-8'?>
+<function>
+  <type>
+    <specifier>private</specifier>
+    <name>double</name>
+  </type>
+  <name>maxIgnoreNaN</name>
+  <parameter_list>(<parameter>
+      <decl>
+        <type>
+          <name>double</name>
+        </type>
+        <name>a</name>
+      </decl>
+    </parameter>, <parameter>
+      <decl>
+        <type>
+          <name>double</name>
+        </type>
+        <name>b</name>
+      </decl>
+    </parameter>)</parameter_list>
+  <block>{<block_content>
+      <if_stmt>
+        <if>if <condition>(<expr>
+              <call>
+                <name>
+                  <name>Double</name>
+                  <operator>.</operator>
+                  <name>isNaN</name>
+                </name>
+                <argument_list>(<argument>
+                    <expr>
+                      <name>a</name>
+                    </expr>
+                  </argument>)</argument_list>
+              </call>
+            </expr>)</condition>
+          <block>{<block_content>
+              <return>return <expr>
+                  <name>b</name>
+                </expr>;</return>
+            </block_content>}</block>
+        </if>
+      </if_stmt>
+      <if_stmt>
+        <if>if <condition>(<expr>
+              <call>
+                <name>
+                  <name>Double</name>
+                  <operator>.</operator>
+                  <name>isNaN</name>
+                </name>
+                <argument_list>(<argument>
+                    <expr>
+                      <name>b</name>
+                    </expr>
+                  </argument>)</argument_list>
+              </call>
+            </expr>)</condition>
+          <block>{<block_content>
+              <return>return <expr>
+                  <name>a</name>
+                </expr>;</return>
+            </block_content>}</block>
+        </if>
+        <else>else <block>{<block_content>
+              <return>return <expr>
+                  <call>
+                    <name>
+                      <name>Math</name>
+                      <operator>.</operator>
+                      <name>max</name>
+                    </name>
+                    <argument_list>(<argument>
+                        <expr>
+                          <name>a</name>
+                        </expr>
+                      </argument>, <argument>
+                        <expr>
+                          <name>b</name>
+                        </expr>
+                      </argument>)</argument_list>
+                  </call>
+                </expr>;</return>
+            </block_content>}</block>
+        </else>
+      </if_stmt>
+    </block_content>}</block>
+</function>

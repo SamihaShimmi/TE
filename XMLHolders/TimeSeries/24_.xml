@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='utf-8'?>
+<function>
+  <type>
+    <specifier>public</specifier>
+    <name>Collection</name>
+  </type>
+  <name>getTimePeriods</name>
+  <parameter_list>()</parameter_list>
+  <block>{<block_content>
+      <decl_stmt>
+        <decl>
+          <type>
+            <name>Collection</name>
+          </type>
+          <name>result</name>
+          <init>= <expr>
+              <operator>new</operator>
+              <call>
+                <name>
+                  <name>java</name>
+                  <operator>.</operator>
+                  <name>util</name>
+                  <operator>.</operator>
+                  <name>ArrayList</name>
+                </name>
+                <argument_list>()</argument_list>
+              </call>
+            </expr>
+          </init>
+        </decl>;</decl_stmt>
+      <for>for <control>(<init>
+            <decl>
+              <type>
+                <name>int</name>
+              </type>
+              <name>i</name>
+              <init>= <expr>
+                  <literal type="number">0</literal>
+                </expr>
+              </init>
+            </decl>;</init>
+          <condition>
+            <expr>
+              <name>i</name>
+              <operator>&lt;</operator>
+              <call>
+                <name>getItemCount</name>
+                <argument_list>()</argument_list>
+              </call>
+            </expr>;</condition>
+          <incr>
+            <expr>
+              <name>i</name>
+              <operator>++</operator>
+            </expr>
+          </incr>)</control>
+        <block>{<block_content>
+            <expr_stmt>
+              <expr>
+                <call>
+                  <name>
+                    <name>result</name>
+                    <operator>.</operator>
+                    <name>add</name>
+                  </name>
+                  <argument_list>(<argument>
+                      <expr>
+                        <call>
+                          <name>getTimePeriod</name>
+                          <argument_list>(<argument>
+                              <expr>
+                                <name>i</name>
+                              </expr>
+                            </argument>)</argument_list>
+                        </call>
+                      </expr>
+                    </argument>)</argument_list>
+                </call>
+              </expr>;</expr_stmt>
+          </block_content>}</block>
+      </for>
+      <return>return <expr>
+          <name>result</name>
+        </expr>;</return>
+    </block_content>}</block>
+</function>

@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='utf-8'?>
+<function>
+  <type>
+    <specifier>public</specifier>
+    <name>double</name>
+  </type>
+  <name>getLowValue</name>
+  <parameter_list>()</parameter_list>
+  <block>{<block_content>
+      <decl_stmt>
+        <decl>
+          <type>
+            <name>OHLC</name>
+          </type>
+          <name>ohlc</name>
+          <init>= <expr>
+              <operator>(</operator>
+              <name>OHLC</name>
+              <operator>)</operator>
+              <call>
+                <name>getObject</name>
+                <argument_list>()</argument_list>
+              </call>
+            </expr>
+          </init>
+        </decl>;</decl_stmt>
+      <if_stmt>
+        <if>if <condition>(<expr>
+              <name>ohlc</name>
+              <operator>!=</operator>
+              <literal type="null">null</literal>
+            </expr>)</condition>
+          <block>{<block_content>
+              <return>return <expr>
+                  <call>
+                    <name>
+                      <name>ohlc</name>
+                      <operator>.</operator>
+                      <name>getLow</name>
+                    </name>
+                    <argument_list>()</argument_list>
+                  </call>
+                </expr>;</return>
+            </block_content>}</block>
+        </if>
+        <else>else <block>{<block_content>
+              <return>return <expr>
+                  <name>
+                    <name>Double</name>
+                    <operator>.</operator>
+                    <name>NaN</name>
+                  </name>
+                </expr>;</return>
+            </block_content>}</block>
+        </else>
+      </if_stmt>
+    </block_content>}</block>
+</function>

@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='utf-8'?>
+<function>
+  <type>
+    <specifier>public</specifier>
+    <name>void</name>
+  </type>
+  <name>setXPosition</name>
+  <parameter_list>(<parameter>
+      <decl>
+        <type>
+          <name>TimePeriodAnchor</name>
+        </type>
+        <name>anchor</name>
+      </decl>
+    </parameter>)</parameter_list>
+  <block>{<block_content>
+      <expr_stmt>
+        <expr>
+          <call>
+            <name>
+              <name>Args</name>
+              <operator>.</operator>
+              <name>nullNotPermitted</name>
+            </name>
+            <argument_list>(<argument>
+                <expr>
+                  <name>anchor</name>
+                </expr>
+              </argument>, <argument>
+                <expr>
+                  <literal type="string">"anchor"</literal>
+                </expr>
+              </argument>)</argument_list>
+          </call>
+        </expr>;</expr_stmt>
+      <expr_stmt>
+        <expr>
+          <name>
+            <name>this</name>
+            <operator>.</operator>
+            <name>xPosition</name>
+          </name>
+          <operator>=</operator>
+          <name>anchor</name>
+        </expr>;</expr_stmt>
+      <expr_stmt>
+        <expr>
+          <call>
+            <name>notifyListeners</name>
+            <argument_list>(<argument>
+                <expr>
+                  <operator>new</operator>
+                  <call>
+                    <name>DatasetChangeEvent</name>
+                    <argument_list>(<argument>
+                        <expr>
+                          <name>this</name>
+                        </expr>
+                      </argument>, <argument>
+                        <expr>
+                          <name>this</name>
+                        </expr>
+                      </argument>)</argument_list>
+                  </call>
+                </expr>
+              </argument>)</argument_list>
+          </call>
+        </expr>;</expr_stmt>
+    </block_content>}</block>
+</function>

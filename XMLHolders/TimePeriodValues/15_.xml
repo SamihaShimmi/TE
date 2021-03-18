@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='utf-8'?>
+<function>
+  <type>
+    <specifier>public</specifier>
+    <name>void</name>
+  </type>
+  <name>delete</name>
+  <parameter_list>(<parameter>
+      <decl>
+        <type>
+          <name>int</name>
+        </type>
+        <name>start</name>
+      </decl>
+    </parameter>, <parameter>
+      <decl>
+        <type>
+          <name>int</name>
+        </type>
+        <name>end</name>
+      </decl>
+    </parameter>)</parameter_list>
+  <block>{<block_content>
+      <for>for <control>(<init>
+            <decl>
+              <type>
+                <name>int</name>
+              </type>
+              <name>i</name>
+              <init>= <expr>
+                  <literal type="number">0</literal>
+                </expr>
+              </init>
+            </decl>;</init>
+          <condition>
+            <expr>
+              <name>i</name>
+              <operator>&lt;=</operator>
+              <operator>(</operator>
+              <name>end</name>
+              <operator>-</operator>
+              <name>start</name>
+              <operator>)</operator>
+            </expr>;</condition>
+          <incr>
+            <expr>
+              <name>i</name>
+              <operator>++</operator>
+            </expr>
+          </incr>)</control>
+        <block>{<block_content>
+            <expr_stmt>
+              <expr>
+                <call>
+                  <name>
+                    <name>this</name>
+                    <operator>.</operator>
+                    <name>data</name>
+                    <operator>.</operator>
+                    <name>remove</name>
+                  </name>
+                  <argument_list>(<argument>
+                      <expr>
+                        <name>start</name>
+                      </expr>
+                    </argument>)</argument_list>
+                </call>
+              </expr>;</expr_stmt>
+          </block_content>}</block>
+      </for>
+      <expr_stmt>
+        <expr>
+          <call>
+            <name>recalculateBounds</name>
+            <argument_list>()</argument_list>
+          </call>
+        </expr>;</expr_stmt>
+      <expr_stmt>
+        <expr>
+          <call>
+            <name>fireSeriesChanged</name>
+            <argument_list>()</argument_list>
+          </call>
+        </expr>;</expr_stmt>
+    </block_content>}</block>
+</function>

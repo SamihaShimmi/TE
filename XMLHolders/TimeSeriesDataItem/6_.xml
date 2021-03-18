@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='utf-8'?>
+<function>
+  <annotation>@<name>Override</name>
+  </annotation>
+  <type>
+    <specifier>public</specifier>
+    <name>int</name>
+  </type>
+  <name>compareTo</name>
+  <parameter_list>(<parameter>
+      <decl>
+        <type>
+          <name>TimeSeriesDataItem</name>
+        </type>
+        <name>other</name>
+      </decl>
+    </parameter>)</parameter_list>
+  <block>{<block_content>
+      <return>return <expr>
+          <call>
+            <name>getPeriod</name>
+            <argument_list>()</argument_list>
+          </call>
+          <operator>.</operator>
+          <call>
+            <name>compareTo</name>
+            <argument_list>(<argument>
+                <expr>
+                  <call>
+                    <name>
+                      <name>other</name>
+                      <operator>.</operator>
+                      <name>getPeriod</name>
+                    </name>
+                    <argument_list>()</argument_list>
+                  </call>
+                </expr>
+              </argument>)</argument_list>
+          </call>
+        </expr>;</return>
+    </block_content>}</block>
+</function>

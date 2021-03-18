@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='utf-8'?>
+<function>
+  <type>
+    <specifier>public</specifier>
+    <name>
+      <name>TimeSeries</name>
+      <argument_list type="generic">&lt;<argument>
+          <name>S</name>
+        </argument>&gt;</argument_list>
+    </name>
+  </type>
+  <name>getSeries</name>
+  <parameter_list>(<parameter>
+      <decl>
+        <type>
+          <name>S</name>
+        </type>
+        <name>key</name>
+      </decl>
+    </parameter>)</parameter_list>
+  <block>{<block_content>
+      <for>for <control>(<init>
+            <decl>
+              <type>
+                <name>TimeSeries</name>
+              </type>
+              <name>series</name>
+              <range>: <expr>
+                  <name>
+                    <name>this</name>
+                    <operator>.</operator>
+                    <name>data</name>
+                  </name>
+                </expr>
+              </range>
+            </decl>
+          </init>)</control>
+        <block>{<block_content>
+            <if_stmt>
+              <if>if <condition>(<expr>
+                    <call>
+                      <name>
+                        <name>series</name>
+                        <operator>.</operator>
+                        <name>getKey</name>
+                      </name>
+                      <argument_list>()</argument_list>
+                    </call>
+                    <operator>!=</operator>
+                    <literal type="null">null</literal>
+                    <operator>&amp;&amp;</operator>
+                    <call>
+                      <name>
+                        <name>series</name>
+                        <operator>.</operator>
+                        <name>getKey</name>
+                      </name>
+                      <argument_list>()</argument_list>
+                    </call>
+                    <operator>.</operator>
+                    <call>
+                      <name>equals</name>
+                      <argument_list>(<argument>
+                          <expr>
+                            <name>key</name>
+                          </expr>
+                        </argument>)</argument_list>
+                    </call>
+                  </expr>)</condition>
+                <block>{<block_content>
+                    <return>return <expr>
+                        <name>series</name>
+                      </expr>;</return>
+                  </block_content>}</block>
+              </if>
+            </if_stmt>
+          </block_content>}</block>
+      </for>
+      <return>return <expr>
+          <literal type="null">null</literal>
+        </expr>;</return>
+    </block_content>}</block>
+</function>

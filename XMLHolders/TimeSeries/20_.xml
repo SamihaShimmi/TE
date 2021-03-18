@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='utf-8'?>
+<function>
+  <type>
+    <name>TimeSeriesDataItem</name>
+  </type>
+  <name>getRawDataItem</name>
+  <parameter_list>(<parameter>
+      <decl>
+        <type>
+          <name>int</name>
+        </type>
+        <name>index</name>
+      </decl>
+    </parameter>)</parameter_list>
+  <block>{<block_content>
+      <return>return <expr>
+          <operator>(</operator>
+          <name>TimeSeriesDataItem</name>
+          <operator>)</operator>
+          <call>
+            <name>
+              <name>this</name>
+              <operator>.</operator>
+              <name>data</name>
+              <operator>.</operator>
+              <name>get</name>
+            </name>
+            <argument_list>(<argument>
+                <expr>
+                  <name>index</name>
+                </expr>
+              </argument>)</argument_list>
+          </call>
+        </expr>;</return>
+    </block_content>}</block>
+</function>

@@ -1,0 +1,1 @@
+loopCounter = 0

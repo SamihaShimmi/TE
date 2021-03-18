@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='utf-8'?>
+<function>
+  <type>
+    <specifier>public</specifier>
+    <name>TimeSeriesDataItem</name>
+  </type>
+  <name>getDataItem</name>
+  <parameter_list>(<parameter>
+      <decl>
+        <type>
+          <name>int</name>
+        </type>
+        <name>index</name>
+      </decl>
+    </parameter>)</parameter_list>
+  <block>{<block_content>
+      <decl_stmt>
+        <decl>
+          <type>
+            <name>TimeSeriesDataItem</name>
+          </type>
+          <name>item</name>
+          <init>= <expr>
+              <operator>(</operator>
+              <name>TimeSeriesDataItem</name>
+              <operator>)</operator>
+              <call>
+                <name>
+                  <name>this</name>
+                  <operator>.</operator>
+                  <name>data</name>
+                  <operator>.</operator>
+                  <name>get</name>
+                </name>
+                <argument_list>(<argument>
+                    <expr>
+                      <name>index</name>
+                    </expr>
+                  </argument>)</argument_list>
+              </call>
+            </expr>
+          </init>
+        </decl>;</decl_stmt>
+      <return>return <expr>
+          <operator>(</operator>
+          <name>TimeSeriesDataItem</name>
+          <operator>)</operator>
+          <call>
+            <name>
+              <name>item</name>
+              <operator>.</operator>
+              <name>clone</name>
+            </name>
+            <argument_list>()</argument_list>
+          </call>
+        </expr>;</return>
+    </block_content>}</block>
+</function>

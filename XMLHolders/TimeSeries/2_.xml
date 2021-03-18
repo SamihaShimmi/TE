@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='utf-8'?>
+<function>
+  <type>
+    <specifier>public</specifier>
+    <name>void</name>
+  </type>
+  <name>setDomainDescription</name>
+  <parameter_list>(<parameter>
+      <decl>
+        <type>
+          <name>String</name>
+        </type>
+        <name>description</name>
+      </decl>
+    </parameter>)</parameter_list>
+  <block>{<block_content>
+      <decl_stmt>
+        <decl>
+          <type>
+            <name>String</name>
+          </type>
+          <name>old</name>
+          <init>= <expr>
+              <name>
+                <name>this</name>
+                <operator>.</operator>
+                <name>domain</name>
+              </name>
+            </expr>
+          </init>
+        </decl>;</decl_stmt>
+      <expr_stmt>
+        <expr>
+          <name>
+            <name>this</name>
+            <operator>.</operator>
+            <name>domain</name>
+          </name>
+          <operator>=</operator>
+          <name>description</name>
+        </expr>;</expr_stmt>
+      <expr_stmt>
+        <expr>
+          <call>
+            <name>firePropertyChange</name>
+            <argument_list>(<argument>
+                <expr>
+                  <literal type="string">"Domain"</literal>
+                </expr>
+              </argument>, <argument>
+                <expr>
+                  <name>old</name>
+                </expr>
+              </argument>, <argument>
+                <expr>
+                  <name>description</name>
+                </expr>
+              </argument>)</argument_list>
+          </call>
+        </expr>;</expr_stmt>
+    </block_content>}</block>
+</function>

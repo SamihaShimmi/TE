@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='utf-8'?>
+<function>
+  <annotation>@<name>Override</name>
+  </annotation>
+  <type>
+    <specifier>public</specifier>
+    <name>String</name>
+  </type>
+  <name>toString</name>
+  <parameter_list>()</parameter_list>
+  <block>{<block_content>
+      <return>return <expr>
+          <literal type="string">"TimePeriodValue["</literal>
+          <operator>+</operator>
+          <call>
+            <name>getPeriod</name>
+            <argument_list>()</argument_list>
+          </call>
+          <operator>+</operator>
+          <literal type="string">","</literal>
+          <operator>+</operator>
+          <call>
+            <name>getValue</name>
+            <argument_list>()</argument_list>
+          </call>
+          <operator>+</operator>
+          <literal type="string">"]"</literal>
+        </expr>;</return>
+    </block_content>}</block>
+</function>

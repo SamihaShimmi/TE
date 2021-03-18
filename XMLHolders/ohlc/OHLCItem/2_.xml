@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='utf-8'?>
+<function>
+  <type>
+    <specifier>public</specifier>
+    <name>double</name>
+  </type>
+  <name>getYValue</name>
+  <parameter_list>()</parameter_list>
+  <block>{<block_content>
+      <return>return <expr>
+          <call>
+            <name>getCloseValue</name>
+            <argument_list>()</argument_list>
+          </call>
+        </expr>;</return>
+    </block_content>}</block>
+</function>

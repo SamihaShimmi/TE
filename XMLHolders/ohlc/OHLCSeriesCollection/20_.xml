@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='utf-8'?>
+<function>
+  <annotation>@<name>Override</name>
+  </annotation>
+  <type>
+    <specifier>public</specifier>
+    <name>Number</name>
+  </type>
+  <name>getVolume</name>
+  <parameter_list>(<parameter>
+      <decl>
+        <type>
+          <name>int</name>
+        </type>
+        <name>series</name>
+      </decl>
+    </parameter>, <parameter>
+      <decl>
+        <type>
+          <name>int</name>
+        </type>
+        <name>item</name>
+      </decl>
+    </parameter>)</parameter_list>
+  <block>{<block_content>
+      <return>return <expr>
+          <literal type="null">null</literal>
+        </expr>;</return>
+    </block_content>}</block>
+</function>

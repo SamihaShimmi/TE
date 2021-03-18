@@ -1,0 +1,139 @@
+<?xml version='1.0' encoding='utf-8'?>
+<function>
+  <annotation>@<name>Override</name>
+  </annotation>
+  <type>
+    <specifier>public</specifier>
+    <name>int</name>
+  </type>
+  <name>compareTo</name>
+  <parameter_list>(<parameter>
+      <decl>
+        <type>
+          <name>Object</name>
+        </type>
+        <name>o1</name>
+      </decl>
+    </parameter>)</parameter_list>
+  <block>{<block_content>
+      <decl_stmt>
+        <decl>
+          <type>
+            <name>int</name>
+          </type>
+          <name>result</name>
+        </decl>;</decl_stmt>
+      <comment type="line">// CASE 1 : Comparing to another Minute object</comment>
+      <comment type="line">// -------------------------------------------</comment>
+      <if_stmt>
+        <if>if <condition>(<expr>
+              <name>o1</name>
+              <operator>instanceof</operator>
+              <name>Minute</name>
+            </expr>)</condition>
+          <block>{<block_content>
+              <decl_stmt>
+                <decl>
+                  <type>
+                    <name>Minute</name>
+                  </type>
+                  <name>m</name>
+                  <init>= <expr>
+                      <operator>(</operator>
+                      <name>Minute</name>
+                      <operator>)</operator>
+                      <name>o1</name>
+                    </expr>
+                  </init>
+                </decl>;</decl_stmt>
+              <expr_stmt>
+                <expr>
+                  <name>result</name>
+                  <operator>=</operator>
+                  <call>
+                    <name>getHour</name>
+                    <argument_list>()</argument_list>
+                  </call>
+                  <operator>.</operator>
+                  <call>
+                    <name>compareTo</name>
+                    <argument_list>(<argument>
+                        <expr>
+                          <call>
+                            <name>
+                              <name>m</name>
+                              <operator>.</operator>
+                              <name>getHour</name>
+                            </name>
+                            <argument_list>()</argument_list>
+                          </call>
+                        </expr>
+                      </argument>)</argument_list>
+                  </call>
+                </expr>;</expr_stmt>
+              <if_stmt>
+                <if>if <condition>(<expr>
+                      <name>result</name>
+                      <operator>==</operator>
+                      <literal type="number">0</literal>
+                    </expr>)</condition>
+                  <block>{<block_content>
+                      <expr_stmt>
+                        <expr>
+                          <name>result</name>
+                          <operator>=</operator>
+                          <name>
+                            <name>this</name>
+                            <operator>.</operator>
+                            <name>minute</name>
+                          </name>
+                          <operator>-</operator>
+                          <call>
+                            <name>
+                              <name>m</name>
+                              <operator>.</operator>
+                              <name>getMinute</name>
+                            </name>
+                            <argument_list>()</argument_list>
+                          </call>
+                        </expr>;</expr_stmt>
+                    </block_content>}</block>
+                </if>
+              </if_stmt>
+            </block_content>}</block>
+        </if>
+        <comment type="line">// CASE 2 : Comparing to another TimePeriod object</comment>
+        <comment type="line">// -----------------------------------------------</comment>
+        <if type="elseif">else if <condition>(<expr>
+              <name>o1</name>
+              <operator>instanceof</operator>
+              <name>RegularTimePeriod</name>
+            </expr>)</condition>
+          <block>{<block_content>
+              <comment type="line">// more difficult case - evaluate later...</comment>
+              <expr_stmt>
+                <expr>
+                  <name>result</name>
+                  <operator>=</operator>
+                  <literal type="number">0</literal>
+                </expr>;</expr_stmt>
+            </block_content>}</block>
+        </if>
+        <comment type="line">// CASE 3 : Comparing to a non-TimePeriod object</comment>
+        <comment type="line">// ---------------------------------------------</comment>
+        <else>else <block>{<block_content>
+              <comment type="line">// consider time periods to be ordered after general objects</comment>
+              <expr_stmt>
+                <expr>
+                  <name>result</name>
+                  <operator>=</operator>
+                  <literal type="number">1</literal>
+                </expr>;</expr_stmt>
+            </block_content>}</block>
+        </else>
+      </if_stmt>
+      <return>return <expr>
+          <name>result</name>
+        </expr>;</return>
+    </block_content>}</block>
+</function>

@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='utf-8'?>
+<function>
+  <type>
+    <specifier>public</specifier>
+    <name>int</name>
+  </type>
+  <name>getMonth</name>
+  <parameter_list>()</parameter_list>
+  <block>{<block_content>
+      <return>return <expr>
+          <name>
+            <name>this</name>
+            <operator>.</operator>
+            <name>month</name>
+          </name>
+        </expr>;</return>
+    </block_content>}</block>
+</function>

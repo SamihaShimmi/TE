@@ -1,0 +1,121 @@
+<?xml version='1.0' encoding='utf-8'?>
+<function>
+  <annotation>@<name>Override</name>
+  </annotation>
+  <type>
+    <specifier>public</specifier>
+    <name>int</name>
+  </type>
+  <name>hashCode</name>
+  <parameter_list>()</parameter_list>
+  <block>{<block_content>
+      <decl_stmt>
+        <decl>
+          <type>
+            <name>int</name>
+          </type>
+          <name>result</name>
+          <init>= <expr>
+              <literal type="number">137</literal>
+            </expr>
+          </init>
+        </decl>;</decl_stmt>
+      <expr_stmt>
+        <expr>
+          <name>result</name>
+          <operator>=</operator>
+          <call>
+            <name>
+              <name>HashUtils</name>
+              <operator>.</operator>
+              <name>hashCode</name>
+            </name>
+            <argument_list>(<argument>
+                <expr>
+                  <name>result</name>
+                </expr>
+              </argument>, <argument>
+                <expr>
+                  <name>
+                    <name>this</name>
+                    <operator>.</operator>
+                    <name>xPosition</name>
+                  </name>
+                </expr>
+              </argument>)</argument_list>
+          </call>
+        </expr>;</expr_stmt>
+      <for>for <control>(<init>
+            <decl>
+              <type>
+                <name>int</name>
+              </type>
+              <name>i</name>
+              <init>= <expr>
+                  <literal type="number">0</literal>
+                </expr>
+              </init>
+            </decl>;</init>
+          <condition>
+            <expr>
+              <name>i</name>
+              <operator>&lt;</operator>
+              <call>
+                <name>
+                  <name>this</name>
+                  <operator>.</operator>
+                  <name>data</name>
+                  <operator>.</operator>
+                  <name>size</name>
+                </name>
+                <argument_list>()</argument_list>
+              </call>
+            </expr>;</condition>
+          <incr>
+            <expr>
+              <name>i</name>
+              <operator>++</operator>
+            </expr>
+          </incr>)</control>
+        <block>{<block_content>
+            <expr_stmt>
+              <expr>
+                <name>result</name>
+                <operator>=</operator>
+                <call>
+                  <name>
+                    <name>HashUtils</name>
+                    <operator>.</operator>
+                    <name>hashCode</name>
+                  </name>
+                  <argument_list>(<argument>
+                      <expr>
+                        <name>result</name>
+                      </expr>
+                    </argument>, <argument>
+                      <expr>
+                        <call>
+                          <name>
+                            <name>this</name>
+                            <operator>.</operator>
+                            <name>data</name>
+                            <operator>.</operator>
+                            <name>get</name>
+                          </name>
+                          <argument_list>(<argument>
+                              <expr>
+                                <name>i</name>
+                              </expr>
+                            </argument>)</argument_list>
+                        </call>
+                      </expr>
+                    </argument>)</argument_list>
+                </call>
+              </expr>;</expr_stmt>
+          </block_content>}</block>
+      </for>
+      <return>return <expr>
+          <name>result</name>
+        </expr>;</return>
+    </block_content>}</block>
+</function>

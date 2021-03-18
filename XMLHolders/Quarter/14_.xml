@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='utf-8'?>
+<function>
+  <annotation>@<name>Override</name>
+  </annotation>
+  <type>
+    <specifier>public</specifier>
+    <name>long</name>
+  </type>
+  <name>getFirstMillisecond</name>
+  <parameter_list>(<parameter>
+      <decl>
+        <type>
+          <name>Calendar</name>
+        </type>
+        <name>calendar</name>
+      </decl>
+    </parameter>)</parameter_list>
+  <block>{<block_content>
+      <decl_stmt>
+        <decl>
+          <type>
+            <name>int</name>
+          </type>
+          <name>month</name>
+          <init>= <expr>
+              <name>
+                <name>Quarter</name>
+                <operator>.</operator>
+                <name>FIRST_MONTH_IN_QUARTER</name>
+                <index>[<expr>
+                    <name>
+                      <name>this</name>
+                      <operator>.</operator>
+                      <name>quarter</name>
+                    </name>
+                  </expr>]</index>
+              </name>
+            </expr>
+          </init>
+        </decl>;</decl_stmt>
+      <expr_stmt>
+        <expr>
+          <call>
+            <name>
+              <name>calendar</name>
+              <operator>.</operator>
+              <name>set</name>
+            </name>
+            <argument_list>(<argument>
+                <expr>
+                  <name>
+                    <name>this</name>
+                    <operator>.</operator>
+                    <name>year</name>
+                  </name>
+                </expr>
+              </argument>, <argument>
+                <expr>
+                  <name>month</name>
+                  <operator>-</operator>
+                  <literal type="number">1</literal>
+                </expr>
+              </argument>, <argument>
+                <expr>
+                  <literal type="number">1</literal>
+                </expr>
+              </argument>, <argument>
+                <expr>
+                  <literal type="number">0</literal>
+                </expr>
+              </argument>, <argument>
+                <expr>
+                  <literal type="number">0</literal>
+                </expr>
+              </argument>, <argument>
+                <expr>
+                  <literal type="number">0</literal>
+                </expr>
+              </argument>)</argument_list>
+          </call>
+        </expr>;</expr_stmt>
+      <expr_stmt>
+        <expr>
+          <call>
+            <name>
+              <name>calendar</name>
+              <operator>.</operator>
+              <name>set</name>
+            </name>
+            <argument_list>(<argument>
+                <expr>
+                  <name>
+                    <name>Calendar</name>
+                    <operator>.</operator>
+                    <name>MILLISECOND</name>
+                  </name>
+                </expr>
+              </argument>, <argument>
+                <expr>
+                  <literal type="number">0</literal>
+                </expr>
+              </argument>)</argument_list>
+          </call>
+        </expr>;</expr_stmt>
+      <return>return <expr>
+          <call>
+            <name>
+              <name>calendar</name>
+              <operator>.</operator>
+              <name>getTimeInMillis</name>
+            </name>
+            <argument_list>()</argument_list>
+          </call>
+        </expr>;</return>
+    </block_content>}</block>
+</function>

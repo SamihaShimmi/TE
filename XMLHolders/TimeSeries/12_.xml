@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='utf-8'?>
+<function>
+  <type>
+    <specifier>public</specifier>
+    <name>Range</name>
+  </type>
+  <name>findValueRange</name>
+  <parameter_list>(<parameter>
+      <decl>
+        <type>
+          <name>Range</name>
+        </type>
+        <name>xRange</name>
+      </decl>
+    </parameter>, <parameter>
+      <decl>
+        <type>
+          <name>TimeZone</name>
+        </type>
+        <name>timeZone</name>
+      </decl>
+    </parameter>)</parameter_list>
+  <block>{<block_content>
+      <return>return <expr>
+          <call>
+            <name>findValueRange</name>
+            <argument_list>(<argument>
+                <expr>
+                  <name>xRange</name>
+                </expr>
+              </argument>, <argument>
+                <expr>
+                  <name>
+                    <name>TimePeriodAnchor</name>
+                    <operator>.</operator>
+                    <name>MIDDLE</name>
+                  </name>
+                </expr>
+              </argument>, <argument>
+                <expr>
+                  <name>timeZone</name>
+                </expr>
+              </argument>)</argument_list>
+          </call>
+        </expr>;</return>
+    </block_content>}</block>
+</function>

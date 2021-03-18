@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='utf-8'?>
+<function>
+  <annotation>@<name>Override</name>
+  </annotation>
+  <type>
+    <specifier>public</specifier>
+    <name>double</name>
+  </type>
+  <name>getVolumeValue</name>
+  <parameter_list>(<parameter>
+      <decl>
+        <type>
+          <name>int</name>
+        </type>
+        <name>series</name>
+      </decl>
+    </parameter>, <parameter>
+      <decl>
+        <type>
+          <name>int</name>
+        </type>
+        <name>item</name>
+      </decl>
+    </parameter>)</parameter_list>
+  <block>{<block_content>
+      <return>return <expr>
+          <name>
+            <name>Double</name>
+            <operator>.</operator>
+            <name>NaN</name>
+          </name>
+        </expr>;</return>
+    </block_content>}</block>
+</function>

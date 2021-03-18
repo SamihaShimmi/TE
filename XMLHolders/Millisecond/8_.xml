@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='utf-8'?>
+<function>
+  <annotation>@<name>Override</name>
+  </annotation>
+  <type>
+    <specifier>public</specifier>
+    <name>long</name>
+  </type>
+  <name>getSerialIndex</name>
+  <parameter_list>()</parameter_list>
+  <block>{<block_content>
+      <decl_stmt>
+        <decl>
+          <type>
+            <name>long</name>
+          </type>
+          <name>hourIndex</name>
+          <init>= <expr>
+              <call>
+                <name>
+                  <name>this</name>
+                  <operator>.</operator>
+                  <name>day</name>
+                  <operator>.</operator>
+                  <name>getSerialIndex</name>
+                </name>
+                <argument_list>()</argument_list>
+              </call>
+              <operator>*</operator>
+              <literal type="number">24L</literal>
+              <operator>+</operator>
+              <name>
+                <name>this</name>
+                <operator>.</operator>
+                <name>hour</name>
+              </name>
+            </expr>
+          </init>
+        </decl>;</decl_stmt>
+      <decl_stmt>
+        <decl>
+          <type>
+            <name>long</name>
+          </type>
+          <name>minuteIndex</name>
+          <init>= <expr>
+              <name>hourIndex</name>
+              <operator>*</operator>
+              <literal type="number">60L</literal>
+              <operator>+</operator>
+              <name>
+                <name>this</name>
+                <operator>.</operator>
+                <name>minute</name>
+              </name>
+            </expr>
+          </init>
+        </decl>;</decl_stmt>
+      <decl_stmt>
+        <decl>
+          <type>
+            <name>long</name>
+          </type>
+          <name>secondIndex</name>
+          <init>= <expr>
+              <name>minuteIndex</name>
+              <operator>*</operator>
+              <literal type="number">60L</literal>
+              <operator>+</operator>
+              <name>
+                <name>this</name>
+                <operator>.</operator>
+                <name>second</name>
+              </name>
+            </expr>
+          </init>
+        </decl>;</decl_stmt>
+      <return>return <expr>
+          <name>secondIndex</name>
+          <operator>*</operator>
+          <literal type="number">1000L</literal>
+          <operator>+</operator>
+          <name>
+            <name>this</name>
+            <operator>.</operator>
+            <name>millisecond</name>
+          </name>
+        </expr>;</return>
+    </block_content>}</block>
+</function>

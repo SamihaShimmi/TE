@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='utf-8'?>
+<function>
+  <annotation>@<name>Override</name>
+  </annotation>
+  <type>
+    <specifier>public</specifier>
+    <name>boolean</name>
+  </type>
+  <name>equals</name>
+  <parameter_list>(<parameter>
+      <decl>
+        <type>
+          <name>Object</name>
+        </type>
+        <name>obj</name>
+      </decl>
+    </parameter>)</parameter_list>
+  <block>{<block_content>
+      <if_stmt>
+        <if>if <condition>(<expr>
+              <name>obj</name>
+              <operator>==</operator>
+              <name>this</name>
+            </expr>)</condition>
+          <block>{<block_content>
+              <return>return <expr>
+                  <literal type="boolean">true</literal>
+                </expr>;</return>
+            </block_content>}</block>
+        </if>
+      </if_stmt>
+      <if_stmt>
+        <if>if <condition>(<expr>
+              <operator>!</operator>
+              <operator>(</operator>
+              <name>obj</name>
+              <operator>instanceof</operator>
+              <name>Week</name>
+              <operator>)</operator>
+            </expr>)</condition>
+          <block>{<block_content>
+              <return>return <expr>
+                  <literal type="boolean">false</literal>
+                </expr>;</return>
+            </block_content>}</block>
+        </if>
+      </if_stmt>
+      <decl_stmt>
+        <decl>
+          <type>
+            <name>Week</name>
+          </type>
+          <name>that</name>
+          <init>= <expr>
+              <operator>(</operator>
+              <name>Week</name>
+              <operator>)</operator>
+              <name>obj</name>
+            </expr>
+          </init>
+        </decl>;</decl_stmt>
+      <if_stmt>
+        <if>if <condition>(<expr>
+              <name>
+                <name>this</name>
+                <operator>.</operator>
+                <name>week</name>
+              </name>
+              <operator>!=</operator>
+              <name>
+                <name>that</name>
+                <operator>.</operator>
+                <name>week</name>
+              </name>
+            </expr>)</condition>
+          <block>{<block_content>
+              <return>return <expr>
+                  <literal type="boolean">false</literal>
+                </expr>;</return>
+            </block_content>}</block>
+        </if>
+      </if_stmt>
+      <if_stmt>
+        <if>if <condition>(<expr>
+              <name>
+                <name>this</name>
+                <operator>.</operator>
+                <name>year</name>
+              </name>
+              <operator>!=</operator>
+              <name>
+                <name>that</name>
+                <operator>.</operator>
+                <name>year</name>
+              </name>
+            </expr>)</condition>
+          <block>{<block_content>
+              <return>return <expr>
+                  <literal type="boolean">false</literal>
+                </expr>;</return>
+            </block_content>}</block>
+        </if>
+      </if_stmt>
+      <return>return <expr>
+          <literal type="boolean">true</literal>
+        </expr>;</return>
+    </block_content>}</block>
+</function>

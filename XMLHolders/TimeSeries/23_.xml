@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='utf-8'?>
+<function>
+  <type>
+    <specifier>public</specifier>
+    <name>RegularTimePeriod</name>
+  </type>
+  <name>getNextTimePeriod</name>
+  <parameter_list>()</parameter_list>
+  <block>{<block_content>
+      <decl_stmt>
+        <decl>
+          <type>
+            <name>RegularTimePeriod</name>
+          </type>
+          <name>last</name>
+          <init>= <expr>
+              <call>
+                <name>getTimePeriod</name>
+                <argument_list>(<argument>
+                    <expr>
+                      <call>
+                        <name>getItemCount</name>
+                        <argument_list>()</argument_list>
+                      </call>
+                      <operator>-</operator>
+                      <literal type="number">1</literal>
+                    </expr>
+                  </argument>)</argument_list>
+              </call>
+            </expr>
+          </init>
+        </decl>;</decl_stmt>
+      <return>return <expr>
+          <call>
+            <name>
+              <name>last</name>
+              <operator>.</operator>
+              <name>next</name>
+            </name>
+            <argument_list>()</argument_list>
+          </call>
+        </expr>;</return>
+    </block_content>}</block>
+</function>

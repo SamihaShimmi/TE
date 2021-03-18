@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+  <xs:element name="function">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="type"/>
+        <xs:element ref="name"/>
+        <xs:element ref="parameter_list"/>
+        <xs:element ref="block"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="type">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="specifier"/>
+        <xs:element ref="name"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="specifier" type="xs:NCName"/>
+  <xs:element name="parameter_list" type="xs:string"/>
+  <xs:element name="block">
+    <xs:complexType mixed="true">
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="block_content"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="block_content">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="return"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="return">
+    <xs:complexType mixed="true">
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="expr"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="expr">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="call"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="call">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="name"/>
+        <xs:element ref="argument_list"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="argument_list" type="xs:string"/>
+  <xs:element name="name" type="xs:NCName"/>
+</xs:schema>

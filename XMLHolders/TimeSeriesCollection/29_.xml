@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='utf-8'?>
+<function>
+  <type>
+    <specifier>public</specifier>
+    <name>Range</name>
+  </type>
+  <name>getRangeBounds</name>
+  <parameter_list>(<parameter>
+      <decl>
+        <type>
+          <name>boolean</name>
+        </type>
+        <name>includeInterval</name>
+      </decl>
+    </parameter>)</parameter_list>
+  <block>{<block_content>
+      <decl_stmt>
+        <decl>
+          <type>
+            <name>Range</name>
+          </type>
+          <name>result</name>
+          <init>= <expr>
+              <literal type="null">null</literal>
+            </expr>
+          </init>
+        </decl>;</decl_stmt>
+      <for>for <control>(<init>
+            <decl>
+              <type>
+                <name>
+                  <name>TimeSeries</name>
+                  <argument_list type="generic">&lt;<argument>
+                      <name>S</name>
+                    </argument>&gt;</argument_list>
+                </name>
+              </type>
+              <name>series</name>
+              <range>: <expr>
+                  <name>
+                    <name>this</name>
+                    <operator>.</operator>
+                    <name>data</name>
+                  </name>
+                </expr>
+              </range>
+            </decl>
+          </init>)</control>
+        <block>{<block_content>
+            <decl_stmt>
+              <decl>
+                <type>
+                  <name>Range</name>
+                </type>
+                <name>r</name>
+                <init>= <expr>
+                    <operator>new</operator>
+                    <call>
+                      <name>Range</name>
+                      <argument_list>(<argument>
+                          <expr>
+                            <call>
+                              <name>
+                                <name>series</name>
+                                <operator>.</operator>
+                                <name>getMinY</name>
+                              </name>
+                              <argument_list>()</argument_list>
+                            </call>
+                          </expr>
+                        </argument>, <argument>
+                          <expr>
+                            <call>
+                              <name>
+                                <name>series</name>
+                                <operator>.</operator>
+                                <name>getMaxY</name>
+                              </name>
+                              <argument_list>()</argument_list>
+                            </call>
+                          </expr>
+                        </argument>)</argument_list>
+                    </call>
+                  </expr>
+                </init>
+              </decl>;</decl_stmt>
+            <expr_stmt>
+              <expr>
+                <name>result</name>
+                <operator>=</operator>
+                <call>
+                  <name>
+                    <name>Range</name>
+                    <operator>.</operator>
+                    <name>combineIgnoringNaN</name>
+                  </name>
+                  <argument_list>(<argument>
+                      <expr>
+                        <name>result</name>
+                      </expr>
+                    </argument>, <argument>
+                      <expr>
+                        <name>r</name>
+                      </expr>
+                    </argument>)</argument_list>
+                </call>
+              </expr>;</expr_stmt>
+          </block_content>}</block>
+      </for>
+      <return>return <expr>
+          <name>result</name>
+        </expr>;</return>
+    </block_content>}</block>
+</function>

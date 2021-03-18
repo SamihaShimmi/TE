@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='utf-8'?>
+<function>
+  <type>
+    <specifier>public</specifier>
+    <name>Second</name>
+  </type>
+  <name>getSecond</name>
+  <parameter_list>()</parameter_list>
+  <block>{<block_content>
+      <return>return <expr>
+          <operator>new</operator>
+          <call>
+            <name>Second</name>
+            <argument_list>(<argument>
+                <expr>
+                  <name>
+                    <name>this</name>
+                    <operator>.</operator>
+                    <name>second</name>
+                  </name>
+                </expr>
+              </argument>, <argument>
+                <expr>
+                  <name>
+                    <name>this</name>
+                    <operator>.</operator>
+                    <name>minute</name>
+                  </name>
+                </expr>
+              </argument>, <argument>
+                <expr>
+                  <name>
+                    <name>this</name>
+                    <operator>.</operator>
+                    <name>hour</name>
+                  </name>
+                </expr>
+              </argument>,
+                <argument>
+                <expr>
+                  <call>
+                    <name>
+                      <name>this</name>
+                      <operator>.</operator>
+                      <name>day</name>
+                      <operator>.</operator>
+                      <name>getDayOfMonth</name>
+                    </name>
+                    <argument_list>()</argument_list>
+                  </call>
+                </expr>
+              </argument>, <argument>
+                <expr>
+                  <call>
+                    <name>
+                      <name>this</name>
+                      <operator>.</operator>
+                      <name>day</name>
+                      <operator>.</operator>
+                      <name>getMonth</name>
+                    </name>
+                    <argument_list>()</argument_list>
+                  </call>
+                </expr>
+              </argument>,
+                <argument>
+                <expr>
+                  <call>
+                    <name>
+                      <name>this</name>
+                      <operator>.</operator>
+                      <name>day</name>
+                      <operator>.</operator>
+                      <name>getYear</name>
+                    </name>
+                    <argument_list>()</argument_list>
+                  </call>
+                </expr>
+              </argument>)</argument_list>
+          </call>
+        </expr>;</return>
+    </block_content>}</block>
+</function>

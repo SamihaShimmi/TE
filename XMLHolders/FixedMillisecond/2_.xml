@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='utf-8'?>
+<function>
+  <annotation>@<name>Override</name>
+  </annotation>
+  <type>
+    <specifier>public</specifier>
+    <name>void</name>
+  </type>
+  <name>peg</name>
+  <parameter_list>(<parameter>
+      <decl>
+        <type>
+          <name>Calendar</name>
+        </type>
+        <name>calendar</name>
+      </decl>
+    </parameter>)</parameter_list>
+  <block>{<block_content>
+      <comment type="line">// nothing to do</comment>
+    </block_content>}</block>
+</function>

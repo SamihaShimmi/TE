@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='utf-8'?>
+<function>
+  <type>
+    <specifier>public</specifier>
+    <specifier>static</specifier>
+    <name>XYDataset</name>
+  </type>
+  <name>createMovingAverage</name>
+  <parameter_list>(<parameter>
+      <decl>
+        <type>
+          <name>XYDataset</name>
+        </type>
+        <name>source</name>
+      </decl>
+    </parameter>, <parameter>
+      <decl>
+        <type>
+          <name>String</name>
+        </type>
+        <name>suffix</name>
+      </decl>
+    </parameter>,
+            <parameter>
+      <decl>
+        <type>
+          <name>long</name>
+        </type>
+        <name>period</name>
+      </decl>
+    </parameter>, <parameter>
+      <decl>
+        <type>
+          <name>long</name>
+        </type>
+        <name>skip</name>
+      </decl>
+    </parameter>)</parameter_list>
+  <block>{<block_content>
+      <return>return <expr>
+          <call>
+            <name>createMovingAverage</name>
+            <argument_list>(<argument>
+                <expr>
+                  <name>source</name>
+                </expr>
+              </argument>, <argument>
+                <expr>
+                  <name>suffix</name>
+                </expr>
+              </argument>, <argument>
+                <expr>
+                  <operator>(</operator>
+                  <name>double</name>
+                  <operator>)</operator>
+                  <name>period</name>
+                </expr>
+              </argument>,
+                <argument>
+                <expr>
+                  <operator>(</operator>
+                  <name>double</name>
+                  <operator>)</operator>
+                  <name>skip</name>
+                </expr>
+              </argument>)</argument_list>
+          </call>
+        </expr>;</return>
+    </block_content>}</block>
+</function>

@@ -1,0 +1,204 @@
+<?xml version='1.0' encoding='utf-8'?>
+<function>
+  <annotation>@<name>Override</name>
+  </annotation>
+  <type>
+    <specifier>public</specifier>
+    <name>int</name>
+  </type>
+  <name>hashCode</name>
+  <parameter_list>()</parameter_list>
+  <block>{<block_content>
+      <decl_stmt>
+        <decl>
+          <type>
+            <name>int</name>
+          </type>
+          <name>result</name>
+        </decl>;</decl_stmt>
+      <expr_stmt>
+        <expr>
+          <name>result</name>
+          <operator>=</operator>
+          <operator>(</operator>
+          <ternary>
+            <condition>
+              <expr>
+                <name>
+                  <name>this</name>
+                  <operator>.</operator>
+                  <name>domain</name>
+                </name>
+                <operator>!=</operator>
+                <literal type="null">null</literal>
+              </expr> ?</condition>
+            <then>
+              <expr>
+                <call>
+                  <name>
+                    <name>this</name>
+                    <operator>.</operator>
+                    <name>domain</name>
+                    <operator>.</operator>
+                    <name>hashCode</name>
+                  </name>
+                  <argument_list>()</argument_list>
+                </call>
+              </expr>
+            </then>
+            <else>: <expr>
+                <literal type="number">0</literal>
+              </expr>
+            </else>
+          </ternary>
+          <operator>)</operator>
+        </expr>;</expr_stmt>
+      <expr_stmt>
+        <expr>
+          <name>result</name>
+          <operator>=</operator>
+          <literal type="number">29</literal>
+          <operator>*</operator>
+          <name>result</name>
+          <operator>+</operator>
+          <operator>(</operator>
+          <ternary>
+            <condition>
+              <expr>
+                <name>
+                  <name>this</name>
+                  <operator>.</operator>
+                  <name>range</name>
+                </name>
+                <operator>!=</operator>
+                <literal type="null">null</literal>
+              </expr> ?</condition>
+            <then>
+              <expr>
+                <call>
+                  <name>
+                    <name>this</name>
+                    <operator>.</operator>
+                    <name>range</name>
+                    <operator>.</operator>
+                    <name>hashCode</name>
+                  </name>
+                  <argument_list>()</argument_list>
+                </call>
+              </expr>
+            </then>
+            <else>: <expr>
+                <literal type="number">0</literal>
+              </expr>
+            </else>
+          </ternary>
+          <operator>)</operator>
+        </expr>;</expr_stmt>
+      <expr_stmt>
+        <expr>
+          <name>result</name>
+          <operator>=</operator>
+          <literal type="number">29</literal>
+          <operator>*</operator>
+          <name>result</name>
+          <operator>+</operator>
+          <call>
+            <name>
+              <name>this</name>
+              <operator>.</operator>
+              <name>data</name>
+              <operator>.</operator>
+              <name>hashCode</name>
+            </name>
+            <argument_list>()</argument_list>
+          </call>
+        </expr>;</expr_stmt>
+      <expr_stmt>
+        <expr>
+          <name>result</name>
+          <operator>=</operator>
+          <literal type="number">29</literal>
+          <operator>*</operator>
+          <name>result</name>
+          <operator>+</operator>
+          <name>
+            <name>this</name>
+            <operator>.</operator>
+            <name>minStartIndex</name>
+          </name>
+        </expr>;</expr_stmt>
+      <expr_stmt>
+        <expr>
+          <name>result</name>
+          <operator>=</operator>
+          <literal type="number">29</literal>
+          <operator>*</operator>
+          <name>result</name>
+          <operator>+</operator>
+          <name>
+            <name>this</name>
+            <operator>.</operator>
+            <name>maxStartIndex</name>
+          </name>
+        </expr>;</expr_stmt>
+      <expr_stmt>
+        <expr>
+          <name>result</name>
+          <operator>=</operator>
+          <literal type="number">29</literal>
+          <operator>*</operator>
+          <name>result</name>
+          <operator>+</operator>
+          <name>
+            <name>this</name>
+            <operator>.</operator>
+            <name>minMiddleIndex</name>
+          </name>
+        </expr>;</expr_stmt>
+      <expr_stmt>
+        <expr>
+          <name>result</name>
+          <operator>=</operator>
+          <literal type="number">29</literal>
+          <operator>*</operator>
+          <name>result</name>
+          <operator>+</operator>
+          <name>
+            <name>this</name>
+            <operator>.</operator>
+            <name>maxMiddleIndex</name>
+          </name>
+        </expr>;</expr_stmt>
+      <expr_stmt>
+        <expr>
+          <name>result</name>
+          <operator>=</operator>
+          <literal type="number">29</literal>
+          <operator>*</operator>
+          <name>result</name>
+          <operator>+</operator>
+          <name>
+            <name>this</name>
+            <operator>.</operator>
+            <name>minEndIndex</name>
+          </name>
+        </expr>;</expr_stmt>
+      <expr_stmt>
+        <expr>
+          <name>result</name>
+          <operator>=</operator>
+          <literal type="number">29</literal>
+          <operator>*</operator>
+          <name>result</name>
+          <operator>+</operator>
+          <name>
+            <name>this</name>
+            <operator>.</operator>
+            <name>maxEndIndex</name>
+          </name>
+        </expr>;</expr_stmt>
+      <return>return <expr>
+          <name>result</name>
+        </expr>;</return>
+    </block_content>}</block>
+</function>

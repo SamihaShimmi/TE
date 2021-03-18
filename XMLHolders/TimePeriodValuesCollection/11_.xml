@@ -1,0 +1,145 @@
+<?xml version='1.0' encoding='utf-8'?>
+<function>
+  <type>
+    <specifier>private</specifier>
+    <name>long</name>
+  </type>
+  <name>getX</name>
+  <parameter_list>(<parameter>
+      <decl>
+        <type>
+          <name>TimePeriod</name>
+        </type>
+        <name>period</name>
+      </decl>
+    </parameter>)</parameter_list>
+  <block>{<block_content>
+      <if_stmt>
+        <if>if <condition>(<expr>
+              <name>
+                <name>this</name>
+                <operator>.</operator>
+                <name>xPosition</name>
+              </name>
+              <operator>==</operator>
+              <name>
+                <name>TimePeriodAnchor</name>
+                <operator>.</operator>
+                <name>START</name>
+              </name>
+            </expr>)</condition>
+          <block>{<block_content>
+              <return>return <expr>
+                  <call>
+                    <name>
+                      <name>period</name>
+                      <operator>.</operator>
+                      <name>getStart</name>
+                    </name>
+                    <argument_list>()</argument_list>
+                  </call>
+                  <operator>.</operator>
+                  <call>
+                    <name>getTime</name>
+                    <argument_list>()</argument_list>
+                  </call>
+                </expr>;</return>
+            </block_content>}</block>
+        </if>
+        <if type="elseif">else if <condition>(<expr>
+              <name>
+                <name>this</name>
+                <operator>.</operator>
+                <name>xPosition</name>
+              </name>
+              <operator>==</operator>
+              <name>
+                <name>TimePeriodAnchor</name>
+                <operator>.</operator>
+                <name>MIDDLE</name>
+              </name>
+            </expr>)</condition>
+          <block>{<block_content>
+              <return>return <expr>
+                  <call>
+                    <name>
+                      <name>period</name>
+                      <operator>.</operator>
+                      <name>getStart</name>
+                    </name>
+                    <argument_list>()</argument_list>
+                  </call>
+                  <operator>.</operator>
+                  <call>
+                    <name>getTime</name>
+                    <argument_list>()</argument_list>
+                  </call>
+                  <operator>/</operator>
+                  <literal type="number">2</literal>
+                  <operator>+</operator>
+                  <call>
+                    <name>
+                      <name>period</name>
+                      <operator>.</operator>
+                      <name>getEnd</name>
+                    </name>
+                    <argument_list>()</argument_list>
+                  </call>
+                  <operator>.</operator>
+                  <call>
+                    <name>getTime</name>
+                    <argument_list>()</argument_list>
+                  </call>
+                  <operator>/</operator>
+                  <literal type="number">2</literal>
+                </expr>;</return>
+            </block_content>}</block>
+        </if>
+        <if type="elseif">else if <condition>(<expr>
+              <name>
+                <name>this</name>
+                <operator>.</operator>
+                <name>xPosition</name>
+              </name>
+              <operator>==</operator>
+              <name>
+                <name>TimePeriodAnchor</name>
+                <operator>.</operator>
+                <name>END</name>
+              </name>
+            </expr>)</condition>
+          <block>{<block_content>
+              <return>return <expr>
+                  <call>
+                    <name>
+                      <name>period</name>
+                      <operator>.</operator>
+                      <name>getEnd</name>
+                    </name>
+                    <argument_list>()</argument_list>
+                  </call>
+                  <operator>.</operator>
+                  <call>
+                    <name>getTime</name>
+                    <argument_list>()</argument_list>
+                  </call>
+                </expr>;</return>
+            </block_content>}</block>
+        </if>
+        <else>else <block>{<block_content>
+              <throw>throw <expr>
+                  <operator>new</operator>
+                  <call>
+                    <name>IllegalStateException</name>
+                    <argument_list>(<argument>
+                        <expr>
+                          <literal type="string">"TimePeriodAnchor unknown."</literal>
+                        </expr>
+                      </argument>)</argument_list>
+                  </call>
+                </expr>;</throw>
+            </block_content>}</block>
+        </else>
+      </if_stmt>
+    </block_content>}</block>
+</function>

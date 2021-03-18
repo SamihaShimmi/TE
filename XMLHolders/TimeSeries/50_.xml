@@ -1,0 +1,328 @@
+<?xml version='1.0' encoding='utf-8'?>
+<function>
+  <type>
+    <specifier>public</specifier>
+    <name>
+      <name>TimeSeries</name>
+      <argument_list type="generic">&lt;<argument>
+          <name>S</name>
+        </argument>&gt;</argument_list>
+    </name>
+  </type>
+  <name>createCopy</name>
+  <parameter_list>(<parameter>
+      <decl>
+        <type>
+          <name>RegularTimePeriod</name>
+        </type>
+        <name>start</name>
+      </decl>
+    </parameter>, <parameter>
+      <decl>
+        <type>
+          <name>RegularTimePeriod</name>
+        </type>
+        <name>end</name>
+      </decl>
+    </parameter>)</parameter_list>
+  <throws>throws <argument>
+      <expr>
+        <name>CloneNotSupportedException</name>
+      </expr>
+    </argument>
+  </throws>
+  <block>{<block_content>
+      <expr_stmt>
+        <expr>
+          <call>
+            <name>
+              <name>Args</name>
+              <operator>.</operator>
+              <name>nullNotPermitted</name>
+            </name>
+            <argument_list>(<argument>
+                <expr>
+                  <name>start</name>
+                </expr>
+              </argument>, <argument>
+                <expr>
+                  <literal type="string">"start"</literal>
+                </expr>
+              </argument>)</argument_list>
+          </call>
+        </expr>;</expr_stmt>
+      <expr_stmt>
+        <expr>
+          <call>
+            <name>
+              <name>Args</name>
+              <operator>.</operator>
+              <name>nullNotPermitted</name>
+            </name>
+            <argument_list>(<argument>
+                <expr>
+                  <name>end</name>
+                </expr>
+              </argument>, <argument>
+                <expr>
+                  <literal type="string">"end"</literal>
+                </expr>
+              </argument>)</argument_list>
+          </call>
+        </expr>;</expr_stmt>
+      <if_stmt>
+        <if>if <condition>(<expr>
+              <call>
+                <name>
+                  <name>start</name>
+                  <operator>.</operator>
+                  <name>compareTo</name>
+                </name>
+                <argument_list>(<argument>
+                    <expr>
+                      <name>end</name>
+                    </expr>
+                  </argument>)</argument_list>
+              </call>
+              <operator>&gt;</operator>
+              <literal type="number">0</literal>
+            </expr>)</condition>
+          <block>{<block_content>
+              <throw>throw <expr>
+                  <operator>new</operator>
+                  <call>
+                    <name>IllegalArgumentException</name>
+                    <argument_list>(
+                    <argument>
+                        <expr>
+                          <literal type="string">"Requires start on or before end."</literal>
+                        </expr>
+                      </argument>)</argument_list>
+                  </call>
+                </expr>;</throw>
+            </block_content>}</block>
+        </if>
+      </if_stmt>
+      <decl_stmt>
+        <decl>
+          <type>
+            <name>boolean</name>
+          </type>
+          <name>emptyRange</name>
+          <init>= <expr>
+              <literal type="boolean">false</literal>
+            </expr>
+          </init>
+        </decl>;</decl_stmt>
+      <decl_stmt>
+        <decl>
+          <type>
+            <name>int</name>
+          </type>
+          <name>startIndex</name>
+          <init>= <expr>
+              <call>
+                <name>getIndex</name>
+                <argument_list>(<argument>
+                    <expr>
+                      <name>start</name>
+                    </expr>
+                  </argument>)</argument_list>
+              </call>
+            </expr>
+          </init>
+        </decl>;</decl_stmt>
+      <if_stmt>
+        <if>if <condition>(<expr>
+              <name>startIndex</name>
+              <operator>&lt;</operator>
+              <literal type="number">0</literal>
+            </expr>)</condition>
+          <block>{<block_content>
+              <expr_stmt>
+                <expr>
+                  <name>startIndex</name>
+                  <operator>=</operator>
+                  <operator>-</operator>
+                  <operator>(</operator>
+                  <name>startIndex</name>
+                  <operator>+</operator>
+                  <literal type="number">1</literal>
+                  <operator>)</operator>
+                </expr>;</expr_stmt>
+              <if_stmt>
+                <if>if <condition>(<expr>
+                      <name>startIndex</name>
+                      <operator>==</operator>
+                      <call>
+                        <name>
+                          <name>this</name>
+                          <operator>.</operator>
+                          <name>data</name>
+                          <operator>.</operator>
+                          <name>size</name>
+                        </name>
+                        <argument_list>()</argument_list>
+                      </call>
+                    </expr>)</condition>
+                  <block>{<block_content>
+                      <expr_stmt>
+                        <expr>
+                          <name>emptyRange</name>
+                          <operator>=</operator>
+                          <literal type="boolean">true</literal>
+                        </expr>;</expr_stmt>
+                      <comment type="line">// start is after last data item</comment>
+                    </block_content>}</block>
+                </if>
+              </if_stmt>
+            </block_content>}</block>
+        </if>
+      </if_stmt>
+      <decl_stmt>
+        <decl>
+          <type>
+            <name>int</name>
+          </type>
+          <name>endIndex</name>
+          <init>= <expr>
+              <call>
+                <name>getIndex</name>
+                <argument_list>(<argument>
+                    <expr>
+                      <name>end</name>
+                    </expr>
+                  </argument>)</argument_list>
+              </call>
+            </expr>
+          </init>
+        </decl>;</decl_stmt>
+      <if_stmt>
+        <if>if <condition>(<expr>
+              <name>endIndex</name>
+              <operator>&lt;</operator>
+              <literal type="number">0</literal>
+            </expr>)</condition>
+          <block>{<block_content>
+              <comment type="line">// end period is not in original series</comment>
+              <expr_stmt>
+                <expr>
+                  <name>endIndex</name>
+                  <operator>=</operator>
+                  <operator>-</operator>
+                  <operator>(</operator>
+                  <name>endIndex</name>
+                  <operator>+</operator>
+                  <literal type="number">1</literal>
+                  <operator>)</operator>
+                </expr>;</expr_stmt>
+              <comment type="line">// this is first item AFTER end period</comment>
+              <expr_stmt>
+                <expr>
+                  <name>endIndex</name>
+                  <operator>=</operator>
+                  <name>endIndex</name>
+                  <operator>-</operator>
+                  <literal type="number">1</literal>
+                </expr>;</expr_stmt>
+              <comment type="line">// so this is last item BEFORE end</comment>
+            </block_content>}</block>
+        </if>
+      </if_stmt>
+      <if_stmt>
+        <if>if <condition>(<expr>
+              <operator>(</operator>
+              <name>endIndex</name>
+              <operator>&lt;</operator>
+              <literal type="number">0</literal>
+              <operator>)</operator>
+              <operator>||</operator>
+              <operator>(</operator>
+              <name>endIndex</name>
+              <operator>&lt;</operator>
+              <name>startIndex</name>
+              <operator>)</operator>
+            </expr>)</condition>
+          <block>{<block_content>
+              <expr_stmt>
+                <expr>
+                  <name>emptyRange</name>
+                  <operator>=</operator>
+                  <literal type="boolean">true</literal>
+                </expr>;</expr_stmt>
+            </block_content>}</block>
+        </if>
+      </if_stmt>
+      <if_stmt>
+        <if>if <condition>(<expr>
+              <name>emptyRange</name>
+            </expr>)</condition>
+          <block>{<block_content>
+              <decl_stmt>
+                <decl>
+                  <type>
+                    <name>
+                      <name>TimeSeries</name>
+                      <argument_list type="generic">&lt;<argument>
+                          <name>S</name>
+                        </argument>&gt;</argument_list>
+                    </name>
+                  </type>
+                  <name>copy</name>
+                  <init>= <expr>
+                      <operator>(</operator>
+                      <name>TimeSeries</name>
+                      <operator>)</operator>
+                      <call>
+                        <name>
+                          <name>super</name>
+                          <operator>.</operator>
+                          <name>clone</name>
+                        </name>
+                        <argument_list>()</argument_list>
+                      </call>
+                    </expr>
+                  </init>
+                </decl>;</decl_stmt>
+              <expr_stmt>
+                <expr>
+                  <name>
+                    <name>copy</name>
+                    <operator>.</operator>
+                    <name>data</name>
+                  </name>
+                  <operator>=</operator>
+                  <operator>new</operator>
+                  <call>
+                    <name>
+                      <name>java</name>
+                      <operator>.</operator>
+                      <name>util</name>
+                      <operator>.</operator>
+                      <name>ArrayList</name>
+                    </name>
+                    <argument_list>()</argument_list>
+                  </call>
+                </expr>;</expr_stmt>
+              <return>return <expr>
+                  <name>copy</name>
+                </expr>;</return>
+            </block_content>}</block>
+        </if>
+      </if_stmt>
+      <return>return <expr>
+          <call>
+            <name>createCopy</name>
+            <argument_list>(<argument>
+                <expr>
+                  <name>startIndex</name>
+                </expr>
+              </argument>, <argument>
+                <expr>
+                  <name>endIndex</name>
+                </expr>
+              </argument>)</argument_list>
+          </call>
+        </expr>;</return>
+    </block_content>}</block>
+</function>

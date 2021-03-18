@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='utf-8'?>
+<function>
+  <annotation>@<name>Override</name>
+  </annotation>
+  <type>
+    <specifier>public</specifier>
+    <name>RegularTimePeriod</name>
+  </type>
+  <name>next</name>
+  <parameter_list>()</parameter_list>
+  <block>{<block_content>
+      <decl_stmt>
+        <decl>
+          <type>
+            <name>Month</name>
+          </type>
+          <name>result</name>
+        </decl>;</decl_stmt>
+      <if_stmt>
+        <if>if <condition>(<expr>
+              <name>
+                <name>this</name>
+                <operator>.</operator>
+                <name>month</name>
+              </name>
+              <operator>!=</operator>
+              <name>
+                <name>MonthConstants</name>
+                <operator>.</operator>
+                <name>DECEMBER</name>
+              </name>
+            </expr>)</condition>
+          <block>{<block_content>
+              <expr_stmt>
+                <expr>
+                  <name>result</name>
+                  <operator>=</operator>
+                  <operator>new</operator>
+                  <call>
+                    <name>Month</name>
+                    <argument_list>(<argument>
+                        <expr>
+                          <name>
+                            <name>this</name>
+                            <operator>.</operator>
+                            <name>month</name>
+                          </name>
+                          <operator>+</operator>
+                          <literal type="number">1</literal>
+                        </expr>
+                      </argument>, <argument>
+                        <expr>
+                          <name>
+                            <name>this</name>
+                            <operator>.</operator>
+                            <name>year</name>
+                          </name>
+                        </expr>
+                      </argument>)</argument_list>
+                  </call>
+                </expr>;</expr_stmt>
+            </block_content>}</block>
+        </if>
+        <else>else <block>{<block_content>
+              <if_stmt>
+                <if>if <condition>(<expr>
+                      <name>
+                        <name>this</name>
+                        <operator>.</operator>
+                        <name>year</name>
+                      </name>
+                      <operator>&lt;</operator>
+                      <literal type="number">9999</literal>
+                    </expr>)</condition>
+                  <block>{<block_content>
+                      <expr_stmt>
+                        <expr>
+                          <name>result</name>
+                          <operator>=</operator>
+                          <operator>new</operator>
+                          <call>
+                            <name>Month</name>
+                            <argument_list>(<argument>
+                                <expr>
+                                  <name>
+                                    <name>MonthConstants</name>
+                                    <operator>.</operator>
+                                    <name>JANUARY</name>
+                                  </name>
+                                </expr>
+                              </argument>, <argument>
+                                <expr>
+                                  <name>
+                                    <name>this</name>
+                                    <operator>.</operator>
+                                    <name>year</name>
+                                  </name>
+                                  <operator>+</operator>
+                                  <literal type="number">1</literal>
+                                </expr>
+                              </argument>)</argument_list>
+                          </call>
+                        </expr>;</expr_stmt>
+                    </block_content>}</block>
+                </if>
+                <else>else <block>{<block_content>
+                      <expr_stmt>
+                        <expr>
+                          <name>result</name>
+                          <operator>=</operator>
+                          <literal type="null">null</literal>
+                        </expr>;</expr_stmt>
+                    </block_content>}</block>
+                </else>
+              </if_stmt>
+            </block_content>}</block>
+        </else>
+      </if_stmt>
+      <return>return <expr>
+          <name>result</name>
+        </expr>;</return>
+    </block_content>}</block>
+</function>

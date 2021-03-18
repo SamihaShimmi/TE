@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='utf-8'?>
+<function>
+  <annotation>@<name>Override</name>
+  </annotation>
+  <type>
+    <specifier>public</specifier>
+    <name>int</name>
+  </type>
+  <name>hashCode</name>
+  <parameter_list>()</parameter_list>
+  <block>{<block_content>
+      <decl_stmt>
+        <decl>
+          <type>
+            <name>int</name>
+          </type>
+          <name>hash</name>
+          <init>= <expr>
+              <literal type="number">3</literal>
+            </expr>
+          </init>
+        </decl>;</decl_stmt>
+      <expr_stmt>
+        <expr>
+          <name>hash</name>
+          <operator>=</operator>
+          <literal type="number">83</literal>
+          <operator>*</operator>
+          <name>hash</name>
+          <operator>+</operator>
+          <call>
+            <name>
+              <name>Objects</name>
+              <operator>.</operator>
+              <name>hashCode</name>
+            </name>
+            <argument_list>(<argument>
+                <expr>
+                  <name>
+                    <name>this</name>
+                    <operator>.</operator>
+                    <name>data</name>
+                  </name>
+                </expr>
+              </argument>)</argument_list>
+          </call>
+        </expr>;</expr_stmt>
+      <expr_stmt>
+        <expr>
+          <name>hash</name>
+          <operator>=</operator>
+          <literal type="number">83</literal>
+          <operator>*</operator>
+          <name>hash</name>
+          <operator>+</operator>
+          <call>
+            <name>
+              <name>Objects</name>
+              <operator>.</operator>
+              <name>hashCode</name>
+            </name>
+            <argument_list>(<argument>
+                <expr>
+                  <name>
+                    <name>this</name>
+                    <operator>.</operator>
+                    <name>xPosition</name>
+                  </name>
+                </expr>
+              </argument>)</argument_list>
+          </call>
+        </expr>;</expr_stmt>
+      <return>return <expr>
+          <name>hash</name>
+        </expr>;</return>
+    </block_content>}</block>
+</function>

@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='utf-8'?>
+<function>
+  <type>
+    <specifier>public</specifier>
+    <name>int</name>
+  </type>
+  <name>getMonth</name>
+  <parameter_list>()</parameter_list>
+  <block>{<block_content>
+      <return>return <expr>
+          <call>
+            <name>
+              <name>this</name>
+              <operator>.</operator>
+              <name>serialDate</name>
+              <operator>.</operator>
+              <name>getMonth</name>
+            </name>
+            <argument_list>()</argument_list>
+          </call>
+        </expr>;</return>
+    </block_content>}</block>
+</function>

@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='utf-8'?>
+<function>
+  <type>
+    <specifier>public</specifier>
+    <name>void</name>
+  </type>
+  <name>remove</name>
+  <parameter_list>(<parameter>
+      <decl>
+        <type>
+          <name>TimePeriod</name>
+        </type>
+        <name>period</name>
+      </decl>
+    </parameter>, <parameter>
+      <decl>
+        <type>
+          <name>Comparable</name>
+        </type>
+        <name>seriesName</name>
+      </decl>
+    </parameter>,
+            <parameter>
+      <decl>
+        <type>
+          <name>boolean</name>
+        </type>
+        <name>notify</name>
+      </decl>
+    </parameter>)</parameter_list>
+  <block>{<block_content>
+      <expr_stmt>
+        <expr>
+          <call>
+            <name>
+              <name>this</name>
+              <operator>.</operator>
+              <name>values</name>
+              <operator>.</operator>
+              <name>removeValue</name>
+            </name>
+            <argument_list>(<argument>
+                <expr>
+                  <name>period</name>
+                </expr>
+              </argument>, <argument>
+                <expr>
+                  <name>seriesName</name>
+                </expr>
+              </argument>)</argument_list>
+          </call>
+        </expr>;</expr_stmt>
+      <if_stmt>
+        <if>if <condition>(<expr>
+              <name>notify</name>
+            </expr>)</condition>
+          <block>{<block_content>
+              <expr_stmt>
+                <expr>
+                  <call>
+                    <name>fireDatasetChanged</name>
+                    <argument_list>()</argument_list>
+                  </call>
+                </expr>;</expr_stmt>
+            </block_content>}</block>
+        </if>
+      </if_stmt>
+    </block_content>}</block>
+</function>

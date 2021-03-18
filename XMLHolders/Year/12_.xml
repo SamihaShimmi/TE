@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='utf-8'?>
+<function>
+  <annotation>@<name>Override</name>
+  </annotation>
+  <type>
+    <specifier>public</specifier>
+    <name>int</name>
+  </type>
+  <name>compareTo</name>
+  <parameter_list>(<parameter>
+      <decl>
+        <type>
+          <name>Object</name>
+        </type>
+        <name>o1</name>
+      </decl>
+    </parameter>)</parameter_list>
+  <block>{<block_content>
+      <decl_stmt>
+        <decl>
+          <type>
+            <name>int</name>
+          </type>
+          <name>result</name>
+        </decl>;</decl_stmt>
+      <comment type="line">// CASE 1 : Comparing to another Year object</comment>
+      <comment type="line">// -----------------------------------------</comment>
+      <if_stmt>
+        <if>if <condition>(<expr>
+              <name>o1</name>
+              <operator>instanceof</operator>
+              <name>Year</name>
+            </expr>)</condition>
+          <block>{<block_content>
+              <decl_stmt>
+                <decl>
+                  <type>
+                    <name>Year</name>
+                  </type>
+                  <name>y</name>
+                  <init>= <expr>
+                      <operator>(</operator>
+                      <name>Year</name>
+                      <operator>)</operator>
+                      <name>o1</name>
+                    </expr>
+                  </init>
+                </decl>;</decl_stmt>
+              <expr_stmt>
+                <expr>
+                  <name>result</name>
+                  <operator>=</operator>
+                  <name>
+                    <name>this</name>
+                    <operator>.</operator>
+                    <name>year</name>
+                  </name>
+                  <operator>-</operator>
+                  <call>
+                    <name>
+                      <name>y</name>
+                      <operator>.</operator>
+                      <name>getYear</name>
+                    </name>
+                    <argument_list>()</argument_list>
+                  </call>
+                </expr>;</expr_stmt>
+            </block_content>}</block>
+        </if>
+        <comment type="line">// CASE 2 : Comparing to another TimePeriod object</comment>
+        <comment type="line">// -----------------------------------------------</comment>
+        <if type="elseif">else if <condition>(<expr>
+              <name>o1</name>
+              <operator>instanceof</operator>
+              <name>RegularTimePeriod</name>
+            </expr>)</condition>
+          <block>{<block_content>
+              <comment type="line">// more difficult case - evaluate later...</comment>
+              <expr_stmt>
+                <expr>
+                  <name>result</name>
+                  <operator>=</operator>
+                  <literal type="number">0</literal>
+                </expr>;</expr_stmt>
+            </block_content>}</block>
+        </if>
+        <comment type="line">// CASE 3 : Comparing to a non-TimePeriod object</comment>
+        <comment type="line">// ---------------------------------------------</comment>
+        <else>else <block>{<block_content>
+              <comment type="line">// consider time periods to be ordered after general objects</comment>
+              <expr_stmt>
+                <expr>
+                  <name>result</name>
+                  <operator>=</operator>
+                  <literal type="number">1</literal>
+                </expr>;</expr_stmt>
+            </block_content>}</block>
+        </else>
+      </if_stmt>
+      <return>return <expr>
+          <name>result</name>
+        </expr>;</return>
+    </block_content>}</block>
+</function>

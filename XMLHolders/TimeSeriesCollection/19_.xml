@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='utf-8'?>
+<function>
+  <annotation>@<name>Override</name>
+  </annotation>
+  <type>
+    <specifier>public</specifier>
+    <specifier>synchronized</specifier>
+    <name>Number</name>
+  </type>
+  <name>getStartX</name>
+  <parameter_list>(<parameter>
+      <decl>
+        <type>
+          <name>int</name>
+        </type>
+        <name>series</name>
+      </decl>
+    </parameter>, <parameter>
+      <decl>
+        <type>
+          <name>int</name>
+        </type>
+        <name>item</name>
+      </decl>
+    </parameter>)</parameter_list>
+  <block>{<block_content>
+      <decl_stmt>
+        <decl>
+          <type>
+            <name>
+              <name>TimeSeries</name>
+              <argument_list type="generic">&lt;<argument>
+                  <name>S</name>
+                </argument>&gt;</argument_list>
+            </name>
+          </type>
+          <name>ts</name>
+          <init>= <expr>
+              <call>
+                <name>
+                  <name>this</name>
+                  <operator>.</operator>
+                  <name>data</name>
+                  <operator>.</operator>
+                  <name>get</name>
+                </name>
+                <argument_list>(<argument>
+                    <expr>
+                      <name>series</name>
+                    </expr>
+                  </argument>)</argument_list>
+              </call>
+            </expr>
+          </init>
+        </decl>;</decl_stmt>
+      <return>return <expr>
+          <call>
+            <name>
+              <name>ts</name>
+              <operator>.</operator>
+              <name>getTimePeriod</name>
+            </name>
+            <argument_list>(<argument>
+                <expr>
+                  <name>item</name>
+                </expr>
+              </argument>)</argument_list>
+          </call>
+          <operator>.</operator>
+          <call>
+            <name>getFirstMillisecond</name>
+            <argument_list>(<argument>
+                <expr>
+                  <name>
+                    <name>this</name>
+                    <operator>.</operator>
+                    <name>workingCalendar</name>
+                  </name>
+                </expr>
+              </argument>)</argument_list>
+          </call>
+        </expr>;</return>
+    </block_content>}</block>
+</function>

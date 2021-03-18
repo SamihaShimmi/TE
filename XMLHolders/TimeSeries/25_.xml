@@ -1,0 +1,145 @@
+<?xml version='1.0' encoding='utf-8'?>
+<function>
+  <type>
+    <specifier>public</specifier>
+    <name>Collection</name>
+  </type>
+  <name>getTimePeriodsUniqueToOtherSeries</name>
+  <parameter_list>(<parameter>
+      <decl>
+        <type>
+          <name>
+            <name>TimeSeries</name>
+            <argument_list type="generic">&lt;<argument>
+                <name>S</name>
+              </argument>&gt;</argument_list>
+          </name>
+        </type>
+        <name>series</name>
+      </decl>
+    </parameter>)</parameter_list>
+  <block>{<block_content>
+      <decl_stmt>
+        <decl>
+          <type>
+            <name>Collection</name>
+          </type>
+          <name>result</name>
+          <init>= <expr>
+              <operator>new</operator>
+              <call>
+                <name>
+                  <name>java</name>
+                  <operator>.</operator>
+                  <name>util</name>
+                  <operator>.</operator>
+                  <name>ArrayList</name>
+                </name>
+                <argument_list>()</argument_list>
+              </call>
+            </expr>
+          </init>
+        </decl>;</decl_stmt>
+      <for>for <control>(<init>
+            <decl>
+              <type>
+                <name>int</name>
+              </type>
+              <name>i</name>
+              <init>= <expr>
+                  <literal type="number">0</literal>
+                </expr>
+              </init>
+            </decl>;</init>
+          <condition>
+            <expr>
+              <name>i</name>
+              <operator>&lt;</operator>
+              <call>
+                <name>
+                  <name>series</name>
+                  <operator>.</operator>
+                  <name>getItemCount</name>
+                </name>
+                <argument_list>()</argument_list>
+              </call>
+            </expr>;</condition>
+          <incr>
+            <expr>
+              <name>i</name>
+              <operator>++</operator>
+            </expr>
+          </incr>)</control>
+        <block>{<block_content>
+            <decl_stmt>
+              <decl>
+                <type>
+                  <name>RegularTimePeriod</name>
+                </type>
+                <name>period</name>
+                <init>= <expr>
+                    <call>
+                      <name>
+                        <name>series</name>
+                        <operator>.</operator>
+                        <name>getTimePeriod</name>
+                      </name>
+                      <argument_list>(<argument>
+                          <expr>
+                            <name>i</name>
+                          </expr>
+                        </argument>)</argument_list>
+                    </call>
+                  </expr>
+                </init>
+              </decl>;</decl_stmt>
+            <decl_stmt>
+              <decl>
+                <type>
+                  <name>int</name>
+                </type>
+                <name>index</name>
+                <init>= <expr>
+                    <call>
+                      <name>getIndex</name>
+                      <argument_list>(<argument>
+                          <expr>
+                            <name>period</name>
+                          </expr>
+                        </argument>)</argument_list>
+                    </call>
+                  </expr>
+                </init>
+              </decl>;</decl_stmt>
+            <if_stmt>
+              <if>if <condition>(<expr>
+                    <name>index</name>
+                    <operator>&lt;</operator>
+                    <literal type="number">0</literal>
+                  </expr>)</condition>
+                <block>{<block_content>
+                    <expr_stmt>
+                      <expr>
+                        <call>
+                          <name>
+                            <name>result</name>
+                            <operator>.</operator>
+                            <name>add</name>
+                          </name>
+                          <argument_list>(<argument>
+                              <expr>
+                                <name>period</name>
+                              </expr>
+                            </argument>)</argument_list>
+                        </call>
+                      </expr>;</expr_stmt>
+                  </block_content>}</block>
+              </if>
+            </if_stmt>
+          </block_content>}</block>
+      </for>
+      <return>return <expr>
+          <name>result</name>
+        </expr>;</return>
+    </block_content>}</block>
+</function>

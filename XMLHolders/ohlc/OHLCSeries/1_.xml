@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='utf-8'?>
+<function>
+  <type>
+    <specifier>public</specifier>
+    <name>RegularTimePeriod</name>
+  </type>
+  <name>getPeriod</name>
+  <parameter_list>(<parameter>
+      <decl>
+        <type>
+          <name>int</name>
+        </type>
+        <name>index</name>
+      </decl>
+    </parameter>)</parameter_list>
+  <block>{<block_content>
+      <decl_stmt>
+        <decl>
+          <type>
+            <name>OHLCItem</name>
+          </type>
+          <name>item</name>
+          <init>= <expr>
+              <operator>(</operator>
+              <name>OHLCItem</name>
+              <operator>)</operator>
+              <call>
+                <name>getDataItem</name>
+                <argument_list>(<argument>
+                    <expr>
+                      <name>index</name>
+                    </expr>
+                  </argument>)</argument_list>
+              </call>
+            </expr>
+          </init>
+        </decl>;</decl_stmt>
+      <return>return <expr>
+          <call>
+            <name>
+              <name>item</name>
+              <operator>.</operator>
+              <name>getPeriod</name>
+            </name>
+            <argument_list>()</argument_list>
+          </call>
+        </expr>;</return>
+    </block_content>}</block>
+</function>

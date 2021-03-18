@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='utf-8'?>
+<function>
+  <annotation>@<name>Override</name>
+  </annotation>
+  <type>
+    <specifier>public</specifier>
+    <name>Comparable</name>
+  </type>
+  <name>getSeriesKey</name>
+  <parameter_list>(<parameter>
+      <decl>
+        <type>
+          <name>int</name>
+        </type>
+        <name>series</name>
+      </decl>
+    </parameter>)</parameter_list>
+  <block>{<block_content>
+      <comment type="line">// defer argument checking</comment>
+      <return>return <expr>
+          <call>
+            <name>getSeries</name>
+            <argument_list>(<argument>
+                <expr>
+                  <name>series</name>
+                </expr>
+              </argument>)</argument_list>
+          </call>
+          <operator>.</operator>
+          <call>
+            <name>getKey</name>
+            <argument_list>()</argument_list>
+          </call>
+        </expr>;</return>
+    </block_content>}</block>
+</function>

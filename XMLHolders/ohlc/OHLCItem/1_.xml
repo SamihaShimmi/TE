@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='utf-8'?>
+<function>
+  <type>
+    <specifier>public</specifier>
+    <name>RegularTimePeriod</name>
+  </type>
+  <name>getPeriod</name>
+  <parameter_list>()</parameter_list>
+  <block>{<block_content>
+      <return>return <expr>
+          <operator>(</operator>
+          <name>RegularTimePeriod</name>
+          <operator>)</operator>
+          <call>
+            <name>getComparable</name>
+            <argument_list>()</argument_list>
+          </call>
+        </expr>;</return>
+    </block_content>}</block>
+</function>

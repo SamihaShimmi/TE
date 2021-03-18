@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='utf-8'?>
+<function>
+  <type>
+    <specifier>public</specifier>
+    <name>TimePeriod</name>
+  </type>
+  <name>getTimePeriod</name>
+  <parameter_list>(<parameter>
+      <decl>
+        <type>
+          <name>int</name>
+        </type>
+        <name>item</name>
+      </decl>
+    </parameter>)</parameter_list>
+  <block>{<block_content>
+      <return>return <expr>
+          <operator>(</operator>
+          <name>TimePeriod</name>
+          <operator>)</operator>
+          <call>
+            <name>
+              <name>this</name>
+              <operator>.</operator>
+              <name>values</name>
+              <operator>.</operator>
+              <name>getRowKey</name>
+            </name>
+            <argument_list>(<argument>
+                <expr>
+                  <name>item</name>
+                </expr>
+              </argument>)</argument_list>
+          </call>
+        </expr>;</return>
+    </block_content>}</block>
+</function>

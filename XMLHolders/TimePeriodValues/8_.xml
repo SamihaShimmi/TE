@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='utf-8'?>
+<function>
+  <type>
+    <specifier>public</specifier>
+    <name>Number</name>
+  </type>
+  <name>getValue</name>
+  <parameter_list>(<parameter>
+      <decl>
+        <type>
+          <name>int</name>
+        </type>
+        <name>index</name>
+      </decl>
+    </parameter>)</parameter_list>
+  <block>{<block_content>
+      <return>return <expr>
+          <call>
+            <name>getDataItem</name>
+            <argument_list>(<argument>
+                <expr>
+                  <name>index</name>
+                </expr>
+              </argument>)</argument_list>
+          </call>
+          <operator>.</operator>
+          <call>
+            <name>getValue</name>
+            <argument_list>()</argument_list>
+          </call>
+        </expr>;</return>
+    </block_content>}</block>
+</function>
