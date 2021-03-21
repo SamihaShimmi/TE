@@ -1,7 +1,7 @@
 import os
 import filecmp
 import generateXMLLinebyLine
-
+from xml.etree import ElementTree
 
 
 
@@ -14,6 +14,35 @@ classCount = 0
 testFileNames = list()
 
 
+'''
+This function parses the function name from the given xml
+'''
+def parseFunctionName(xmlFileName):
+
+    root = ElementTree.parse(xmlFileName).getroot()
+    name = root.find("name").text
+    return name
+
+def xmlParser(xmlFileName,methodName):
+    with open(xmlFileName, "rt") as fin:
+        with open(xmlFileName.rpartition(".xml")[0]+"_.xml", "wt") as fout:
+            for line in fin:
+                fout.write(line.replace('http://www.srcML.org/srcML/src', ''))
+
+    root = ElementTree.parse(xmlFileName.rpartition(".xml")[0]+"_.xml").getroot()
+    for method in root.iter("function"):
+
+        for item in method.findall("name"):
+
+            if  item.text.upper() == ("Test"+methodName).upper():
+                ##print("sent method" + methodName)
+                print("method "+ methodName + "---->" + " test method " + "Test"+methodName)
+                return ElementTree.tostring(method, encoding='unicode', method='xml')
+            if item.text.upper() == ("Test"+methodName).upper():
+                #print("sent method" + methodName)
+                print("method "+ methodName + "---->" + " test method " + "Test"+methodName)
+                return ElementTree.tostring(method, encoding='unicode', method='xml')
+
 
 
 
@@ -25,7 +54,7 @@ def javaToXML(nameWithoutPath,fileNameFull,outPath):
 
     cmd = "srcml " + fileNameFull + " -o " +outPath+nameWithoutPath
     so = os.popen(cmd).read()
-    methodParserXML(nameWithoutPath,outPath)
+    #methodParserXML(nameWithoutPath,outPath)
 
 
 '''
@@ -110,26 +139,28 @@ def methodParserXML(filename,filePath):
 
     # Parsing the xml so that I can count lines
     for items in files:
-
-        generateXMLLinebyLine.processXML(items)
+        if (items.rpartition("\\")[2].rpartition(".xml")[0]).isdigit() == True:
+            generateXMLLinebyLine.processXML(items)
 
 
     # Removing the old xmls
     files2 = fileNames(filePath, ".xml")
     for items in files2:
-        if "_" not in items:
+        if ("_" not in items  and (items.rpartition("\\")[2].rpartition(".xml")[0]).isdigit() == True) :
             os.remove(items)
 
     # Removing the main xml for the whole class, otherwise I cannot just discard it programatically while generating xsds
     # Normally adding code does not work. So, I removed this
+    '''
     files3 = fileNames(filePath, ".xml")
     for items in files3:
         if (items.rpartition("\\")[2].rpartition("_.xml")[0]).isdigit() == False:
             os.remove(items)
-
+    '''
 
     files4 = fileNames(filePath, ".xml")
     for items in files4:
+        if (items.rpartition("\\")[2].rpartition("_.xml")[0]).isdigit() == True:
               XMLtoXSD(filePath + items.rpartition("\\")[2].rpartition(".xml")[0] + ".xml", filePath + items.rpartition("\\")[2].rpartition("_.xml")[0] + ".xsd")
 
 
@@ -169,8 +200,25 @@ def fileNames(path,extensionSent):
     return listofFiles
 
 
+def testCaseMatchForSSM(filePath,similarMethodsList):
+    #fileTestCodeXML = open("d", "w")
+    for item in similarMethodsList:
+        testCaseFound = 0
+        for j in item:
+            methodName = parseFunctionName(filePath + r"\\" + j.__str__() + "_.xml")
+            testMethod = xmlParser(filePath +"\\"+ "tuk.xml",methodName)
+            if(testMethod):
+                #print(testMethod)
+                testCaseFound += 1
+            else:
+                print("method " + methodName + "---->" + " test method not found")
+        print("test case found " + testCaseFound.__str__()+" out of "+ len(item).__str__())
+            #fileTestCodeXML = open(filePath + "tuk.xml")
+            #xmlParser(filePath + "tuk.xml")
+
+
 def compareXSD(filePath):
-    fileStatisticalData = open("statistics.txt","a")
+    #fileStatisticalData = open("statistics.txt","a")
     countSimilar = 0
     xsds = fileNames(filePath,'.xsd')
     similarMethodsList = list()
@@ -200,6 +248,10 @@ def compareXSD(filePath):
             similarMethodsList.append(temp)
 
     print(similarMethodsList)
+    testCaseMatchForSSM(filePath,similarMethodsList)
+
+
+
 
     # statistical data code
     '''
@@ -213,11 +265,15 @@ def checkIfTextCaseExist(param1,param2):
     global  testFileNames
     for row in testFileNames:
         #print("tuk tuk " + param2 + " " + row[1])
-        if (param2+'test').upper() == row[1].upper() or ('Test'+param2).upper() == row[1].upper():
+        if (param2+'test').upper() == row[1].upper():
             if param1  in row[0]:
-                return True
+                return param2+'test'
+        elif  ('Test'+param2).upper() == row[1].upper():
+            if param1 in row[0]:
+                return 'Test'+param2
 
-    return False
+    return "None"
+
 
 
 def fileNameSplitter(fileNameList):
@@ -235,6 +291,7 @@ def allClassParser(sourceCodePath,testCodePath ):
     """
     :type parentRoot: object
     """
+
     global testFileNames
     fileNamesTestJava = fileNames(testCodePath, '.java')
 
@@ -277,19 +334,22 @@ def allClassParser(sourceCodePath,testCodePath ):
             #print("print end")
             # print testing end
             bool = checkIfTextCaseExist(tt[0] + tt[1], tt[2])
-            #print(tt[0] + tt[1] +" "+tt[2] + " "+ bool.__str__())
-            if bool == True:
+            #print(tt[0] + tt[1] +" "+tt[2])
+            if bool != "None":
+                testCodeLocation = testCodePath+tt[0]+tt[1]+bool+".java"
                 if not os.path.exists(parentRoot + outFolder[0]):
                     os.makedirs(parentRoot + outFolder[0], 0o777)
-                javaToXML(parseName[2]+".xml",name, parentRoot+outFolder[0]+r"\\")
+                javaToXML("tuk"+".xml",testCodeLocation, parentRoot+outFolder[0]+r"\\")
+                javaToXML(parseName[2] + ".xml", name, parentRoot + outFolder[0] + r"\\")
+                methodParserXML(parseName[2]+".xml", parentRoot+outFolder[0]+r"\\")
         except:
             continue
     sourceFileNameRelativeParsed = fileNameSplitter(sourceFileNameRelative)
 
 
-sourceCodePath = r"H:\Research\IndStudyDrRahimi\DataAnalysis\jfreechart-master\jfreechart-master\src\main\java\org\jfree\data\time"
-testCodePath = r"H:\Research\IndStudyDrRahimi\DataAnalysis\jfreechart-1.5.2\jfreechart-1.5.2\src\test\java\org\jfree\data\time"
-
+sourceCodePath = r"H:\Research\IndStudyDrRahimi\DataAnalysis\jfreechart-master\jfreechart-master\src\main\java\org\jfree"
+#testCodePath = r"H:\Research\IndStudyDrRahimi\DataAnalysis\jfreechart-1.5.2\jfreechart-1.5.2\src\test\java\org\jfree"
+testCodePath = r"H:\Research\IndStudyDrRahimi\DataAnalysis\jfreechart-master\jfreechart-master\src\test\java\org\jfree"
 
 def do():
 
