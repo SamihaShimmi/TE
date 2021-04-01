@@ -13,6 +13,19 @@ fileNameTestSplitted = list()
 classCount = 0
 testFileNames = list()
 
+loopC = 0
+
+
+def parseValue(toParse1,toParse2):
+    listTemp = list()
+    str=toParse1.split(">",1)[1]
+    result=str.rpartition("<")
+    listTemp.append(result[0])
+    str = toParse2.split(">", 1)[1]
+
+    result = str.rpartition("<")
+    listTemp.append(result[0])
+    return listTemp
 
 '''
 This function parses the function name from the given xml
@@ -200,21 +213,75 @@ def fileNames(path,extensionSent):
     return listofFiles
 
 
+def TestCaseGeneratorSSM(filePath,SSM,trackerTestCase):
+    difference = list()
+    print("generator")
+    loop = 0
+    for i in trackerTestCase:
+        if i != 0:
+            break
+        loop += 1
+    existingSSM = open(filePath+"\\"+SSM[loop].__str__()+"_.xml")
+    toGenSSM = open("dummy.txt","r")
+    loopCounter =0
+    for i in range(0,len(SSM)):
+
+        if loopCounter == loop:
+            continue
+        print(SSM[loopCounter])
+        toGenSSM = open(filePath+"\\"+SSM[loopCounter].__str__()+"_.xml")
+        print(SSM[loop])
+
+        for lineF1 in toGenSSM:
+            for lineF2 in existingSSM:
+                if lineF1 != lineF2:
+                    print(lineF2 + lineF1)
+                    temp = parseValue(lineF2, lineF1)
+                    if temp not in difference:
+                        difference.append(temp)
+                break
+        print(trackerTestCase[loop])
+        print("difference ")
+        print(difference)
+        loopCounter += 1
+
+    if existingSSM:
+        existingSSM.close()
+    if toGenSSM:
+        toGenSSM.close()
+
+
 def testCaseMatchForSSM(filePath,similarMethodsList):
-    #fileTestCodeXML = open("d", "w")
+    #fileTestCodeXML = open("d.xml", "r")
     for item in similarMethodsList:
         testCaseFound = 0
+        index =0
+        trackerTestCase = list()
         for j in item:
             methodName = parseFunctionName(filePath + r"\\" + j.__str__() + "_.xml")
             testMethod = xmlParser(filePath +"\\"+ "tuk.xml",methodName)
             if(testMethod):
                 #print(testMethod)
+                '''
+                testMethodPath = filePath +"\\"+ methodName +"Test.xml"
+                print(testMethodPath)
+                try:
+                    fileTestCodeXML = open(testMethodPath, "w")
+                except Exception as e:
+                    print( str(e))
+                fileTestCodeXML.write(testMethod)
+                '''
+                trackerTestCase.insert(index,testMethod)
                 testCaseFound += 1
             else:
                 print("method " + methodName + "---->" + " test method not found")
-        print("test case found " + testCaseFound.__str__()+" out of "+ len(item).__str__())
-            #fileTestCodeXML = open(filePath + "tuk.xml")
-            #xmlParser(filePath + "tuk.xml")
+                trackerTestCase.insert(index, 0)
+            index += 1
+        count = len(item)
+        print("test case found " + testCaseFound.__str__()+" out of "+ count.__str__())
+        if(count != testCaseFound and testCaseFound == 1):
+            TestCaseGeneratorSSM(filePath,item,trackerTestCase)
+
 
 
 def compareXSD(filePath):
@@ -251,8 +318,6 @@ def compareXSD(filePath):
     testCaseMatchForSSM(filePath,similarMethodsList)
 
 
-
-
     # statistical data code
     '''
     totalMethod = len(xsds)
@@ -262,15 +327,20 @@ def compareXSD(filePath):
 
 def checkIfTextCaseExist(param1,param2):
 
-    global  testFileNames
+    global testFileNames
     for row in testFileNames:
-        #print("tuk tuk " + param2 + " " + row[1])
         if (param2+'test').upper() == row[1].upper():
             if param1  in row[0]:
                 return param2+'test'
         elif  ('Test'+param2).upper() == row[1].upper():
             if param1 in row[0]:
                 return 'Test'+param2
+        elif ('Tests' + param2).upper() == row[1].upper():
+            if param1 in row[0]:
+                return 'Tests' + param2
+        elif (param2+'Tests').upper() == row[1].upper():
+            if param1 in row[0]:
+                return param2 + 'Tests'
 
     return "None"
 
@@ -310,8 +380,6 @@ def allClassParser(sourceCodePath,testCodePath ):
             continue
 
     testFileNames = fileNameSplitter(testFileNameRelative)
-    #print("test file name splitted")
-    #print(testFileNames)
 
 
     # source code parse
@@ -326,13 +394,7 @@ def allClassParser(sourceCodePath,testCodePath ):
             outFolder = (tuk[2].rpartition(".java"))
             directory = parentRoot+ parseName[2]
 
-            # print testing
-            #print("print")
             tt = outFolder[0].rpartition("\\")
-            #print(tt[0] + tt[1])
-            #print(tt[2])
-            #print("print end")
-            # print testing end
             bool = checkIfTextCaseExist(tt[0] + tt[1], tt[2])
             #print(tt[0] + tt[1] +" "+tt[2])
             if bool != "None":
@@ -348,11 +410,11 @@ def allClassParser(sourceCodePath,testCodePath ):
 
 
 sourceCodePath = r"H:\Research\IndStudyDrRahimi\DataAnalysis\jfreechart-master\jfreechart-master\src\main\java\org\jfree"
-#testCodePath = r"H:\Research\IndStudyDrRahimi\DataAnalysis\jfreechart-1.5.2\jfreechart-1.5.2\src\test\java\org\jfree"
-testCodePath = r"H:\Research\IndStudyDrRahimi\DataAnalysis\jfreechart-master\jfreechart-master\src\test\java\org\jfree"
+testCodePath = r"H:\Research\IndStudyDrRahimi\DataAnalysis\jfreechart-1.5.2\jfreechart-1.5.2\src\test\java\org\jfree"
 
 def do():
 
     allClassParser(sourceCodePath,testCodePath)
+
 
 do()
