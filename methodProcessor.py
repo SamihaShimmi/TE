@@ -3,8 +3,6 @@ import filecmp
 import generateXMLLinebyLine
 from xml.etree import ElementTree
 
-
-
 parentRoot = r"H:\Research\IndStudyDrRahimi\TE\XMLHolders\\"
 fileNamesSourceJava = list()
 fileNamesTestJava = list()
@@ -16,16 +14,30 @@ testFileNames = list()
 loopC = 0
 
 
+def XMLToJava(fileName):
+    print(fileName)
+    cmd = "srcml " + fileName + " -o " + parentRoot+"Output\\javaTmp.java"
+    so = os.popen(cmd).read()
+
+
+def parseOneValue(toParse1):
+    listTemp = list()
+    str=toParse1.split(">",1)[1]
+    result=str.rpartition("<")
+    listTemp.append(result[0])
+    return listTemp
+
 def parseValue(toParse1,toParse2):
     listTemp = list()
     str=toParse1.split(">",1)[1]
     result=str.rpartition("<")
     listTemp.append(result[0])
-    str = toParse2.split(">", 1)[1]
 
+    str = toParse2.split(">", 1)[1]
     result = str.rpartition("<")
     listTemp.append(result[0])
     return listTemp
+
 
 '''
 This function parses the function name from the given xml
@@ -35,6 +47,7 @@ def parseFunctionName(xmlFileName):
     root = ElementTree.parse(xmlFileName).getroot()
     name = root.find("name").text
     return name
+
 
 def xmlParser(xmlFileName,methodName):
     with open(xmlFileName, "rt") as fin:
@@ -47,16 +60,12 @@ def xmlParser(xmlFileName,methodName):
 
         for item in method.findall("name"):
 
-            if  item.text.upper() == ("Test"+methodName).upper():
-                ##print("sent method" + methodName)
+            if item.text.upper() == ("Test"+methodName).upper():
                 print("method "+ methodName + "---->" + " test method " + "Test"+methodName)
                 return ElementTree.tostring(method, encoding='unicode', method='xml')
             if item.text.upper() == ("Test"+methodName).upper():
-                #print("sent method" + methodName)
                 print("method "+ methodName + "---->" + " test method " + "Test"+methodName)
                 return ElementTree.tostring(method, encoding='unicode', method='xml')
-
-
 
 
 '''
@@ -67,7 +76,6 @@ def javaToXML(nameWithoutPath,fileNameFull,outPath):
 
     cmd = "srcml " + fileNameFull + " -o " +outPath+nameWithoutPath
     so = os.popen(cmd).read()
-    #methodParserXML(nameWithoutPath,outPath)
 
 
 '''
@@ -86,25 +94,6 @@ def methodParserXML(filename,filePath):
     fileOut = open("dummy.txt","w")
     fileOut2 = open("dummy2.txt", "w")
 
-    # This was the initial code. It was unable to parse 2-level hierachical function
-    '''
-    for line in file:
-
-        if "<function>" in line:
-            flag = 1
-            fileNamePrefix = filePath+fileNameOut
-            fileOut = open(fileNamePrefix+".xml", "w")
-
-        if flag == 1:
-            fileOut.write(line)
-
-        if "</function>" in line:
-            flag = 0
-            fileNameInt = int(fileNameOut)
-            fileNameInt = fileNameInt + 1
-            fileNameOut = fileNameInt.__str__()
-
-    '''
 
     for line in file:
 
@@ -162,14 +151,6 @@ def methodParserXML(filename,filePath):
         if ("_" not in items  and (items.rpartition("\\")[2].rpartition(".xml")[0]).isdigit() == True) :
             os.remove(items)
 
-    # Removing the main xml for the whole class, otherwise I cannot just discard it programatically while generating xsds
-    # Normally adding code does not work. So, I removed this
-    '''
-    files3 = fileNames(filePath, ".xml")
-    for items in files3:
-        if (items.rpartition("\\")[2].rpartition("_.xml")[0]).isdigit() == False:
-            os.remove(items)
-    '''
 
     files4 = fileNames(filePath, ".xml")
     for items in files4:
@@ -197,7 +178,6 @@ def XMLtoXSD(fileName,fileNameOut):
     so = os.popen(commandString).read()
 
 
-
 '''
 This function returns all the  files with some specific extension from a directory
 '''
@@ -214,8 +194,9 @@ def fileNames(path,extensionSent):
 
 
 def TestCaseGeneratorSSM(filePath,SSM,trackerTestCase):
+    fileTemp = open(parentRoot+r"\\Output\\tmp.txt","a")
+
     difference = list()
-    print("generator")
     loop = 0
     for i in trackerTestCase:
         if i != 0:
@@ -225,7 +206,8 @@ def TestCaseGeneratorSSM(filePath,SSM,trackerTestCase):
     toGenSSM = open("dummy.txt","r")
     loopCounter =0
     for i in range(0,len(SSM)):
-
+        fileTemp.write(filePath + "\n")
+        fileTemp.write("\n")
         if loopCounter == loop:
             continue
         print(SSM[loopCounter])
@@ -235,20 +217,76 @@ def TestCaseGeneratorSSM(filePath,SSM,trackerTestCase):
         for lineF1 in toGenSSM:
             for lineF2 in existingSSM:
                 if lineF1 != lineF2:
-                    print(lineF2 + lineF1)
+                    #print(lineF2 + lineF1)
                     temp = parseValue(lineF2, lineF1)
                     if temp not in difference:
                         difference.append(temp)
                 break
-        print(trackerTestCase[loop])
-        print("difference ")
+        #print(trackerTestCase[loop])
+        fileTemp.write(trackerTestCase[loop].__str__() + "\n")
+        fileTemp.write(difference.__str__()+"\n")
+        fileTemp.write("\n")
         print(difference)
+
+        # generating the test cases
+
+        testMethodPath = parentRoot +"\\Output\\" +"Test.xml"
+
+        try:
+            fileTestCodeXML = open(testMethodPath, "w")
+            fileTestCodeXML.write(trackerTestCase[loop].__str__())
+
+            if fileTestCodeXML:
+                fileTestCodeXML.close()
+            generateXMLLinebyLine.processXML(testMethodPath)
+            testMethodPath2 = parentRoot + "\\Output\\" + "Test_.xml"
+            testMethodPath3 = parentRoot + "\\Output\\" + "generated_.xml"
+            fileTestCaseGeneratedTemp = open(testMethodPath2,"r")
+            fileTestCaseGenerated = open(testMethodPath3, "w")
+            fileTestCaseGenerated.write("<unit>")
+            fileTemp.write("\nTest case\n")
+            lineCount =0
+            for line in fileTestCaseGeneratedTemp:
+                if lineCount == 0:
+                    lineCount = 1
+                    continue
+                flag = 0
+                #fileTemp.write(line)
+                t = parseOneValue(line)
+                for row in difference:
+                    if row[0] == t[0]:
+                        print("found "+row[0]+" "+ t[0])
+                        replacedLine = line.replace(row[0],row[1])
+                        print(replacedLine)
+
+                        flag = 1
+                        break
+                if flag ==0:
+                    fileTemp.write(line)
+                    fileTestCaseGenerated.write(line)
+                else:
+                    fileTemp.write(replacedLine)
+                    fileTestCaseGenerated.write(replacedLine)
+            fileTestCaseGenerated.write("</unit>")
+            fileTestCaseGeneratedTemp.close()
+            if fileTestCaseGenerated:
+                fileTestCaseGenerated.close()
+            XMLToJava(testMethodPath3)
+            fileTemp.write("Test case written"+"\n")
+
+        except Exception as e:
+            print(str(e))
+
         loopCounter += 1
 
     if existingSSM:
         existingSSM.close()
     if toGenSSM:
         toGenSSM.close()
+    if fileTemp:
+        fileTemp.close()
+    if fileTestCaseGenerated:
+        fileTestCaseGenerated.close()
 
 
 def testCaseMatchForSSM(filePath,similarMethodsList):
@@ -261,16 +299,6 @@ def testCaseMatchForSSM(filePath,similarMethodsList):
             methodName = parseFunctionName(filePath + r"\\" + j.__str__() + "_.xml")
             testMethod = xmlParser(filePath +"\\"+ "tuk.xml",methodName)
             if(testMethod):
-                #print(testMethod)
-                '''
-                testMethodPath = filePath +"\\"+ methodName +"Test.xml"
-                print(testMethodPath)
-                try:
-                    fileTestCodeXML = open(testMethodPath, "w")
-                except Exception as e:
-                    print( str(e))
-                fileTestCodeXML.write(testMethod)
-                '''
                 trackerTestCase.insert(index,testMethod)
                 testCaseFound += 1
             else:
@@ -281,7 +309,6 @@ def testCaseMatchForSSM(filePath,similarMethodsList):
         print("test case found " + testCaseFound.__str__()+" out of "+ count.__str__())
         if(count != testCaseFound and testCaseFound == 1):
             TestCaseGeneratorSSM(filePath,item,trackerTestCase)
-
 
 
 def compareXSD(filePath):
@@ -305,7 +332,6 @@ def compareXSD(filePath):
                     temp.append(i)
                     countSimilar += 1
 
-
                 if any(j in subl for subl in similarMethodsList):
                     continue
                 temp.append(j)
@@ -316,7 +342,6 @@ def compareXSD(filePath):
 
     print(similarMethodsList)
     testCaseMatchForSSM(filePath,similarMethodsList)
-
 
     # statistical data code
     '''
@@ -343,7 +368,6 @@ def checkIfTextCaseExist(param1,param2):
                 return param2 + 'Tests'
 
     return "None"
-
 
 
 def fileNameSplitter(fileNameList):
@@ -392,11 +416,9 @@ def allClassParser(sourceCodePath,testCodePath ):
             parseName = nameParsed[0].rpartition("\\")
             tuk = name.rpartition(sourceCodePath)
             outFolder = (tuk[2].rpartition(".java"))
-            directory = parentRoot+ parseName[2]
 
             tt = outFolder[0].rpartition("\\")
             bool = checkIfTextCaseExist(tt[0] + tt[1], tt[2])
-            #print(tt[0] + tt[1] +" "+tt[2])
             if bool != "None":
                 testCodeLocation = testCodePath+tt[0]+tt[1]+bool+".java"
                 if not os.path.exists(parentRoot + outFolder[0]):
@@ -409,12 +431,17 @@ def allClassParser(sourceCodePath,testCodePath ):
     sourceFileNameRelativeParsed = fileNameSplitter(sourceFileNameRelative)
 
 
-sourceCodePath = r"H:\Research\IndStudyDrRahimi\DataAnalysis\jfreechart-master\jfreechart-master\src\main\java\org\jfree"
-testCodePath = r"H:\Research\IndStudyDrRahimi\DataAnalysis\jfreechart-1.5.2\jfreechart-1.5.2\src\test\java\org\jfree"
+sourceCodePath = r"H:\Research\IndStudyDrRahimi\DataAnalysis\jfreechart-master\jfreechart-master\src\main\java\org\jfree\data\time"
+testCodePath = r"H:\Research\IndStudyDrRahimi\DataAnalysis\jfreechart-1.5.2\jfreechart-1.5.2\src\test\java\org\jfree\data\time"
+
 
 def do():
 
     allClassParser(sourceCodePath,testCodePath)
-
+    '''
+    f= open("H:\\Research\\IndStudyDrRahimi\\TE\XMLHolders\\Output\\generated_.xml","r")
+    for line in f:
+        print(parseOneValue(line))
+    '''
 
 do()
