@@ -192,15 +192,31 @@ def TestCaseGeneratorSSM(filePath,SSM,trackerTestCase):
     toGenSSM = open("dummy.txt","r")
     loopCounter =0
     for i in range(0,len(SSM)):
+
         fileTemp.write(filePath + "\n")
         fileTemp.write("\n")
         if loopCounter == loop:
             continue
-        toGenSSM = open(filePath+"\\"+SSM[loopCounter].__str__()+"_.xml")
+        try:
+            toGenSSM = open(filePath+"\\"+SSM[loopCounter].__str__()+"_.xml")
+        except Exception as e:
+            print(e)
+
+        existingSSM = open(filePath + "\\" + SSM[loop].__str__() + "_.xml")
+        print("existing ssm name " + existingSSM.name)
+        print("to gen ssm name "+ toGenSSM.name)
         methodName = parseFunctionName(filePath+"\\"+SSM[loopCounter].__str__()+"_.xml")
+        print("methodName " + methodName)
+        print("method name 2 = ", parseFunctionName(filePath+"\\"+SSM[loop].__str__()+"_.xml"))
+        fileTemp.write(SSM[loop].__str__()+" "+ SSM[loopCounter].__str__())
         for lineF1 in toGenSSM:
+            #print("close?")
+            #print(existingSSM.closed)
+            #print(existingSSM.__str__())
             for lineF2 in existingSSM:
+                #print("inside")
                 if lineF1 != lineF2:
+
                     temp = parseValue(lineF2, lineF1)
                     if temp not in difference:
                         difference.append(temp)
@@ -255,7 +271,8 @@ def TestCaseGeneratorSSM(filePath,SSM,trackerTestCase):
             print(str(e))
 
         loopCounter += 1
-
+        difference.clear()
+        existingSSM.close()
     if existingSSM:
         existingSSM.close()
     if toGenSSM:
@@ -403,8 +420,8 @@ def allClassParser(sourceCodePath,testCodePath ):
             continue
 
 
-sourceCodePath = r"H:\Research\IndStudyDrRahimi\DataAnalysis\jfreechart-master\jfreechart-master\src\main\java\org\jfree\data\time"
-testCodePath = r"H:\Research\IndStudyDrRahimi\DataAnalysis\jfreechart-1.5.2\jfreechart-1.5.2\src\test\java\org\jfree\data\time"
+sourceCodePath = r"H:\Research\IndStudyDrRahimi\DataAnalysis\jfreechart-master\jfreechart-master\src\main\java\org\jfree"
+testCodePath = r"H:\Research\IndStudyDrRahimi\DataAnalysis\jfreechart-1.5.2\jfreechart-1.5.2\src\test\java\org\jfree"
 
 
 def do():
