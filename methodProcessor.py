@@ -195,8 +195,16 @@ def TestCaseGeneratorSSM(filePath,SSM,trackerTestCase):
 
         fileTemp.write(filePath + "\n")
         fileTemp.write("\n")
+
         if loopCounter == loop:
+            loopCounter += 1
             continue
+
+
+        if trackerTestCase[loopCounter] != 0:
+            loopCounter += 1
+            continue
+
         try:
             toGenSSM = open(filePath+"\\"+SSM[loopCounter].__str__()+"_.xml")
         except Exception as e:
@@ -299,7 +307,7 @@ def testCaseMatchForSSM(filePath,similarMethodsList):
             index += 1
         count = len(item)
         print("test case found " + testCaseFound.__str__()+" out of "+ count.__str__())
-        if(count != testCaseFound and testCaseFound == 1):
+        if(count != testCaseFound and testCaseFound >= 1):
             TestCaseGeneratorSSM(filePath,item,trackerTestCase)
 
 
@@ -420,8 +428,10 @@ def allClassParser(sourceCodePath,testCodePath ):
             continue
 
 
-sourceCodePath = r"H:\Research\IndStudyDrRahimi\DataAnalysis\jfreechart-master\jfreechart-master\src\main\java\org\jfree"
-testCodePath = r"H:\Research\IndStudyDrRahimi\DataAnalysis\jfreechart-1.5.2\jfreechart-1.5.2\src\test\java\org\jfree"
+sourceCodePath = r"H:\Research\IndStudyDrRahimi\DataAnalysis\joda-time-master\src\main\java\org\joda\time"
+testCodePath = r"H:\Research\IndStudyDrRahimi\DataAnalysis\joda-time-2.10.4\src\test\java\org\joda\time"
+#sourceCodePath = r"H:\Research\IndStudyDrRahimi\Test\main"
+#testCodePath = r"H:\Research\IndStudyDrRahimi\Test\test"
 
 
 def do():
