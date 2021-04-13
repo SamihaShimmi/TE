@@ -428,8 +428,8 @@ def allClassParser(sourceCodePath,testCodePath ):
             continue
 
 
-sourceCodePath = r"H:\Research\IndStudyDrRahimi\DataAnalysis\joda-time-master\src\main\java\org\joda\time"
-testCodePath = r"H:\Research\IndStudyDrRahimi\DataAnalysis\joda-time-2.10.4\src\test\java\org\joda\time"
+sourceCodePath = r"H:\Research\IndStudyDrRahimi\DataAnalysis\jfreechart-master\jfreechart-master\src\main\java\org\jfree\data\time"
+testCodePath = r"H:\Research\IndStudyDrRahimi\DataAnalysis\jfreechart-1.5.2\jfreechart-1.5.2\src\test\java\org\jfree\data\time"
 #sourceCodePath = r"H:\Research\IndStudyDrRahimi\Test\main"
 #testCodePath = r"H:\Research\IndStudyDrRahimi\Test\test"
 
