@@ -75,9 +75,64 @@ def javaToXML(nameWithoutPath,fileNameFull,outPath):
     cmd = "srcml " + fileNameFull + " -o " +outPath+nameWithoutPath
     os.popen(cmd).read()
 
+def methodParserXML(filename,filePath):
+    print(filePath)
+    count = 0
+    fileNameInt = 0
+    fileNameOut = "1"
+
+    fileOut = open("dummy.txt", "w")
+
+    filename = filePath+filename
+    with open(filename, "rt") as fin:
+        with open(filename.rpartition(".xml")[0] + "_.xml", "wt") as fout:
+            for line in fin:
+                fout.write(line.replace('http://www.srcML.org/srcML/src', ''))
+
+    root = ElementTree.parse(filename.rpartition(".xml")[0] + "_.xml").getroot()
+    for method in root.iter("function"):
+        methodStringTemp = ElementTree.tostring(method, encoding='unicode', method='xml')
+        methodString =  methodStringTemp[0:len(methodStringTemp)-1]
+        #print(methodString[0:len(methodString)-1])
+        fileNamePrefix = filePath + fileNameOut
+        fileOut = open(fileNamePrefix + ".xml", "w")
+        fileNameInt = int(fileNameOut)
+        fileNameInt = fileNameInt + 1
+        fileNameOut = fileNameInt.__str__()
+        fileOut.write(methodString)
+
+
+    if fileOut:
+        fileOut.close()
+
+        # In order to generate xsd if line numbers are equal, the following code is added. Redundant code is added
+        # But if I do not add multiple loops, the code does not work. I might have to make it efficient later
+    files = fileNames(filePath, ".xml")
+
+    # Parsing the xml so that I can count lines
+    for items in files:
+        if (items.rpartition("\\")[2].rpartition(".xml")[0]).isdigit() == True:
+            generateXMLLinebyLine.processXML(items)
+
+    # Removing the old xmls
+    files2 = fileNames(filePath, ".xml")
+    for items in files2:
+        if ("_" not in items and (items.rpartition("\\")[2].rpartition(".xml")[0]).isdigit() == True):
+            os.remove(items)
+
+    files4 = fileNames(filePath, ".xml")
+    for items in files4:
+        if (items.rpartition("\\")[2].rpartition("_.xml")[0]).isdigit() == True:
+            XMLtoXSD(filePath + items.rpartition("\\")[2].rpartition(".xml")[0] + ".xml",
+                     filePath + items.rpartition("\\")[2].rpartition("_.xml")[0] + ".xsd")
+
+    compareXSD(filePath)
+
 
 '''
 Given xml filename, this method generates XML for each method in that xml file.
+'''
+
 '''
 def methodParserXML(filename,filePath):
 
@@ -153,7 +208,7 @@ def methodParserXML(filename,filePath):
               XMLtoXSD(filePath + items.rpartition("\\")[2].rpartition(".xml")[0] + ".xml", filePath + items.rpartition("\\")[2].rpartition("_.xml")[0] + ".xsd")
 
     compareXSD(filePath)
-
+'''
 
 '''
 This method generates xsd from each function
@@ -430,13 +485,13 @@ def allClassParser(sourceCodePath,testCodePath ):
 
 sourceCodePath = r"H:\Research\IndStudyDrRahimi\DataAnalysis\jfreechart-master\jfreechart-master\src\main\java\org\jfree\data\time"
 testCodePath = r"H:\Research\IndStudyDrRahimi\DataAnalysis\jfreechart-1.5.2\jfreechart-1.5.2\src\test\java\org\jfree\data\time"
-#sourceCodePath = r"H:\Research\IndStudyDrRahimi\Test\main"
-#testCodePath = r"H:\Research\IndStudyDrRahimi\Test\test"
+#sourceCodePath = r"H:\Research\IndStudyDrRahimi\DataAnalysis\tink-master\tink-master\java_src\src\main\java\com\google\crypto\tink\aead"
+#testCodePath = r"H:\Research\IndStudyDrRahimi\DataAnalysis\tink-1.4.0\tink-1.4.0\java_src\src\test\java\com\google\crypto\tink\aead"
 
 
 def do():
 
     allClassParser(sourceCodePath,testCodePath)
-
+    #methodParserXMLTest("XChaCha20Poly1305KeyManager.xml", "H:\Research\IndStudyDrRahimi\TE\XMLHolders\\\XChaCha20Poly1305KeyManager\\")
 
 do()
