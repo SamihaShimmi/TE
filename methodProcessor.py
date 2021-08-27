@@ -3,8 +3,8 @@ import filecmp
 import generateXMLLinebyLine
 from xml.etree import ElementTree
 
-parentRoot = r"H:\Research\IndStudyDrRahimi\TE\XMLHolders\\"
-parentRootV1 = r"H:\Research\IndStudyDrRahimi\TE\XMLHolders\\Version1"
+parentRoot = r"H:\Research\TestEvolution\TE\XMLHolders\\"
+parentRootV1 = r"H:\Research\TestEvolution\TE\XMLHolders\\Version1"
 fileNamesSourceJavaV2 = list()
 fileNamesSourceJavaV1 = list()
 fileNamesTestJava = list()
@@ -166,32 +166,60 @@ def fileNames(path,extensionSent):
 
 
 def TestCaseGeneratorSSM(filePath,SSM,trackerTestCase,version1Path,version):
+    #print("SSM ")
+    #print(SSM)
+    #print("trackerTestCase")
+    #for t in range(0,len(trackerTestCase)):
+        #if trackerTestCase[t]!= 0:
+            #print("test case for trackertestcase")
+        #else:
+            #print(trackerTestCase[t])
 
     fileTemp = open(parentRoot+r"\\Output\\tmp.txt","a")
 
     difference = list()
     loop = 0
     if version == 2:
+
+        # detecting existing SSM
         for i in trackerTestCase:
             if i != 0:
                 break
             loop += 1
+
         existingSSM = open(filePath+"\\"+SSM[loop].__str__()+"_.xml")
         toGenSSM = open("dummy.txt","r")
         loopCounter =0
         for i in range(0,len(SSM)):
 
+            # added
+            fileTemp = open(parentRoot + r"\\Output\\tmp.txt", "a")
+            toGenSSM = open("dummy.txt", "r")
+            # added end
+
+            #print("checkpoint 1")
+            #print("loop")
+            #print(loop)
+            #print("loopcounter")
+            #print(loopCounter)
             fileTemp.write(filePath + "\n")
             fileTemp.write("\n")
-
+            #print("checkpoint 1.2")
             if loopCounter == loop:
                 loopCounter += 1
                 continue
+            #print("checkpoint 1.5")
+            #print("loop")
+            #print(loop)
+            #print("loopcounter")
+            #print(loopCounter)
 
+            # it will be required to generate cases for existing
             if trackerTestCase[loopCounter] != 0:
+                print("checkpoint 2")
                 loopCounter += 1
                 continue
-
+            #print("checkpoint 3")
             try:
                 toGenSSM = open(filePath+"\\"+SSM[loopCounter].__str__()+"_.xml")
             except Exception as e:
@@ -216,7 +244,7 @@ def TestCaseGeneratorSSM(filePath,SSM,trackerTestCase,version1Path,version):
             fileTemp.write(difference.__str__()+"\n")
             fileTemp.write("\n")
             print(difference)
-
+            #print("checkpoint 4")
             # generating the test cases
 
             testMethodPath = parentRoot +"\\Output\\" +"Test.xml"
@@ -228,7 +256,7 @@ def TestCaseGeneratorSSM(filePath,SSM,trackerTestCase,version1Path,version):
                 if fileTestCodeXML:
                     fileTestCodeXML.close()
 
-                tempOutputPath = "H:\Research\IndStudyDrRahimi\TE\XMLHolders\Output\\Output.xml"
+                tempOutputPath = "H:\Research\TestEvolution\TE\XMLHolders\Output\\Output.xml"
                 fileTemp.write("Test case" + "\n")
                 with open(testMethodPath, "rt") as fin:
                     with open(tempOutputPath, "wt") as fout:
@@ -270,18 +298,19 @@ def TestCaseGeneratorSSM(filePath,SSM,trackerTestCase,version1Path,version):
                 toGenSSM.close()
             if fileTemp:
                 fileTemp.close()
+            #print("loop")
+            #print(loop)
+            #print("loopcounter")
+            #print(loopCounter)
+            #print("checkpoint 5")
     else:
-        print("samiha came")
-        print("trackerTestCase")
-        print(trackerTestCase)
+
 
         for i in trackerTestCase:
             if i != 0:
                 break
             loop += 1
 
-        print("checking values")
-        print("after rpartition")
         print(filePath + "\\" + SSM[loop].rpartition("v2")[0].__str__() + "_.xml")
         print("without rpartition")
         print(filePath + "\\" + SSM[loop].__str__() + "_.xml")
@@ -292,6 +321,10 @@ def TestCaseGeneratorSSM(filePath,SSM,trackerTestCase,version1Path,version):
         loopCounter = 0
         print("samiha what's wrong")
         for i in range(0, len(SSM)):
+            # added
+            fileTemp = open(parentRoot + r"\\Output\\tmp.txt", "a")
+            toGenSSM = open("dummy.txt", "r")
+            # added end
 
             fileTemp.write(filePath + "\n")
             fileTemp.write("\n")
@@ -415,8 +448,8 @@ def testCaseMatchForSSM(filePath,similarMethodsList,version1Path, version):
         print("what i get inside in matchingssm")
         print(similarMethodsList)
         for item in similarMethodsList:
-            print("item ")
-            print(item)
+            #print("item ")
+            #print(item)
 
             testCaseFound = 0
             index =0
@@ -433,12 +466,7 @@ def testCaseMatchForSSM(filePath,similarMethodsList,version1Path, version):
                     continue
 
                 k = int(j)
-                print("k and k type")
-                print(k)
-                print(type(k))
-                print("pre pre pre test test test")
                 methodName = parseFunctionName(version1Path + r"\\" + j.__str__() + "_.xml")
-                print("pre pre test test test")
                 testMethod = xmlParser(filePath +"\\"+ "tuk.xml",methodName)
                 print("pre test test test")
                 if(testMethod):
@@ -734,9 +762,9 @@ def allClassParser(sourceCodePathV2,testCodePath,sourceCodePathV1):
         except:
             continue
 
-sourceCodePathV1 = r"H:\Research\IndStudyDrRahimi\DataAnalysis\jfreechart-1.5.2\jfreechart-1.5.2\src\main\java\org\jfree\data"
-sourceCodePathV2 = r"H:\Research\IndStudyDrRahimi\DataAnalysis\jfreechart-master\jfreechart-master\src\main\java\org\jfree\data"
-testCodePath = r"H:\Research\IndStudyDrRahimi\DataAnalysis\jfreechart-1.5.2\jfreechart-1.5.2\src\test\java\org\jfree\data"
+sourceCodePathV1 = r"H:\Research\TestEvolution\DataAnalysis\jfreechart-1.5.2\jfreechart-1.5.2\src\main\java\org\jfree\data\category"
+sourceCodePathV2 = r"H:\Research\TestEvolution\DataAnalysis\jfreechart-master\jfreechart-master\src\main\java\org\jfree\data\category"
+testCodePath = r"H:\Research\TestEvolution\DataAnalysis\jfreechart-1.5.2\jfreechart-1.5.2\src\test\java\org\jfree\data\category"
 #sourceCodePathV1 = r"H:\Research\IndStudyDrRahimi\DataAnalysis\guava-27.0.1\guava\src\com\google\common\io"
 #sourceCodePathV2 = r"H:\Research\IndStudyDrRahimi\DataAnalysis\guava-master\guava\src\com\google\common\io"
 #testCodePath = r"H:\Research\IndStudyDrRahimi\DataAnalysis\guava-27.0.1\guava-tests\test\com\google\common\io"
