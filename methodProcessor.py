@@ -240,7 +240,7 @@ def TestCaseGeneratorSSM(filePath,SSM,trackerTestCase,version1Path,version):
                         if temp not in difference:
                             difference.append(temp)
                     break
-            fileTemp.write(trackerTestCase[loop].__str__() + "\n")
+            #fileTemp.write(trackerTestCase[loop].__str__() + "\n")
             fileTemp.write(difference.__str__()+"\n")
             fileTemp.write("\n")
             print(difference)
@@ -258,6 +258,7 @@ def TestCaseGeneratorSSM(filePath,SSM,trackerTestCase,version1Path,version):
 
                 tempOutputPath = "H:\Research\TestEvolution\TE\XMLHolders\Output\\Output.xml"
                 fileTemp.write("Test case" + "\n")
+
                 with open(testMethodPath, "rt") as fin:
                     with open(tempOutputPath, "wt") as fout:
                         fout.write("<unit>")
@@ -270,8 +271,9 @@ def TestCaseGeneratorSSM(filePath,SSM,trackerTestCase,version1Path,version):
                                     replacedLineTmp = replacedLine
 
                             fout.write(replacedLine)
-                            fileTemp.write(replacedLine)
+                            #fileTemp.write(replacedLine)
                         fout.write("</unit>")
+
                 fileTemp.write("Test case written" + "\n")
                 methodNameTest = parseFunctionName(testMethodPath)
 
@@ -328,7 +330,7 @@ def TestCaseGeneratorSSM(filePath,SSM,trackerTestCase,version1Path,version):
 
             fileTemp.write(filePath + "\n")
             fileTemp.write("\n")
-            fileTemp.write("samiha is in the middle")
+            #fileTemp.write("samiha is in the middle")
 
 
 
@@ -339,15 +341,15 @@ def TestCaseGeneratorSSM(filePath,SSM,trackerTestCase,version1Path,version):
             if trackerTestCase[loopCounter] != 0:
                 loopCounter += 1
                 continue
-            print("pre tuk tuk tuk")
-            print("samiha is testing important")
+            #print("pre tuk tuk tuk")
+            #print("samiha is testing important")
             print(version1Path + "\\" + SSM[loopCounter].rpartition("v2")[0].__str__() + "_.xml")
             try:
                 toGenSSM = open(filePath + "\\" + SSM[loopCounter].rpartition("v2")[0].__str__() + "_.xml")
             except Exception as e:
                 print(e)
-            print("tuk tuk tuk")
-            print("existing test check samiha")
+            #print("tuk tuk tuk")
+            #print("existing test check samiha")
             existingSSM = open(version1Path + "\\" + SSM[loop].__str__() + "_.xml")
             print("existing ssm name " + existingSSM.name)
             print("to gen ssm name " + toGenSSM.name)
@@ -357,7 +359,7 @@ def TestCaseGeneratorSSM(filePath,SSM,trackerTestCase,version1Path,version):
             print("method name 2 = ", parseFunctionName(version1Path + "\\" + SSM[loop].__str__() + "_.xml"))
 
             fileTemp.write(SSM[loop].__str__() + " " + SSM[loopCounter].rpartition("v2")[0].__str__())
-            print("tttttt")
+            #print("tttttt")
 
             for lineF1 in toGenSSM:
                 for lineF2 in existingSSM:
@@ -367,12 +369,12 @@ def TestCaseGeneratorSSM(filePath,SSM,trackerTestCase,version1Path,version):
                         if temp not in difference:
                             difference.append(temp)
                     break
-            fileTemp.write(trackerTestCase[loop].__str__() + "\n")
+            #fileTemp.write(trackerTestCase[loop].__str__() + "\n")
             fileTemp.write(difference.__str__() + "\n")
             fileTemp.write("\n")
-            fileTemp.write("tttttt")
+            #fileTemp.write("tttttt")
             print(difference)
-            print("qqqqq")
+            #print("qqqqq")
 
             # generating the test cases
 
@@ -402,7 +404,7 @@ def TestCaseGeneratorSSM(filePath,SSM,trackerTestCase,version1Path,version):
                             print("replacedLine")
                             print(replacedLine)
                             fout.write(replacedLine)
-                            fileTemp.write(replacedLine)
+                            #fileTemp.write(replacedLine)
                         print("/unit")
                         fout.write("</unit>")
                 fileTemp.write("Test case written shimmi" + "\n")
@@ -518,11 +520,12 @@ def compareXSD(filePath,methodNameList):
     version1Path =parentRootV1+ (filePath.rpartition(parentRoot)[2])
 
     mismatch = list()
-    print("___________________________")
+    print("______________________________________________________")
     fileNameComp = version1Path.rpartition("\\")[0].rpartition("\\")[0].rpartition("\\")[2]
     #print(filecmp.cmp(filePath+fileNameComp, version1Path+fileNameComp))
-    print(filePath+fileNameComp+".xml")
-    print(version1Path+fileNameComp+".xml")
+
+    #print(filePath+fileNameComp+".xml")
+    #print(version1Path+fileNameComp+".xml")
 
     File1 = open(filePath+fileNameComp+".xml","r")
     File2 = open(version1Path+fileNameComp+".xml","r")
