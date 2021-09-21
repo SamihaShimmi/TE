@@ -535,18 +535,23 @@ def testCaseMatchForSSM(filePath,similarMethodsList,version1Path, version):
             print(testCaseFound)
 
             if (testCaseFound > 1):
+                #print("checkpoint1")
+                print("samsha")
 
                 isExist = os.path.exists(TestCaseStorePath)
+                #print("checkpoint3")
                 if isExist:
+                    #print("checkpoint3.1")
                     shutil.rmtree(TestCaseStorePath)
                     os.mkdir(TestCaseStorePath)
 
                 else:
-
+                    #print("checkpoint3.2")
                     try:
                         os.rmdir(TestCaseStorePath)
                     except Exception as e:
                         print(e)
+                #print("checkpoint4")
                 i = 0
                 for element in trackerTestCase:
 
@@ -609,7 +614,10 @@ def testCaseMatchForSSM(filePath,similarMethodsList,version1Path, version):
                 print(" t ")
                 print(t)
                 SSMTestCase += t
-
+        print("more than1")
+        print(moreThanOneTestCaseFound)
+        print("total count")
+        print(SSMTestCase)
         #test case found, test case not found, structurally similar test cases, more than one test case found
         fileStatisticalData.write( testCaseFoundTotal.__str__() + "  "+ (methodTotal-testCaseFoundTotal).__str__()+"  "+  SSMTestCase.__str__()+" "+moreThanOneTestCaseFound.__str__()+" ")
 
@@ -877,7 +885,7 @@ def allClassParser(sourceCodePathV2,testCodePath,sourceCodePathV1):
                 if not os.path.exists(parentRootV1 + outFolder[0]):
                     os.makedirs(parentRootV1 + outFolder[0], 0o777)
                 javaToXML(parseName[2] + ".xml", name, parentRootV1 + outFolder[0] + r"\\")
-                methodParserXML(parseName[2] + ".xml", parentRootV1 + outFolder[0] + r"\\", 1)
+                #methodParserXML(parseName[2] + ".xml", parentRootV1 + outFolder[0] + r"\\", 1)
 
         except:
             continue
@@ -910,10 +918,14 @@ sourceCodePathV1 = r"H:\Research\TestEvolution\DataAnalysis\jfreechart-1.5.2\jfr
 sourceCodePathV2 = r"H:\Research\TestEvolution\DataAnalysis\jfreechart-master\jfreechart-master\src\main\java\org\jfree\data\category"
 testCodePath = r"H:\Research\TestEvolution\DataAnalysis\jfreechart-1.5.2\jfreechart-1.5.2\src\test\java\org\jfree\data\category"
 '''
-sourceCodePathV1 = r"H:\Research\TestEvolution\DataAnalysis\jfreechart-1.5.0\jfreechart-1.5.0\src\main\java\org\jfree"
-sourceCodePathV2 = r"H:\Research\TestEvolution\DataAnalysis\jfreechart-1.5.0\jfreechart-1.5.0\src\main\java\org\jfree"
-testCodePath = r"H:\Research\TestEvolution\DataAnalysis\jfreechart-1.5.0\jfreechart-1.5.0\src\test\java\org\jfree"
-
+'''
+sourceCodePathV1 = r"H:\Research\TestEvolution\DataAnalysis\jfreechart-1.5.2\jfreechart-1.5.2\src\main\java\org\jfree\data\category"
+sourceCodePathV2 = r"H:\Research\TestEvolution\DataAnalysis\jfreechart-1.5.2\jfreechart-1.5.2\src\main\java\org\jfree\data\category"
+testCodePath = r"H:\Research\TestEvolution\DataAnalysis\jfreechart-1.5.2\jfreechart-1.5.2\src\test\java\org\jfree\data\category"
+'''
+sourceCodePathV1 = r"H:\Research\TestEvolution\DataAnalysis\joda-time-2.8.2\src\main\java\org\joda\time"
+sourceCodePathV2 = r"H:\Research\TestEvolution\DataAnalysis\joda-time-2.8.2\src\main\java\org\joda\time"
+testCodePath = r"H:\Research\TestEvolution\DataAnalysis\joda-time-2.8.2\src\test\java\org\joda\time"
 
 
 def do():
