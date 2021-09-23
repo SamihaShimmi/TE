@@ -5,6 +5,7 @@ from datetime import time
 import generateXMLLinebyLine
 from xml.etree import ElementTree
 
+parentRootMain = r"H:\Research\TestEvolution\TE\XMLHolders\P2"
 parentRootV2 = r"H:\Research\TestEvolution\TE\XMLHolders\P2\\v2"
 sourceCodePathv2= "H:\Research\TestEvolution\DataAnalysis\mug-mug-root-5.2\mug-mug-root-5.2\mug\src\main"
 parentRootV1 = r"H:\Research\TestEvolution\TE\XMLHolders\P2\\v1"
@@ -39,11 +40,11 @@ def fileNames(path,extensionSent):
             listOfFiles.append((item))
     return listOfFiles
 
-def javaToXMLPreprocessing(fileNameListV2,parentRoot):
-    for name in fileNameListV2:
+def javaToXMLPreprocessing(fileNameList,parentRoot,sourceCodePath):
+    for name in fileNameList:
         nameParsed = name.rpartition(".java")
         parseName = nameParsed[0].rpartition("\\")
-        tuk = name.rpartition(sourceCodePathv2)
+        tuk = name.rpartition(sourceCodePath)
         outFolder = (tuk[2].rpartition(".java"))
         if not os.path.exists(parentRoot + outFolder[0]):
             os.makedirs(parentRoot + outFolder[0], 0o777)
@@ -60,18 +61,28 @@ def removeExtraBracket(xmlFile):
             f.seek(-1, os.SEEK_END)
             f.truncate()
 
-def parseNode(xmlFile):
+def parseNode(xmlFile,version):
     temp = list()
     with open(xmlFile,"rt") as f:
         methodName = str()
         temp.append(xmlFile)
+
+        if version == 1:
+            parsedFilePath = xmlFile.rpartition(parentRootV1)[2].rpartition("\\")[0]
+        elif version == 2:
+            parsedFilePath = xmlFile.rpartition(parentRootV2)[2].rpartition("\\")[0]
+
+        temp.append(parsedFilePath)
         for line in f:
             if "<annotation>@<name>Deprecated" in line:
                 print("deprecated found")
                 methodName = parseFunctionName(xmlFile)
                 #print(methodName)
                 temp.append(methodName)
-                deprecatedMethodListV2.append(temp)
+                if version == 1:
+                    deprecatedMethodListV1.append(temp)
+                elif version == 2:
+                    deprecatedMethodListV2.append(temp)
                 break
 
 
@@ -93,7 +104,7 @@ def parseFunction(xmlFile,elementName,functionStorePath):
         elements.append(ElementTree.tostring(item, encoding='unicode', method='xml'))
     return elements
 
-def XMLParser(XMLfileNameList,parentRoot):
+def XMLParser(XMLfileNameList,parentRoot,version):
     count = 0
     for item in XMLfileNameList:
         #itemTemp = r"H:\Research\TestEvolution\TE\XMLHolders\P2\v2\xmlTemp\temp.xml"
@@ -110,11 +121,11 @@ def XMLParser(XMLfileNameList,parentRoot):
             for element in elementsFetched:
                 if "Deprecated" in element:
                     count += 1
-            findDeprecated(functionStorePath)
+            findDeprecated(functionStorePath,version)
     print("total deprecated found ")
     print(count)
 
-def findDeprecated(functionStorePath):
+def findDeprecated(functionStorePath,version):
     print("printing the xml created")
     listOfFiles = fileNames(functionStorePath,".xml")
 
@@ -125,21 +136,27 @@ def findDeprecated(functionStorePath):
 
     for item in listOfFiles:
         removeExtraBracket(item)
-        parseNode(item)
+        parseNode(item,version)
 
 
 def do():
-    fileNameListV2 = fileNames(sourceCodePathv2, ".java")
-    javaToXMLPreprocessing(fileNameListV2,parentRootV2)
-    XMLfileNameListV2 = fileNames(parentRootV2, ".xml")
-    XMLParser(XMLfileNameListV2,parentRootV2)
-    '''
-    fileNameListV1 = fileNames(sourceCodePathv1, ".java")
-    javaToXMLPreprocessing(fileNameListV2, parentRootV2)
-    XMLfileNameListV2 = fileNames(parentRootV2, ".xml")
-    XMLParser(XMLfileNameListV2, parentRootV2)
-    '''
 
+
+    fileNameListV2 = fileNames(sourceCodePathv2, ".java")
+    javaToXMLPreprocessing(fileNameListV2,parentRootV2,sourceCodePathv2)
+    XMLfileNameListV2 = fileNames(parentRootV2, ".xml")
+    XMLParser(XMLfileNameListV2,parentRootV2,2)
+
+    fileNameListV1 = fileNames(sourceCodePathv1, ".java")
+    javaToXMLPreprocessing(fileNameListV1, parentRootV1, sourceCodePathv1)
+    XMLfileNameListV1 = fileNames(parentRootV1, ".xml")
+    XMLParser(XMLfileNameListV1, parentRootV1, 1)
+
+    print("v1")
+    print(len(deprecatedMethodListV1))
+    print(deprecatedMethodListV1)
+    print("v2")
+    print(len(deprecatedMethodListV2))
     print(deprecatedMethodListV2)
 
 
