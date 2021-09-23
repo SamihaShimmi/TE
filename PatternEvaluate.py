@@ -5,9 +5,12 @@ from datetime import time
 import generateXMLLinebyLine
 from xml.etree import ElementTree
 
-parentRoot = r"H:\Research\TestEvolution\TE\XMLHolders\\P2"
+parentRootV2 = r"H:\Research\TestEvolution\TE\XMLHolders\P2\\v2"
 sourceCodePathv2= "H:\Research\TestEvolution\DataAnalysis\mug-mug-root-5.2\mug-mug-root-5.2\mug\src\main"
-deprecatedMethodList = list()
+parentRootV1 = r"H:\Research\TestEvolution\TE\XMLHolders\P2\\v1"
+sourceCodePathv1= "H:\Research\TestEvolution\DataAnalysis\mug-mug-root-5.0\mug-mug-root-5.0\mug\src\main"
+deprecatedMethodListV1 = list()
+deprecatedMethodListV2 = list()
 
 
 loopC = 0
@@ -36,8 +39,8 @@ def fileNames(path,extensionSent):
             listOfFiles.append((item))
     return listOfFiles
 
-def javaToXMLPreprocessing(fileNameList):
-    for name in fileNameList:
+def javaToXMLPreprocessing(fileNameListV2,parentRoot):
+    for name in fileNameListV2:
         nameParsed = name.rpartition(".java")
         parseName = nameParsed[0].rpartition("\\")
         tuk = name.rpartition(sourceCodePathv2)
@@ -47,8 +50,6 @@ def javaToXMLPreprocessing(fileNameList):
         javaToXML(parseName[2] + ".xml", name, parentRoot + outFolder[0] + r"\\")
 
 def removeExtraBracket(xmlFile):
-    #print("parse node xml file")
-    #print(xmlFile)
 
     with open(xmlFile, 'rb+') as f:
         f.seek(f.tell() - 1, 2)  # f.seek(0,2) is legal for last char in both python 2 and 3 though
@@ -60,24 +61,19 @@ def removeExtraBracket(xmlFile):
             f.truncate()
 
 def parseNode(xmlFile):
-    #print("parse node xml file")
-    '''
-    print(xmlFile)
-    try:
-        root = ElementTree.parse(xmlFile).getroot()
-    except Exception as e:
-        print(e)
-    try:
-        for item in root.iter(elementName):
-            print(ElementTree.tostring(item, encoding='unicode', method='xml'))
-    except Exception as e:
-        print("error parsing")
-    '''
+    temp = list()
     with open(xmlFile,"rt") as f:
+        methodName = str()
+        temp.append(xmlFile)
         for line in f:
             if "<annotation>@<name>Deprecated" in line:
                 print("deprecated found")
-                print(parseFunctionName(xmlFile))
+                methodName = parseFunctionName(xmlFile)
+                #print(methodName)
+                temp.append(methodName)
+                deprecatedMethodListV2.append(temp)
+                break
+
 
 
 def parseFunction(xmlFile,elementName,functionStorePath):
@@ -91,17 +87,17 @@ def parseFunction(xmlFile,elementName,functionStorePath):
     elementCount = 0
     for item in root.iter(elementName):
         #print(ElementTree.tostring(item, encoding='unicode', method='xml'))
-        #print("function count")
         file = open(functionStorePath+r"\\"+elementCount.__str__()+".xml","wt")
         file.write(ElementTree.tostring(item, encoding='unicode', method='xml'))
         elementCount += 1
         elements.append(ElementTree.tostring(item, encoding='unicode', method='xml'))
     return elements
 
-def XMLParser(XMLfileNameList):
+def XMLParser(XMLfileNameList,parentRoot):
     count = 0
     for item in XMLfileNameList:
-        itemTemp = r"H:\Research\TestEvolution\TE\XMLHolders\P2\xmlTemp\temp.xml"
+        #itemTemp = r"H:\Research\TestEvolution\TE\XMLHolders\P2\v2\xmlTemp\temp.xml"
+        itemTemp = parentRoot + r"\xmlTemp\temp.xml"
 
         with open(item,"rt") as fin:
             with open(itemTemp,"wt") as fout:
@@ -111,7 +107,6 @@ def XMLParser(XMLfileNameList):
             print(item)
             functionStorePath = item.rpartition("\\")[0]
             elementsFetched = parseFunction(itemTemp,"function",functionStorePath)
-            #print(elementsFetched)
             for element in elementsFetched:
                 if "Deprecated" in element:
                     count += 1
@@ -134,12 +129,18 @@ def findDeprecated(functionStorePath):
 
 
 def do():
-    fileNameList = fileNames(sourceCodePathv2, ".java")
+    fileNameListV2 = fileNames(sourceCodePathv2, ".java")
+    javaToXMLPreprocessing(fileNameListV2,parentRootV2)
+    XMLfileNameListV2 = fileNames(parentRootV2, ".xml")
+    XMLParser(XMLfileNameListV2,parentRootV2)
+    '''
+    fileNameListV1 = fileNames(sourceCodePathv1, ".java")
+    javaToXMLPreprocessing(fileNameListV2, parentRootV2)
+    XMLfileNameListV2 = fileNames(parentRootV2, ".xml")
+    XMLParser(XMLfileNameListV2, parentRootV2)
+    '''
 
-    javaToXMLPreprocessing(fileNameList)
-    XMLfileNameList = fileNames(parentRoot, ".xml")
-
-    XMLParser(XMLfileNameList)
+    print(deprecatedMethodListV2)
 
 
 do()
