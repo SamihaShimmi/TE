@@ -30,7 +30,6 @@ def parseFunctionName(xmlFileName):
 
     try:
         root = ElementTree.parse(xmlFileName).getroot()
-
         name = root.find("name").text
         return name
     except Exception as e:
@@ -102,8 +101,8 @@ def parseNode(xmlFile,version):
                 break
 
 def parseFunctionTest(xmlFile,elementName,functionStorePath):
-    print("location")
-    print(functionStorePath)
+    #print("location")
+    #print(functionStorePath)
     try:
         root = ElementTree.parse(xmlFile).getroot()
     except Exception as e:
@@ -131,8 +130,8 @@ def parseFunctionTest(xmlFile,elementName,functionStorePath):
 
 
 def parseFunction(xmlFile,elementName,functionStorePath):
-    print("location")
-    print(functionStorePath)
+    #print("location")
+    #print(functionStorePath)
     try:
         root = ElementTree.parse(xmlFile).getroot()
     except Exception as e:
@@ -169,12 +168,12 @@ def XMLParserTestCode(XMLfileNameList,parentRoot):
             with open(itemTemp,"wt") as fout:
                 for line in fin:
                     fout.write(line.replace('http://www.srcML.org/srcML/src', ''))
-            print("-----------------------------")
-            print(item)
+            #print("-----------------------------")
+            #print(item)
             functionStorePath = item.rpartition("\\")[0]
             elementsFetched = parseFunctionTest(itemTemp,"function",functionStorePath)
-            print("elements fetched")
-            print(elementsFetched)
+            #print("elements fetched")
+            #print(elementsFetched)
 
 
 
@@ -189,8 +188,8 @@ def XMLParser(XMLfileNameList,parentRoot,version):
             with open(itemTemp,"wt") as fout:
                 for line in fin:
                     fout.write(line.replace('http://www.srcML.org/srcML/src', ''))
-            print("-----------------------------")
-            print(item)
+            #print("-----------------------------")
+            #print(item)
             functionStorePath = item.rpartition("\\")[0]
             elementsFetched = parseFunction(itemTemp,"function",functionStorePath)
             for element in elementsFetched:
@@ -201,21 +200,29 @@ def XMLParser(XMLfileNameList,parentRoot,version):
     print(count)
 
 def findDeprecated(functionStorePath,version):
-    print("printing the xml created")
+    #print("printing the xml created")
     listOfFiles = fileNames(functionStorePath,".xml")
 
     for item in listOfFiles:
         if (item.rpartition("\\")[2].rpartition(".xml")[0].isnumeric()) == False:
             listOfFiles.remove(item)
-    print(listOfFiles)
+    #print(listOfFiles)
 
     for item in listOfFiles:
         removeExtraBracket(item)
         parseNode(item,version)
 
-def findDeprecatedMethodsInTestCase():
-    print("s")
-    
+def findDeprecatedMethodsInTestCase(functionsTestAll,deprecatedAddedList):
+    for i in range(0,len(deprecatedAddedList)):
+        toCheck = deprecatedAddedList[i][1]+"("
+        print(toCheck)
+    for item in functionsTestAll:
+        file = open(item,"rt")
+        for line in file:
+            if "toListAndThen" in line:
+                print("found")
+                break
+
 
 
 def do():
@@ -253,10 +260,15 @@ def do():
     print(deprecatedMethodListV2)
     '''
     print("difference")
+    deprecatedAddedList = list()
     for i in deprecatedMethodListV2:
+        temp = list()
         if i[2] != "ss":
+            temp.append(i[1])
+            temp.append(i[2])
             print(i[1])
             print(i[2])
+            deprecatedAddedList.append(temp)
 
     testfileNameListV1 = fileNames(testCodePathV1, ".java")
 
@@ -267,6 +279,6 @@ def do():
 
     functionsTestAll = fileNames(parentRootTestV1,".java")
     print(functionsTestAll)
-    findDeprecatedMethodsInTestCase()
+    findDeprecatedMethodsInTestCase(functionsTestAll,deprecatedAddedList)
 
 do()
