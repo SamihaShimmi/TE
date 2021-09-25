@@ -213,15 +213,24 @@ def findDeprecated(functionStorePath,version):
         parseNode(item,version)
 
 def findDeprecatedMethodsInTestCase(functionsTestAll,deprecatedAddedList):
+    global totalNumberOfMethodsFound
     for i in range(0,len(deprecatedAddedList)):
         toCheck = deprecatedAddedList[i][1]+"("
         print(toCheck)
-    for item in functionsTestAll:
-        file = open(item,"rt")
-        for line in file:
-            if "toListAndThen" in line:
-                print("found")
-                break
+        count = 0
+        for item in functionsTestAll:
+            file = open(item, "rt")
+            for line in file:
+                if toCheck in line:
+                    totalNumberOfMethodsFound += 1
+                    count += 1
+                    break
+        print("deprecated for this method")
+        print(count)
+
+    print("total deprecated ")
+    print(totalNumberOfMethodsFound)
+
 
 
 
