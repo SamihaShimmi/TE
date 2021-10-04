@@ -9,18 +9,20 @@ from xml.etree import ElementTree
 
 parentRootMain = r"H:\Research\TestEvolution\TE\XMLHolders\P4"
 parentRootV2 = r"H:\Research\TestEvolution\TE\XMLHolders\P4\\v2"
-sourceCodePathv2 = r"H:\Research\TestEvolution\DataAnalysis\jfreechart-master\src\main\java\org\jfree"
+sourceCodePathv2 = r"H:\Research\TestEvolution\DataAnalysis\jfreechart-1.5.2\jfreechart-1.5.2\src\main\java\org\jfree"
 # sourceCodePathv2="H:\Research\TestEvolution\DataAnalysis\joda-time-2.10.9\src\main\java\org\joda\time"
 parentRootV1 = r"H:\Research\TestEvolution\TE\XMLHolders\P4\\v1"
-sourceCodePathv1 = r"H:\Research\TestEvolution\DataAnalysis\jfreechart-1.5.2\jfreechart-1.5.2\src\main\java\org\jfree"
-testCodePathV1 = r"H:\Research\TestEvolution\DataAnalysis\jfreechart-1.5.2\jfreechart-1.5.2\src\test\java\org\jfree"
+sourceCodePathv1 = r"H:\Research\TestEvolution\DataAnalysis\jfreechart-1.5.0\jfreechart-1.5.0\src\main\java\org\jfree"
+testCodePathV1 = r"H:\Research\TestEvolution\DataAnalysis\jfreechart-1.5.0\jfreechart-1.5.0\src\test\java\org\jfree"
 parentRootTestV1 = r"H:\Research\TestEvolution\TE\XMLHolders\P4\\v1Test"
 totalNumberOfMethodsFound = 0
-
+XMLfileNameListTestV1 = list()
 # sourceCodePathv1="H:\Research\TestEvolution\DataAnalysis\joda-time-2.8.2\src\main\java\org\joda\time"
 deprecatedMethodListV1 = list()
 deprecatedMethodListV2 = list()
 alreadyExistingGenericList = list()
+addedGenericList = list()
+totalNumberOfClassesAffectedTestCase = 0
 
 def XMLToJava(fileName, outFileName):
     cmd = "srcml " + fileName + " -o " + outFileName
@@ -151,9 +153,11 @@ def parseImport(xmlFile, elementName, functionStorePath,ParentRootV):
         print(e)
     return elements
 
-def countExistenceOfGeneric(name):
-    print("here")
-    print(name)
+def existenceOfGeneric(name):
+    global addedGenericList
+    if name not in alreadyExistingGenericList:
+        print("here")
+        addedGenericList.append(name)
 
 def XMLParser(XMLfileNameList, parentRoot, version):
     count = 0
@@ -191,7 +195,7 @@ def XMLParser(XMLfileNameList, parentRoot, version):
                     print(elementsFetched2)
                     if elementsFetched2 != "no g probably" and len(elementsFetched2) != 0:
                         print("want this")
-                        countExistenceOfGeneric(elementsFetched2)
+                        existenceOfGeneric(elementsFetched2)
                     #elementsFetched1 = parseImport(itemTemp, "class", functionStorePath, parentRootV1)
                     #print(elementsFetched1)
 
@@ -238,8 +242,24 @@ def parseGenericClassNumber(xmlFile):
         for element in root.iter("class"):
             print("found")
 
-def do():
+def getCountGenericTestCase():
+    global totalNumberOfClassesAffectedTestCase
+    print("test")
+    for item in XMLfileNameListTestV1:
+        with open(item, "r") as file:
+            for line in file:
+                breakCheck = 0
+                for i in addedGenericList:
+                    if i in line:
+                        totalNumberOfClassesAffectedTestCase += 1
+                        breakCheck =1
+                        break
+                if breakCheck == 1:
+                    break
 
+
+def do():
+    global XMLfileNameListTestV1
     fileNameListV2 = fileNames(sourceCodePathv2, ".java")
     javaToXMLPreprocessing(fileNameListV2, parentRootV2, sourceCodePathv2)
     XMLfileNameListV2 = fileNames(parentRootV2, ".xml")
@@ -251,18 +271,24 @@ def do():
     javaToXMLPreprocessing(fileNameListV1, parentRootV1, sourceCodePathv1)
     XMLfileNameListV1 = fileNames(parentRootV1, ".xml")
     print(XMLfileNameListV1)
+
     print(len(XMLfileNameListV1))
 
     fileNameListTestV1 = fileNames(testCodePathV1, ".java")
     javaToXMLPreprocessing(fileNameListTestV1, parentRootTestV1, testCodePathV1)
     XMLfileNameListTestV1 = fileNames(parentRootTestV1, ".xml")
     print(XMLfileNameListTestV1)
-
+    print("total test class")
+    print(len(XMLfileNameListTestV1))
     #parseGenericClassNumber(XMLfileNameListV2)
 
     XMLParser(XMLfileNameListV1, parentRootV1, 1)
     XMLParser(XMLfileNameListV2, parentRootV2, 2)
     #onlyDifLineAPI()
     print(alreadyExistingGenericList)
-
+    print(addedGenericList)
+    print(len(addedGenericList))
+    getCountGenericTestCase()
+    print("totalNumberOfClassesAffectedTestCase")
+    print(totalNumberOfClassesAffectedTestCase)
 do()

@@ -7,11 +7,11 @@ from xml.etree import ElementTree
 
 parentRootMain = r"H:\Research\TestEvolution\TE\XMLHolders\P3"
 parentRootV2 = r"H:\Research\TestEvolution\TE\XMLHolders\P3\\v2"
-sourceCodePathv2 = r"H:\Research\TestEvolution\DataAnalysis\pmd-pmd_releases-6.21.0\pmd-pmd_releases-6.21.0\pmd-java\src\main\java\net\sourceforge\pmd"
+sourceCodePathv2 = r"H:\Research\TestEvolution\DataAnalysis\pmd-pmd_releases-6.21.0\pmd-pmd_releases-6.21.0\pmd-java\src\test\java\net\sourceforge\pmd"
 # sourceCodePathv2="H:\Research\TestEvolution\DataAnalysis\joda-time-2.10.9\src\main\java\org\joda\time"
 parentRootV1 = r"H:\Research\TestEvolution\TE\XMLHolders\P3\\v1"
-sourceCodePathv1 = "H:\Research\TestEvolution\DataAnalysis\pmd-pmd_releases-6.20.0\pmd-pmd_releases-6.20.0\pmd-java\src\main\java\net\sourceforge\pmd"
-testCodePathV1 = r"H:\Research\TestEvolution\DataAnalysis\mug-mug-root-5.0\mug-mug-root-5.0\mug\src\test\java\com\google\mu"
+sourceCodePathv1 = r"H:\Research\TestEvolution\DataAnalysis\pmd-pmd_releases-6.20.0\pmd-pmd_releases-6.20.0\pmd-java\src\test\java\net\sourceforge\pmd"
+testCodePathV1 = r"H:\Research\TestEvolution\DataAnalysis\pmd-pmd_releases-6.20.0\pmd-pmd_releases-6.20.0\pmd-java\src\test\java\net\sourceforge\pmd"
 parentRootTestV1 = r"H:\Research\TestEvolution\TE\XMLHolders\P3\\v1Test"
 totalNumberOfMethodsFound = 0
 
@@ -103,9 +103,9 @@ def parseNode(xmlFile, version):
 
 def parseImport(xmlFile, elementName, functionStorePath,ParentRootV):
     # print("location")
-    # print(functionStorePath)
+    #print(functionStorePath)
     f = open(ParentRootV+r"\\imports.txt","a")
-    f.write(functionStorePath)
+    f.write(functionStorePath+"\n")
     try:
         root = ElementTree.parse(xmlFile).getroot()
     except Exception as e:
@@ -170,37 +170,35 @@ def findDeprecatedMethodsInTestCase(functionsTestAll, deprecatedAddedList):
     print("total deprecated ")
     print(totalNumberOfMethodsFound)
 
+def onlyDifLineAPI():
+    fOut = open(r"H:\Research\TestEvolution\TE\XMLHolders\P3\v1\diff.txt")
+    with open(r"H:\Research\TestEvolution\TE\XMLHolders\P3\v1\imports.txt") as f1:
+        with open(r"H:\Research\TestEvolution\TE\XMLHolders\P3\v2\imports.txt") as f2:
+            for line in f1:
+                if line not in f2:
+                    fOut.write(line)
+    if fOut:
+        fOut.close()
+    if f1:
+        f1.close()
+    if f2:
+        f2.close()
+
 
 def do():
     fileNameListV2 = fileNames(sourceCodePathv2, ".java")
     javaToXMLPreprocessing(fileNameListV2, parentRootV2, sourceCodePathv2)
     XMLfileNameListV2 = fileNames(parentRootV2, ".xml")
-    print(XMLfileNameListV2)
+
+    print(len(XMLfileNameListV2))
     XMLParser(XMLfileNameListV2, parentRootV2, 2)
 
     fileNameListV1 = fileNames(sourceCodePathv1, ".java")
     javaToXMLPreprocessing(fileNameListV1, parentRootV1, sourceCodePathv1)
     XMLfileNameListV1 = fileNames(parentRootV1, ".xml")
     print(XMLfileNameListV1)
+    print(len(XMLfileNameListV1))
     XMLParser(XMLfileNameListV1, parentRootV1, 1)
-
-    '''
-    
-
-    fileNameListV1 = fileNames(sourceCodePathv1, ".java")
-    javaToXMLPreprocessing(fileNameListV1, parentRootV1, sourceCodePathv1)
-    XMLfileNameListV1 = fileNames(parentRootV1, ".xml")
-    XMLParser(XMLfileNameListV1, parentRootV1, 1)
-
-    testfileNameListV1 = fileNames(testCodePathV1, ".java")
-
-    javaToXMLPreprocessing(testfileNameListV1, parentRootTestV1, testCodePathV1)
-    XMLfileNameListTestV1 = fileNames(parentRootTestV1, ".xml")
-    XMLParserTestCode(XMLfileNameListTestV1, parentRootTestV1)
-
-    functionsTestAll = fileNames(parentRootTestV1, ".java")
-    print(functionsTestAll)
-   '''
-
+    #onlyDifLineAPI()
 
 do()
