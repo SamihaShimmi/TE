@@ -21,12 +21,6 @@ def XMLToJava(fileName):
     os.popen(cmd).read()
 
 
-def XMLToJavaTest(fileName):
-    print("check6")
-    cmd = "srcml " + fileName + " -o " + parentRoot+"Output\\test.java"
-    os.popen(cmd).read()
-
-
 def parseOneValue(toParse1):
     listTemp = list()
     str=toParse1.split(">",1)[1]
@@ -221,95 +215,10 @@ def TestCaseGeneratorSSM(filePath,SSM,trackerTestCase,version1Path,version):
             #print(loopCounter)
 
             # it will be required to generate cases for existing
-
-            #mark
-            #comment this section
-            '''
             if trackerTestCase[loopCounter] != 0:
-                #print("checkpoint 2")
-                loopCounter += 1
-                continue
-            '''
-            #mark
-            #add this section
-
-            if trackerTestCase[loopCounter] == 0:
                 print("checkpoint 2")
                 loopCounter += 1
                 continue
-            else:
-                groundTruthPath = "H:\Research\TestEvolution\TE\XMLHolders\Output\\tttt.xml"
-                fileTemp.write("ground truth")
-                wr = open(groundTruthPath,"w")
-                fileTemp.write(trackerTestCase[loopCounter])
-                wr.write(trackerTestCase[loopCounter])
-                if wr:
-                    wr.close()
-                groundTruthSSM = open(filePath + "\\" + SSM[loopCounter].__str__() + "_.xml")
-                fileTemp.write("ground truth ssm path " + groundTruthSSM.name)
-                fileTemp.write("\n")
-                groundTruthSSMName = parseFunctionName(groundTruthSSM)
-                fileTemp.write("ground truth ssm name "+ groundTruthSSMName)
-                fileTemp.write("\n")
-                # generating java method from XML file
-                print("shimtuk")
-                print(type(groundTruthSSM))
-                print(groundTruthSSM)
-                print("path?")
-                correctPath = filePath + "\\" + SSM[loopCounter].__str__() + "_.xml"
-                print(filePath + "\\" + SSM[loopCounter].__str__() + "_.xml")
-
-                print(groundTruthSSMName)
-                # try
-
-                ttt = "H:\Research\TestEvolution\TE\XMLHolders\Output\\tt.xml"
-                tempOutputPath = "H:\Research\TestEvolution\TE\XMLHolders\Output\\Output2.xml"
-                c = 1
-                print("check1")
-
-                with open(groundTruthPath, "rt") as fin1:
-                    print("check2")
-                    with open(tempOutputPath, "wt") as fout2:
-                        print("check3")
-                        '''
-                        fout2.write("<unit>")
-                        for line in fin1:
-                            if c == 1:
-                                c += 1
-                                continue
-                            replacedLineTmp = line
-                            replacedLine = line
-                            for row in difference:
-                                if row[0] in replacedLineTmp:
-                                    replacedLine = replacedLineTmp.replace(row[0], row[1])
-                                    replacedLineTmp = replacedLine
-
-                            fout2.write(replacedLine)
-
-                        fout2.write("</unit>")
-                        '''
-                if fout2:
-                    fout2.close()
-                if fin1:
-                    fin1.close()
-                
-                '''
-
-                print("check4")
-                XMLToJavaTest("H:\Research\TestEvolution\TE\XMLHolders\Output\\output2.xml")
-
-                print("check5")
-                with open(parentRoot + "Output\\test.java", "rt") as fWrite3:
-                    for eachLine in fWrite3:
-                        lineTemp = eachLine
-                        #if methodNameTest in eachLine:
-                            #lineTemp = eachLine.replace(methodNameTest, methodName + "Test")
-                        fileTemp.write(lineTemp)
-                fWrite3.close()
-                '''
-                # end try
-
-
             #print("checkpoint 3")
             try:
                 toGenSSM = open(filePath+"\\"+SSM[loopCounter].__str__()+"_.xml")
@@ -391,10 +300,6 @@ def TestCaseGeneratorSSM(filePath,SSM,trackerTestCase,version1Path,version):
                 toGenSSM.close()
             if fileTemp:
                 fileTemp.close()
-            #mark
-            if groundTruthSSM:
-                groundTruthSSM.close()
-
             #print("loop")
             #print(loop)
             #print("loopcounter")
@@ -416,7 +321,6 @@ def TestCaseGeneratorSSM(filePath,SSM,trackerTestCase,version1Path,version):
         print("still there")
         toGenSSM = open("dummy.txt", "r")
         loopCounter = 0
-        print("samiha what's wrong")
         for i in range(0, len(SSM)):
             # added
             fileTemp = open(parentRoot + r"\\Output\\tmp.txt", "a")
@@ -425,38 +329,20 @@ def TestCaseGeneratorSSM(filePath,SSM,trackerTestCase,version1Path,version):
 
             fileTemp.write(filePath + "\n")
             fileTemp.write("\n")
-            #fileTemp.write("samiha is in the middle")
-
-
-
             if loopCounter == loop:
                 loopCounter += 1
                 continue
-            # mark
-            # comment this section
-            '''
+
             if trackerTestCase[loopCounter] != 0:
                 loopCounter += 1
                 continue
-            '''
-
-            # mark
-            # add this section
-
-            if trackerTestCase[loopCounter] == 0:
-                print("checkpoint 2")
-                loopCounter += 1
-                continue
-
             #print("pre tuk tuk tuk")
-            #print("samiha is testing important")
             print(version1Path + "\\" + SSM[loopCounter].rpartition("v2")[0].__str__() + "_.xml")
             try:
                 toGenSSM = open(filePath + "\\" + SSM[loopCounter].rpartition("v2")[0].__str__() + "_.xml")
             except Exception as e:
                 print(e)
             #print("tuk tuk tuk")
-            #print("existing test check samiha")
             existingSSM = open(version1Path + "\\" + SSM[loop].__str__() + "_.xml")
             print("existing ssm name " + existingSSM.name)
             print("to gen ssm name " + toGenSSM.name)
@@ -514,8 +400,8 @@ def TestCaseGeneratorSSM(filePath,SSM,trackerTestCase,version1Path,version):
                             #fileTemp.write(replacedLine)
                         print("/unit")
                         fout.write("</unit>")
-                fileTemp.write("Test case written shimmi" + "\n")
-                print("Test case written shimmi")
+                fileTemp.write("Test case written " + "\n")
+                print("Test case written ")
                 #methodNameTest = parseFunctionName(testMethodPath)
                 methodNameTest ="shimtuk"
 
@@ -544,6 +430,9 @@ def TestCaseGeneratorSSM(filePath,SSM,trackerTestCase,version1Path,version):
                 toGenSSM.close()
             if fileTemp:
                 fileTemp.close()
+
+
+
 
 
 
@@ -588,13 +477,7 @@ def testCaseMatchForSSM(filePath,similarMethodsList,version1Path, version):
 
             count = len(item)
             #print("test case found " + testCaseFound.__str__()+" out of "+ count.__str__())
-
-            #mark
-            #comment this line
-            #if (count != testCaseFound and testCaseFound >= 1):
-            #add this line
-            if (testCaseFound >= 1):
-                print("shimmi")
+            if (count != testCaseFound and testCaseFound >= 1):
                 print("file path, item, trackertestcase")
                 print(filePath)
                 print(item)
@@ -618,12 +501,7 @@ def testCaseMatchForSSM(filePath,similarMethodsList,version1Path, version):
                 index += 1
             count = len(item)
             print("test case found " + testCaseFound.__str__()+" out of "+ count.__str__())
-
-            # mark
-            # comment this line
-            #if (count != testCaseFound and testCaseFound >= 1):
-            # add this line
-            if (testCaseFound >= 1):
+            if(count != testCaseFound and testCaseFound >= 1):
                 TestCaseGeneratorSSM(filePath,item,trackerTestCase,version1Path,2)
 
 
@@ -675,7 +553,6 @@ def compareXSD(filePath,methodNameList):
 
         for items in methodNameListV1:
             if not any(items[1] in sublist for sublist in methodNameList):
-                #print("Shimmi "+items[1])
                 tmp = list()
                 tmp.append(version1Path+ items[0].rpartition(".xml")[0]+".xsd")
                 tmp.append(items[1])
@@ -879,13 +756,9 @@ def allClassParser(sourceCodePathV2,testCodePath,sourceCodePathV1):
         except:
             continue
 
-sourceCodePathV1 = r"H:\Research\TestEvolution\DataAnalysis\jfreechart-1.5.2\jfreechart-1.5.2\src\main\java\org\jfree\data\time"
-sourceCodePathV2 = r"H:\Research\TestEvolution\DataAnalysis\jfreechart-master\jfreechart-master\src\main\java\org\jfree\data\time"
-testCodePath = r"H:\Research\TestEvolution\DataAnalysis\jfreechart-1.5.2\jfreechart-1.5.2\src\test\java\org\jfree\data\time"
-#sourceCodePathV1 = r"H:\Research\IndStudyDrRahimi\DataAnalysis\guava-27.0.1\guava\src\com\google\common\io"
-#sourceCodePathV2 = r"H:\Research\IndStudyDrRahimi\DataAnalysis\guava-master\guava\src\com\google\common\io"
-#testCodePath = r"H:\Research\IndStudyDrRahimi\DataAnalysis\guava-27.0.1\guava-tests\test\com\google\common\io"
-
+sourceCodePathV1 = r"H:\Research\TestEvolution\DataAnalysis\jfreechart-1.5.2\jfreechart-1.5.2\src\main\java\org\jfree\data\category"
+sourceCodePathV2 = r"H:\Research\TestEvolution\DataAnalysis\jfreechart-1.5.2\jfreechart-1.5.2\src\main\java\org\jfree\data\category"
+testCodePath = r"H:\Research\TestEvolution\DataAnalysis\jfreechart-1.5.2\jfreechart-1.5.2\src\test\java\org\jfree\data\category"
 
 def do():
 

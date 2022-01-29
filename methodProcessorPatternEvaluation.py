@@ -1,5 +1,8 @@
 import os
 import filecmp
+import shutil
+from datetime import time
+
 import generateXMLLinebyLine
 from xml.etree import ElementTree
 
@@ -18,12 +21,6 @@ loopC = 0
 
 def XMLToJava(fileName):
     cmd = "srcml " + fileName + " -o " + parentRoot+"Output\\javaTmp.java"
-    os.popen(cmd).read()
-
-
-def XMLToJavaTest(fileName):
-    print("check6")
-    cmd = "srcml " + fileName + " -o " + parentRoot+"Output\\test.java"
     os.popen(cmd).read()
 
 
@@ -221,95 +218,10 @@ def TestCaseGeneratorSSM(filePath,SSM,trackerTestCase,version1Path,version):
             #print(loopCounter)
 
             # it will be required to generate cases for existing
-
-            #mark
-            #comment this section
-            '''
             if trackerTestCase[loopCounter] != 0:
-                #print("checkpoint 2")
-                loopCounter += 1
-                continue
-            '''
-            #mark
-            #add this section
-
-            if trackerTestCase[loopCounter] == 0:
                 print("checkpoint 2")
                 loopCounter += 1
                 continue
-            else:
-                groundTruthPath = "H:\Research\TestEvolution\TE\XMLHolders\Output\\tttt.xml"
-                fileTemp.write("ground truth")
-                wr = open(groundTruthPath,"w")
-                fileTemp.write(trackerTestCase[loopCounter])
-                wr.write(trackerTestCase[loopCounter])
-                if wr:
-                    wr.close()
-                groundTruthSSM = open(filePath + "\\" + SSM[loopCounter].__str__() + "_.xml")
-                fileTemp.write("ground truth ssm path " + groundTruthSSM.name)
-                fileTemp.write("\n")
-                groundTruthSSMName = parseFunctionName(groundTruthSSM)
-                fileTemp.write("ground truth ssm name "+ groundTruthSSMName)
-                fileTemp.write("\n")
-                # generating java method from XML file
-                print("shimtuk")
-                print(type(groundTruthSSM))
-                print(groundTruthSSM)
-                print("path?")
-                correctPath = filePath + "\\" + SSM[loopCounter].__str__() + "_.xml"
-                print(filePath + "\\" + SSM[loopCounter].__str__() + "_.xml")
-
-                print(groundTruthSSMName)
-                # try
-
-                ttt = "H:\Research\TestEvolution\TE\XMLHolders\Output\\tt.xml"
-                tempOutputPath = "H:\Research\TestEvolution\TE\XMLHolders\Output\\Output2.xml"
-                c = 1
-                print("check1")
-
-                with open(groundTruthPath, "rt") as fin1:
-                    print("check2")
-                    with open(tempOutputPath, "wt") as fout2:
-                        print("check3")
-                        '''
-                        fout2.write("<unit>")
-                        for line in fin1:
-                            if c == 1:
-                                c += 1
-                                continue
-                            replacedLineTmp = line
-                            replacedLine = line
-                            for row in difference:
-                                if row[0] in replacedLineTmp:
-                                    replacedLine = replacedLineTmp.replace(row[0], row[1])
-                                    replacedLineTmp = replacedLine
-
-                            fout2.write(replacedLine)
-
-                        fout2.write("</unit>")
-                        '''
-                if fout2:
-                    fout2.close()
-                if fin1:
-                    fin1.close()
-                
-                '''
-
-                print("check4")
-                XMLToJavaTest("H:\Research\TestEvolution\TE\XMLHolders\Output\\output2.xml")
-
-                print("check5")
-                with open(parentRoot + "Output\\test.java", "rt") as fWrite3:
-                    for eachLine in fWrite3:
-                        lineTemp = eachLine
-                        #if methodNameTest in eachLine:
-                            #lineTemp = eachLine.replace(methodNameTest, methodName + "Test")
-                        fileTemp.write(lineTemp)
-                fWrite3.close()
-                '''
-                # end try
-
-
             #print("checkpoint 3")
             try:
                 toGenSSM = open(filePath+"\\"+SSM[loopCounter].__str__()+"_.xml")
@@ -391,10 +303,6 @@ def TestCaseGeneratorSSM(filePath,SSM,trackerTestCase,version1Path,version):
                 toGenSSM.close()
             if fileTemp:
                 fileTemp.close()
-            #mark
-            if groundTruthSSM:
-                groundTruthSSM.close()
-
             #print("loop")
             #print(loop)
             #print("loopcounter")
@@ -432,22 +340,10 @@ def TestCaseGeneratorSSM(filePath,SSM,trackerTestCase,version1Path,version):
             if loopCounter == loop:
                 loopCounter += 1
                 continue
-            # mark
-            # comment this section
-            '''
+
             if trackerTestCase[loopCounter] != 0:
                 loopCounter += 1
                 continue
-            '''
-
-            # mark
-            # add this section
-
-            if trackerTestCase[loopCounter] == 0:
-                print("checkpoint 2")
-                loopCounter += 1
-                continue
-
             #print("pre tuk tuk tuk")
             #print("samiha is testing important")
             print(version1Path + "\\" + SSM[loopCounter].rpartition("v2")[0].__str__() + "_.xml")
@@ -547,8 +443,13 @@ def TestCaseGeneratorSSM(filePath,SSM,trackerTestCase,version1Path,version):
 
 
 
-def testCaseMatchForSSM(filePath,similarMethodsList,version1Path, version):
 
+
+
+def testCaseMatchForSSM(filePath,similarMethodsList,version1Path, version):
+    # statistics open this one for statistics
+    fileStatisticalData = open("statistics.txt", "a")
+    # statistics open this one for statistics end
     if version == 1:
         print("testCaseMatchForSSM "+ filePath)
         print("what i get inside in matchingssm")
@@ -588,12 +489,7 @@ def testCaseMatchForSSM(filePath,similarMethodsList,version1Path, version):
 
             count = len(item)
             #print("test case found " + testCaseFound.__str__()+" out of "+ count.__str__())
-
-            #mark
-            #comment this line
-            #if (count != testCaseFound and testCaseFound >= 1):
-            #add this line
-            if (testCaseFound >= 1):
+            if (count != testCaseFound and testCaseFound >= 1):
                 print("shimmi")
                 print("file path, item, trackertestcase")
                 print(filePath)
@@ -602,8 +498,15 @@ def testCaseMatchForSSM(filePath,similarMethodsList,version1Path, version):
                 TestCaseGeneratorSSM(filePath, item, trackerTestCase,version1Path,1)
 
     if version == 2:
+        testCaseFoundTotal = 0
+        methodTotal = 0
+        xsdCount = 0
+        SSMTestCase = 0
+        moreThanOneTestCaseFound = 0
+
         for item in similarMethodsList:
             testCaseFound = 0
+
             index =0
             trackerTestCase = list()
             for j in item:
@@ -618,13 +521,129 @@ def testCaseMatchForSSM(filePath,similarMethodsList,version1Path, version):
                 index += 1
             count = len(item)
             print("test case found " + testCaseFound.__str__()+" out of "+ count.__str__())
+            testCaseFoundTotal = testCaseFoundTotal + testCaseFound
+            methodTotal = methodTotal + count
 
-            # mark
-            # comment this line
-            #if (count != testCaseFound and testCaseFound >= 1):
-            # add this line
-            if (testCaseFound >= 1):
+            '''
+            if(count != testCaseFound and testCaseFound >= 1):
                 TestCaseGeneratorSSM(filePath,item,trackerTestCase,version1Path,2)
+            '''
+
+            TestCaseStorePath = "H:\Research\TestEvolution\TE\XMLHolders\Pattern1Eval"
+
+            #print("test case found")
+            print(testCaseFound)
+
+            if (testCaseFound > 1):
+                #print("checkpoint1")
+                print("samsha")
+
+                isExist = os.path.exists(TestCaseStorePath)
+                #print("checkpoint3")
+                if isExist:
+                    #print("checkpoint3.1")
+                    shutil.rmtree(TestCaseStorePath)
+                    os.mkdir(TestCaseStorePath)
+
+                else:
+                    #print("checkpoint3.2")
+                    try:
+                        os.rmdir(TestCaseStorePath)
+                    except Exception as e:
+                        print(e)
+                #print("checkpoint4")
+                i = 0
+                for element in trackerTestCase:
+
+                    if element !=0:
+                        moreThanOneTestCaseFound += 1
+                        iStr = i.__str__()
+                        tcWrite = open(TestCaseStorePath+"\\" + iStr+".xml","w")
+                        tcWrite.write(element)
+
+                        tcWrite.close()
+                        i += 1
+
+                # printing the last character
+                #print("printing the last character")
+                for j in range(0,i):
+                    with open(TestCaseStorePath+"\\" +j.__str__()+".xml", 'rb+') as f:
+                        f.seek(f.tell() - 1, 2)  # f.seek(0,2) is legal for last char in both python 2 and 3 though
+                        chu = f.read()
+                        my_str_as_bytes = str.encode("}")
+                        #print(my_str_as_bytes)
+                        #print(type(my_str_as_bytes))
+                        #print("chu")
+                        #print(chu)
+                        if my_str_as_bytes == chu:
+                            #print("match")
+                            f.seek(-1, os.SEEK_END)
+                            f.truncate()
+                            #print("now")
+                            #print(f.read())
+                            #print("now end")
+
+
+
+                '''
+                file = open(TestCaseStorePath+"\\" +"0.xml", 'rb+')
+                lines = file.read()
+                print(lines[-1])
+                '''
+
+                #XMLtoXSD(TestCaseStorePath + "\\" + "0"+".xml", TestCaseStorePath + "\\" + "0"+".xsd")
+                print("xml file list")
+                print(len(fileNames(TestCaseStorePath, ".xml")))
+                '''
+                for k in fileNames(TestCaseStorePath, ".xml"):
+                    ff = open(k,"r")
+                    for l in ff:
+                        print(l)
+                '''
+                for j in range(0, i):
+                    XMLtoXSD(TestCaseStorePath + "\\" + j.__str__() + ".xml",
+                             TestCaseStorePath + "\\" + j.__str__() + ".xsd")
+                    j += 1
+
+                print("xsd file list")
+
+                methodNameList = fileNames(TestCaseStorePath, ".xsd")
+
+                print(len(methodNameList))
+                t = compareXSD2(filePath, methodNameList)
+                print(" t ")
+                print(t)
+                SSMTestCase += t
+        print("more than1")
+        print(moreThanOneTestCaseFound)
+        print("total count")
+        print(SSMTestCase)
+        #test case found, test case not found, structurally similar test cases, more than one test case found
+        fileStatisticalData.write( testCaseFoundTotal.__str__() + "  "+ (methodTotal-testCaseFoundTotal).__str__()+"  "+  SSMTestCase.__str__()+" "+moreThanOneTestCaseFound.__str__()+" ")
+
+def compareXSD2(filePath,methodNameList):
+    ssm = set()
+    print("compareXSD2")
+    print(methodNameList)
+    print(len(methodNameList))
+    '''
+    for i in range(0, len(methodNameList)):
+        f = open(methodNameList[i])
+        print("method " + (i+1).__str__())
+        for line in f:
+            print(line)
+    '''
+    for i in range(0,len(methodNameList)):
+        temp = list()
+        for j in range(i+1,len(methodNameList)):
+            if filecmp.cmp(methodNameList[i], methodNameList[j]):
+                #print(methodNameList)
+                ssm.add(methodNameList[i])
+                ssm.add(methodNameList[j])
+    print("ssssssssss")
+    print(len(ssm))
+
+    return len(ssm)
 
 
 def compareXSD(filePath,methodNameList):
@@ -653,7 +672,6 @@ def compareXSD(filePath,methodNameList):
                 match = "True"
             lineCount += 1
             break
-    print(match)
 
     if match == "False":
         # getting total file counts in version 1
@@ -685,7 +703,10 @@ def compareXSD(filePath,methodNameList):
         File1.close()
     if File2:
         File2.close()
-    #fileStatisticalData = open("statistics.txt","a")
+    # statistics open this one for statistics
+    fileStatisticalData = open("statistics.txt","a")
+    # statistics open this one for statistics end
+
     countSimilar = 0
     xsds = fileNames(filePath,'.xsd')
     similarMethodsList = list()
@@ -765,19 +786,31 @@ def compareXSD(filePath,methodNameList):
             matchingSSMV1.append(temp)
         count2 = i
 
+    # statistical data code
+
+    totalMethod = len(xsds)
+
+    percentage = (countSimilar / totalMethod) * 100
+    # fileStatisticalData.write(filePath+"    "+totalMethod.__str__() + "     "+countSimilar.__str__()+"      "+percentage.__str__() +"\n")
+
+
+
+    fileStatisticalData.write(countSimilar.__str__()+ "\n")
+    #time.sleep(.001)
+
     if len(matchingSSMV1)!=0:
         print(" matchingSSMV1")
         print(matchingSSMV1)
     testCaseMatchForSSM(filePath,similarMethodsList,version1Path,2)
+
+
+
+    # to evaluate the RQ1 of pattern 1, we do not need version 1
+    '''
     if len(matchingSSMV1) != 0:
         testCaseMatchForSSM(filePath, matchingSSMV1,version1Path,1)
+    '''
 
-    # statistical data code
-    '''
-    totalMethod = len(xsds)
-    percentage = (countSimilar/totalMethod)*100
-    fileStatisticalData.write(filePath+"    "+totalMethod.__str__() + "     "+countSimilar.__str__()+"      "+percentage.__str__() +"\n")
-    '''
 
 def checkIfTextCaseExist(param1,param2):
 
@@ -852,7 +885,7 @@ def allClassParser(sourceCodePathV2,testCodePath,sourceCodePathV1):
                 if not os.path.exists(parentRootV1 + outFolder[0]):
                     os.makedirs(parentRootV1 + outFolder[0], 0o777)
                 javaToXML(parseName[2] + ".xml", name, parentRootV1 + outFolder[0] + r"\\")
-                methodParserXML(parseName[2] + ".xml", parentRootV1 + outFolder[0] + r"\\", 1)
+                #methodParserXML(parseName[2] + ".xml", parentRootV1 + outFolder[0] + r"\\", 1)
 
         except:
             continue
@@ -879,12 +912,20 @@ def allClassParser(sourceCodePathV2,testCodePath,sourceCodePathV1):
         except:
             continue
 
-sourceCodePathV1 = r"H:\Research\TestEvolution\DataAnalysis\jfreechart-1.5.2\jfreechart-1.5.2\src\main\java\org\jfree\data\time"
-sourceCodePathV2 = r"H:\Research\TestEvolution\DataAnalysis\jfreechart-master\jfreechart-master\src\main\java\org\jfree\data\time"
-testCodePath = r"H:\Research\TestEvolution\DataAnalysis\jfreechart-1.5.2\jfreechart-1.5.2\src\test\java\org\jfree\data\time"
-#sourceCodePathV1 = r"H:\Research\IndStudyDrRahimi\DataAnalysis\guava-27.0.1\guava\src\com\google\common\io"
-#sourceCodePathV2 = r"H:\Research\IndStudyDrRahimi\DataAnalysis\guava-master\guava\src\com\google\common\io"
-#testCodePath = r"H:\Research\IndStudyDrRahimi\DataAnalysis\guava-27.0.1\guava-tests\test\com\google\common\io"
+# original
+'''
+sourceCodePathV1 = r"H:\Research\TestEvolution\DataAnalysis\jfreechart-1.5.2\jfreechart-1.5.2\src\main\java\org\jfree\data\category"
+sourceCodePathV2 = r"H:\Research\TestEvolution\DataAnalysis\jfreechart-master\jfreechart-master\src\main\java\org\jfree\data\category"
+testCodePath = r"H:\Research\TestEvolution\DataAnalysis\jfreechart-1.5.2\jfreechart-1.5.2\src\test\java\org\jfree\data\category"
+'''
+'''
+sourceCodePathV1 = r"H:\Research\TestEvolution\DataAnalysis\jfreechart-1.5.2\jfreechart-1.5.2\src\main\java\org\jfree\data\category"
+sourceCodePathV2 = r"H:\Research\TestEvolution\DataAnalysis\jfreechart-1.5.2\jfreechart-1.5.2\src\main\java\org\jfree\data\category"
+testCodePath = r"H:\Research\TestEvolution\DataAnalysis\jfreechart-1.5.2\jfreechart-1.5.2\src\test\java\org\jfree\data\category"
+'''
+sourceCodePathV1 = r"H:\Research\TestEvolution\DataAnalysis\jfreechart-master\src\main\java\org\jfree"
+sourceCodePathV2 = r"H:\Research\TestEvolution\DataAnalysis\jfreechart-master\src\main\java\org\jfree"
+testCodePath = r"H:\Research\TestEvolution\DataAnalysis\jfreechart-master\src\test\java\org\jfree"
 
 
 def do():
