@@ -2,7 +2,7 @@
 
 Dependency: The following dependencies need to be installed. SrcML : https://www.srcml.org/ Trang : https://relaxng.org/jclark/trang.html
 
-AST 2022 Paper:
+ICST 2022 Paper:
 "Patterns of Code-to-Test Co-evolution for Automated Test Suite Maintenance"
 The code to get the evaluaion results are given below
 # To run the following filles, source code v1, source code v2 and test code path in the code need to be set accordingly
